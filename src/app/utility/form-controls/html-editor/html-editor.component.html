@@ -1,8 +1,0 @@
-@if(componentData!= undefined){
-<div class="NgxEditor__Wrapper">
-	<ngx-editor-menu [editor]="editor" [toolbar]="toolbar" />
-	<ngx-editor [editor]="editor" [ngModel]="html" (ngModelChange)="onChange($event)" />
-</div>
-
-<button type="button" (click)="sendData()" [disabled]="!inputStatus" class="btn btn-primary btn-sm mt-2">Store Content</button>
-}

@@ -1,9 +1,0 @@
-{
-	"status": 200,
-	"success": true,
-	"message": "Success response",
-	"data": {
-		"name": "id",
-		"type": "html"
-	}
-}

@@ -1,5 +1,0 @@
-@for (field of checkboxFields; track $index) {
-<mat-checkbox [value]="field.value" (click)="selectionChange(field.value)" [disabled]="field.disabled" [checked]="selectedValue.includes(field.value)">{{field.label}}</mat-checkbox>
-}
-
-<!-- Updated Array of {{componentData.name}}: {{ selectedValue | json }} -->

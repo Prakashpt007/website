@@ -1,7 +1,0 @@
-docker build --no-cache --pull --rm -f "Dockerfile" -t unifiedappadminfrontend:latest "."
-
-docker build --pull --rm -f "Dockerfile" -t unifiedappadminfrontend:latest "."
-
------------------------------------
-
-docker run -d -p 8081:80 unifiedappadminfrontend

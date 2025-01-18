@@ -1,0 +1,865 @@
+<!-- <app-ck-editor />
+<hr> -->
+<div class="table-responsive-xxl" style="margin: 0 -1.5rem;height: calc(100svh - 13.188rem); overflow: auto;">
+	<table class="table w-100 m-0">
+		<thead>
+			<tr>
+				@for (column of columns; track column) {
+
+				@if (column.tableField != undefined && column.tableField.length> 0) {
+
+
+				<th class="sortable" [ngClass]="{'sorted-desc': orderBy === column.tableField && order === 'desc',
+				'sorted-asc': orderBy === column.tableField && order === 'asc',
+				'extraCols': columns.length> 5
+				}" (click)="sortByColumn(column.tableField, order)" [ngStyle]="{'width': getStyle(column.name)}">
+					<div class="d-flex">
+						<span [style]="getWidthByName(formatCamelCase(column.name))" [title]="formatCamelCase(column.name)">{{formatCamelCase(column.name)}}</span>
+						<span class="sortIconContainer">
+							<i class="fa-solid fa-arrow-up"></i>
+						</span>
+					</div>
+				</th>
+
+				} @else {
+
+
+				<th [ngStyle]="{'width': getStyle(column.name)}">
+					<span [title]="formatCamelCase(column.name)">{{formatCamelCase(column.name)}}</span>
+				</th>
+
+
+				}
+				}
+
+				@if (actions.length> 0 && isActions) {
+
+				<th style="width: 8.125rem; text-align: center;width: 84px; padding-block: 0 !important;">
+					<span>{{ actions.length == 1 ? 'Action' : 'Actions'}}</span>
+
+				</th>
+
+				}
+
+			</tr>
+		</thead>
+		<tbody>
+			@if ((rows.length > 0)) {
+
+			@for (item of rows; track item.id; let index = $index) {
+			<!-- {{item.status| json}} -->
+
+			<tr [ngClass]="{'activeId': (clickedId == (item.id == undefined ? '': item.id)), 'disabledField': item.disabled, 
+				'approvedTr': item.status=='APPROVED', 
+				'pendingTr': item.status=='PENDING',
+				'rejectedTr': item.status=='REJECTED',
+				'stripedTr': item.status==undefined
+			}">
+
+				@for (column of columns; track column.name) {
+
+				<td [attr.data-th]="getAbbreviation(formatCamelCase(column.name))">
+
+					@switch (column['type']) {
+
+					@case ('text') {
+
+					@if (item[column.name]?.length == 0 || item[column.name] == null) {
+
+					<app-show-empty [title]="'Empty'"></app-show-empty>
+
+					} @else {
+
+					@if (item[column.name] == 'New User'){
+
+					<app-show-new></app-show-new>
+
+					} @else {
+
+					@if (item[column.name] == 'Yes' || item[column.name] == 'No' || item[column.name] == 'YES' || item[column.name] == 'NO'){
+
+					@if (item[column.name] == 'Yes' || item[column.name] == 'YES') {
+
+					<i class="fa-solid fa-check text-success" title="Yes" style="font-size: 1.5rem;"></i>
+
+					} @else {
+
+					<i class="fa-solid fa-xmark text-danger" title="No" style="font-size: 1.5rem;"></i>
+
+					}
+
+
+					} @else {
+
+					@if (column.name == 'icon') {
+
+					<span class="badge text-bg-primary bg-gradient iconDadge" [innerHTML]="item[column.name]"></span>
+
+					} @else if(column.name == 'price' || column.name == 'pricePaisa'){
+
+					<div [innerHTML]="item[column.name] | indianCurrency"></div>
+
+					} @else if(column.name.includes('percent') || column.name.includes('Percent')){
+					{{item[column.name] + '%'}}
+
+					} @else if (column.name.startsWith('color')) {
+
+					<!-- {{item[column.name]}} -->
+					<div class="d-flex justify-content-center align-items-center" [style]="{backgroundColor:item[column.name], color: pickTextColorBasedOnBgColorAdvanced(item[column.name], '#ffffff', '#000000'), width:'96px', height:'24px', borderRadius: '24px', fontSize:'0.75rem'}">{{item[column.name]}}</div>
+					<!-- <button type="button" class="btn btn-lg" [style]="{backgroundColor:item[column.name]}">&nbsp;</button> -->
+
+					}@else {
+
+					{{item[column.name]}}
+
+					}
+
+					}
+
+					}
+
+					}
+
+					}
+
+					@case ('mobileNo') {
+
+					@if (item[column.name] != null && item[column.name] != '' && item[column.name].length > 0) {
+
+					<a [href]="'tel:'+item[column.name] | trimSpacesBetween" class="d-flex align-items-center gap-1" style="text-decoration: none;min-width: 7.1875rem;">
+						<i class="fa-solid fa-phone"></i>
+						<!-- <span>{{item[column.name] | trimSpacesBetween}}</span> -->
+
+						<span>{{item[column.name]}}</span>
+					</a>
+
+					} @else {
+
+					<app-show-empty [title]="'Empty'"></app-show-empty>
+
+					}
+
+
+					}
+
+					@case ('email') {
+
+					@if (item[column.name] != null && item[column.name] != '' && item[column.name].length > 0) {
+
+					<a [href]="'mailto:'+item[column.name]" class="d-flex align-items-center gap-1" style="text-decoration: none;">
+						<i class="fa-solid fa-envelope"></i>
+						<span>{{item[column.name]}}</span>
+					</a>
+
+					} @else {
+
+					<app-show-empty [title]="'Empty'"></app-show-empty>
+
+					}
+
+					}
+
+					@case ('badge') {
+
+					@switch (item[column.name]) {
+
+					@case (null) { - }
+
+					@case ('PENDING') {
+					<div class="sts pendingSts" [title]="item[column.name] | formatText">
+						<i class="fa-solid fa-hourglass-half"></i>
+						<span>{{item[column.name] | formatText}}</span>
+					</div>
+
+					<!-- <span class="badge bg-gradient text-bg-secondary" [title]="item[column.name] | formatText">
+						<div class="d-flex gap-1 justify-content-center align-items-center">
+							<i class="fa-solid fa-hourglass-half"></i>
+							<span>{{item[column.name] | formatText}}</span>
+						</div>
+					</span> -->
+					}
+
+					@case ('APPROVED') {
+					<div class="sts approvedSts" [title]="item[column.name] | formatText">
+						<i class="fa-solid fa-thumbs-up"></i>
+						<span>{{item[column.name] | formatText}}</span>
+					</div>
+
+					<!-- <span class="badge bg-gradient text-bg-primary" [title]="item[column.name] | formatText">
+						<div class="d-flex gap-1 justify-content-center align-items-center">
+							<i class="fa-solid fa-thumbs-up"></i>
+							<span>{{item[column.name] | formatText}}</span>
+						</div>
+					</span> -->
+					}
+
+					@case ('VALIDATED') {
+					<div class="sts validatedSts" [title]="item[column.name] | formatText">
+						<i class="fa-solid fa-clipboard-check"></i>
+						<span>{{item[column.name] | formatText}}</span>
+					</div>
+					<!-- <span class="badge bg-gradient text-bg-success" [title]="item[column.name] | formatText">
+						<div class="d-flex gap-1 justify-content-center align-items-center">
+							<i class="fa-solid fa-clipboard-check"></i>
+							<span>{{item[column.name] | formatText}}</span>
+						</div>
+					</span> -->
+					}
+
+					@case ('REJECTED') {
+					<div class="sts rejectedSts" [title]="item[column.name] | formatText">
+						<i class="fa-solid fa-thumbs-down"></i>
+						<span>{{item[column.name] | formatText}}</span>
+					</div>
+					<!-- <span class="badge bg-gradient text-bg-danger" [title]="item[column.name] | formatText">
+						<div class="d-flex gap-1 justify-content-center align-items-center">
+							<i class="fa-solid fa-thumbs-down"></i>
+							<span>{{item[column.name] | formatText}}</span>
+						</div>
+					</span> -->
+					}
+
+					@case ('DELETED') {
+					<div class="sts deletedSts" [title]="item[column.name] | formatText">
+						<i class="fa-solid fa-xmark"></i>
+						<span>{{item[column.name] | formatText}}</span>
+					</div>
+					<!-- <span class="badge bg-gradient text-bg-danger" [title]="item[column.name] | formatText">
+						<div class="d-flex gap-1 justify-content-center align-items-center">
+							<i class="fa-solid fa-xmark"></i>
+							<span>{{item[column.name] | formatText}}</span>
+						</div>
+					</span> -->
+					}
+
+					@case ('EXPIRED') {
+					<div class="sts expiredSts" [title]="item[column.name] | formatText">
+						<i class="fa-solid fa-circle-exclamation"></i>
+						<span>{{item[column.name] | formatText}}</span>
+					</div>
+					<!-- <span class="badge bg-gradient text-bg-danger" [title]="item[column.name] | formatText">
+						<div class="d-flex gap-1 justify-content-center align-items-center">
+							<i class="fa-solid fa-circle-exclamation"></i>
+							<span>{{item[column.name] | formatText}}</span>
+						</div>
+					</span> -->
+					}
+
+					@case ('VERIFICATION_DONE') {
+					<div class="sts verificationDoneSts" [title]="item[column.name] | formatText">
+						<i class="fa-solid fa-file-shield"></i>
+						<span>{{item[column.name] | formatText}}</span>
+					</div>
+					<!-- <span class="badge bg-gradient text-bg-success" [title]="item[column.name] | formatText">
+						<div class="d-flex gap-1 justify-content-center align-items-center">
+							<i class="fa-solid fa-file-shield"></i>
+							<span>{{item[column.name] | formatText}}</span>
+						</div>
+					</span> -->
+					}
+
+					@case ('VERIFICATION_FAILED') {
+					<div class="sts verificationFailedSts" [title]="item[column.name] | formatText">
+						<i class="fa-solid fa-file-circle-question"></i>
+						<span>{{item[column.name] | formatText}}</span>
+					</div>
+					<!-- <span class="badge bg-gradient text-bg-danger" [title]="item[column.name] | formatText">
+						<div class="d-flex gap-1 justify-content-center align-items-center">
+							<i class="fa-solid fa-file-circle-question"></i>
+							<span>{{item[column.name] | formatText}}</span>
+						</div>
+					</span> -->
+					}
+
+					@case ('VALIDATION_DONE') {
+					<div class="sts validationDoneSts" [title]="item[column.name] | formatText">
+						<i class="fa-solid fa-user-shield"></i>
+						<span>{{item[column.name] | formatText}}</span>
+					</div>
+					<!-- <span class="badge bg-gradient text-bg-success" [title]="item[column.name] | formatText">
+						<div class="d-flex gap-1 justify-content-center align-items-center">
+							<i class="fa-solid fa-user-shield"></i>
+							<span>{{item[column.name] | formatText}}</span>
+						</div>
+					</span> -->
+
+					}
+
+					@case ('VALIDATION_FAILED') {
+					<div class="sts validationFailedSts" [title]="item[column.name] | formatText">
+						<i class="fa-solid fa-user-slash"></i>
+						<span>{{item[column.name] | formatText}}</span>
+					</div>
+					<!-- <span class="badge bg-gradient text-bg-danger" [title]="item[column.name] | formatText">
+						<div class="d-flex gap-1 justify-content-center align-items-center">
+							<i class="fa-solid fa-user-slash"></i>
+							<span>{{item[column.name] | formatText}}</span>
+						</div>
+					</span> -->
+
+					}
+
+					@case ('FLS_VERIFICATION_DONE') {
+					<div class="sts flsVerificationDoneSts" [title]="item[column.name] | formatText">
+						<i class="fa-solid fa-person-circle-check"></i>
+						<span>{{item[column.name] | formatText}}</span>
+					</div>
+
+					<!-- <span class="badge bg-gradient text-bg-success" [title]="item[column.name] | formatText">
+						<div class="d-flex gap-1 justify-content-center align-items-center">
+							<i class="fa-solid fa-person-circle-check"></i>
+							<span>{{item[column.name] | formatText}}</span>
+						</div>
+					</span> -->
+					}
+
+					@case ('FLS_VERIFICATION_FAILED') {
+					<div class="sts flsVerificationfailedSts" [title]="item[column.name] | formatText">
+						<i class="fa-solid fa-person-circle-exclamation"></i>
+						<span>{{item[column.name] | formatText}}</span>
+					</div>
+					<!-- <span class="badge bg-gradient text-bg-danger" [title]="item[column.name] | formatText">
+						<div class="d-flex gap-1 justify-content-center align-items-center">
+							<i class="fa-solid fa-person-circle-exclamation"></i>
+							<span>{{item[column.name] | formatText}}</span>
+						</div>
+					</span> -->
+					}
+
+					@case ('VERIFIED') {
+					<div class="sts verifiedSts" [title]="item[column.name] | formatText">
+						<i class="fa-solid fa-user-check"></i>
+						<span>{{item[column.name] | formatText}}</span>
+					</div>
+
+					<!-- <span class="badge bg-gradient text-bg-success" [title]="item[column.name] | formatText">
+						<div class="d-flex gap-1 justify-content-center align-items-center">
+							<i class="fa-solid fa-user-check"></i>
+							<span>{{item[column.name] | formatText}}</span>
+						</div>
+					</span> -->
+					}
+
+					@case ('INITIAL_VERIFICATION_CHARGE_PAID') {
+					<div class="sts initialVerificationChargePaidSts" [title]="item[column.name] | formatText">
+						<i class="fa-solid fa-comment-dollar"></i>
+						<span>{{item[column.name] | formatText}}</span>
+					</div>
+					<!-- <span class="badge bg-gradient text-bg-info" [title]="item[column.name] | formatText">
+						<div class="d-flex gap-1 justify-content-center align-items-center">
+							<i class="fa-solid fa-comment-dollar"></i>
+							<span>{{item[column.name] | formatText}}</span>
+						</div>
+					</span> -->
+					}
+
+					@case ('PAID') {
+					<div class="sts paidSts" [title]="item[column.name] | formatText">
+						<i class="fa-solid fa-sack-dollar"></i>
+						<span>{{item[column.name] | formatText}}</span>
+					</div>
+					<!-- <span class="badge bg-gradient text-bg-info" [title]="item[column.name] | formatText">
+						<div class="d-flex gap-1 justify-content-center align-items-center">
+							<i class="fa-solid fa-sack-dollar"></i>
+							<span>{{item[column.name] | formatText}}</span>
+						</div>
+					</span> -->
+					}
+
+					@case ('RIGHT_GENERATED') {
+					<div class="sts rightGeneratedSts" [title]="item[column.name] | formatText">
+						<i class="fa-solid fa-file-contract"></i>
+						<span>{{item[column.name] | formatText}}</span>
+					</div>
+
+					<!-- <span class="badge bg-gradient text-bg-info" [title]="item[column.name] | formatText">
+						<div class="d-flex gap-1 justify-content-center align-items-center">
+							<i class="fa-solid fa-file-contract"></i>
+							<span>{{item[column.name] | formatText}}</span>
+						</div>
+					</span> -->
+					}
+
+					@case ('DRAFT') {
+					<div class="sts draftSts" [title]="item[column.name] | formatText">
+						<i class="fa-solid fa-user-pen"></i>
+						<span>{{item[column.name] | formatText}}</span>
+					</div>
+
+					<!-- <span class="badge bg-gradient text-bg-secondary" [title]="item[column.name] | formatText">
+						<div class="d-flex gap-1 justify-content-center align-items-center">
+							<i class="fa-solid fa-user-pen"></i>
+							<span>{{item[column.name] | formatText}}</span>
+						</div>
+					</span> -->
+					}
+
+					@case ('DOCUMENT_SUBMITTED') {
+					<div class="sts documentSubmittedSts" [title]="item[column.name] | formatText">
+						<i class="fa-solid fa-file-circle-check"></i>
+						<span>{{item[column.name] | formatText}}</span>
+					</div>
+					<!-- <span class="badge bg-gradient text-bg-primary" [title]="item[column.name] | formatText">
+						<div class="d-flex gap-1 justify-content-center align-items-center">
+							<i class="fa-solid fa-file-circle-check"></i>
+							<span>{{item[column.name] | formatText}}</span>
+						</div>
+					</span> -->
+					}
+
+					@case ('ERROR') {
+					<div class="sts errorSts" [title]="item[column.name] | formatText">
+						<i class="fa-solid fa-bug"></i>
+						<span>{{item[column.name] | formatText}}</span>
+					</div>
+					<!-- <span class="badge bg-gradient text-bg-danger" [title]="item[column.name] | formatText">
+						<div class="d-flex gap-1 justify-content-center align-items-center">
+							<i class="fa-solid fa-bug"></i>
+							<span>{{item[column.name] | formatText}}</span>
+						</div>
+					</span> -->
+					}
+
+					@case ('RESOLVED') {
+					<div class="sts resolvedSts" [title]="item[column.name] | formatText">
+						<i class="fa-solid fa-spell-check"></i>
+						<span>{{item[column.name] | formatText}}</span>
+					</div>
+
+					<!-- <span class="badge bg-gradient text-bg-success" [title]="item[column.name] | formatText">
+						<div class="d-flex gap-1 justify-content-center align-items-center">
+							<i class="fa-solid fa-spell-check"></i>
+							<span>{{item[column.name] | formatText}}</span>
+						</div>
+					</span> -->
+					}
+
+					@case ('MARKED_AS_CALLED') {
+					<div class="sts markedAsCalledSts" [title]="item[column.name] | formatText">
+						<i class="fa-solid fa-headset"></i>
+						<span>{{item[column.name] | formatText}}</span>
+					</div>
+
+					<!-- <span class="badge bg-gradient text-bg-primary" [title]="item[column.name] | formatText">
+						<div class="d-flex gap-1 justify-content-center align-items-center">
+							<i class="fa-solid fa-headset"></i>
+							<span>{{item[column.name] | formatText}}</span>
+						</div>
+					</span> -->
+					}
+
+					@default {
+
+
+					@switch (checkValueType(item[column.name])) {
+
+					@case ('object') {
+
+					<div class="d-flex gap-2 align-items-center">
+
+						@for (objItem of item[column.name] | keyvalue; track objItem) {
+
+						@if (objItem.value!== null) {
+
+						<span class="badge bg-gradient" [title]="getValidationStsTooltip(objItem.key, objItem.value)" [class]="getValidationSts(objItem.value)" [innerHTML]="getValidationStsIcon(objItem.key)"></span>
+
+						}
+
+						}
+
+					</div>
+
+					}
+
+					@case ('array') {
+
+					@if (item[column.name].length> 0) {
+
+					<div class="d-flex gap-2 align-items-center flex-wrap">
+
+
+						@for (item of item[column.name]; track $index) {
+
+						<span class="badge bg-gradient text-bg-secondary">
+							<!-- {{formatUnderscoreCase(item)}} -->
+							{{ item | formatText}}
+						</span>
+
+						}
+
+					</div>
+
+					} @else {
+
+					<app-show-empty [title]="'Empty'"></app-show-empty>
+
+					}
+
+
+					}
+
+					@default {
+
+					{{item[column.name]}}
+
+					}
+
+					}
+
+					}
+
+					}
+
+					}
+
+					@case ('date') {
+
+					{{item[column.name] | date:"dd MMM, yyyy" | titlecase}}
+
+					}
+
+					@case ('imageLink') {
+
+					@if (item[column.name] == '' || item[column.name] == null) {
+
+					<span class="tableThumb cross" [title]="column.name+' Not Found' | titlecase">
+						<i class="fa-regular fa-image"></i>
+					</span>
+
+					} @else {
+
+					<span class="tableThumb hasThumb">
+						<img [src]="item[column.name]" role="button" (click)="thumbnailViewEvent(item[column.name], item.name)" class="img-fluid" />
+					</span>
+
+					}
+
+					}
+
+					@case ('videoLink') {
+
+					<a [href]="item[column.name]" target="_blank" class="btn-primary bg-gradient btn btn-sm " style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: 0.75rem; --bs-btn-disabled-opacity: 0.3;">
+						<i class="fa-solid fa-play me-1"></i> Play
+					</a>
+
+					}
+
+					@case ('docLink') {
+
+					@switch (item[column.name] | extractFileExtension) {
+
+					@case ('json') {
+
+					<a [href]="item[column.name]" target="_blank" [title]="'View File'" type="button" class="bg-gradient btn btn-primary btn-sm" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .875rem; --bs-btn-disabled-opacity: 0.3;">
+						<i class="fa-solid fa-file-code me-2"></i>View File
+					</a>
+
+					}
+
+					@case ('pdf') {pdf}
+
+					@case ('doc') {doc}
+
+					@case ('docx') {docx}
+
+					@case ('xlx') {xlx}
+
+					@case ('xlxs') {xlxs}
+
+					@default { {{item[column.name]}} }
+
+					}
+
+					}
+
+					@case ('kmlMap') {
+
+					<button type="button" [disabled]="checkKMLPoints(item[column.name])" [ngClass]="checkKMLPoints(item[column.name]) ? 'btn-danger': 'btn-primary'" class="actionBtn bg-gradient btn btn-sm d-flex justify-content-center align-items-center" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: 0.75rem; --bs-btn-disabled-opacity: 0.3;" (click)="kmlMap(item[column.name], item.name)">
+						<i class="fa-solid fa-location-dot me-1"></i>View
+					</button>
+
+					}
+
+					@case ('htmlRender') {
+					<!-- {{item[column.name]}} -->
+
+					<button type="button" class="btn-primary actionBtn bg-gradient btn btn-sm d-flex justify-content-center align-items-center" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: 0.75rem; --bs-btn-disabled-opacity: 0.3;" (click)="htmlRender(item[column.name], item.name)">
+						Render<i class="fa-solid fa-code ms-1"></i>
+					</button>
+
+
+
+					}
+
+					}
+
+				</td>
+
+				}
+
+				<!--/ Add actions to each row /-->
+				@if (actions.length> 0) {
+
+				<td [attr.data-th]="'Actions'" style="text-align: center;">
+
+					@if(actions.length == 1 && actions[0].name == 'edit'){
+					<!-- <button mat-menu-item [title]="'Edit'" [attr.data-url]="editUrl" (click)="storeId(editUrl, item.id)" [disabled]="item.id == undefined || item.id == null || item.id == ''">
+						<i class="fa-solid fa-pen-to-square me-2"></i>
+						<span>Edit</span>
+					</button> -->
+
+					<span role="button" class="mat-mdc-menu-item-text" [attr.data-url]="editUrl" (click)="storeId(editUrl, item.id)">
+						<i class="fa-solid fa-pen-to-square me-2"></i>
+						<!-- <span>Edit</span> -->
+					</span>
+					} @else {
+
+					<div class="d-flex gap-1 justify-content-center" style="position: relative;">
+
+						<button mat-icon-button [matMenuTriggerFor]="menu" class="listMenuBtn">
+							<mat-icon>more_vert</mat-icon>
+						</button>
+						<mat-menu #menu="matMenu">
+							@for (action of actions; track action.name) {
+							@switch (action.name) {
+
+
+							@case ('edit') {
+
+							<button mat-menu-item [title]="'Edit'" [attr.data-url]="editUrl" (click)="storeId(editUrl, item.id)" [disabled]="item.id == undefined || item.id == null || item.id == ''">
+								<i class="fa-solid fa-pen-to-square me-2"></i>
+								<span>Edit</span>
+							</button>
+
+							<!-- <button [attr.data-url]="editUrl" (click)="storeId(editUrl, item.id)" [disabled]="item.id == undefined || item.id == null || item.id == ''" [title]="'Edit'" type="button" class="actionBtn bg-gradient btn btn-secondary btn-sm d-flex justify-content-center align-items-center" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem; --bs-btn-disabled-opacity: 0.3;">
+								<i class="fa-solid fa-pen-to-square"></i>
+							</button> -->
+
+							}
+
+							@case ('view') {
+
+							<button mat-menu-item [title]="'View'" (click)="storeIdForOtherBtn(item.id)" [disabled]="item.id == undefined || item.id == null || item.id == ''" [routerLink]="[viewUrl, item.id]">
+								<i class="fa-solid fa-eye me-2"></i>
+								<span>View</span>
+							</button>
+
+							<!-- <button (click)="storeIdForOtherBtn(item.id)" [disabled]="item.id == undefined || item.id == null || item.id == ''" [title]="'View'" [routerLink]="[viewUrl, item.id]" type="button" class="actionBtn bg-gradient btn btn-secondary btn-sm d-flex justify-content-center align-items-center" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem; --bs-btn-disabled-opacity: 0.3;">
+								<i class="fa-solid fa-eye"></i>
+							</button> -->
+
+							}
+
+							@case ('view-modal') {
+
+							<button mat-menu-item [title]="'View Details'" (click)="storeIdForOtherBtn(item.id,true)" [disabled]="item.id == undefined || item.id == null || item.id == ''">
+								<i class="fa-solid fa-eye me-2"></i>
+								<span>View Details</span>
+							</button>
+
+							<!-- <button (click)="storeIdForOtherBtn(item.id,true)" [disabled]="item.id == undefined || item.id == null || item.id == ''" [title]="'View Details'" type="button" class="actionBtn bg-gradient btn btn-secondary btn-sm d-flex justify-content-center align-items-center" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem; --bs-btn-disabled-opacity: 0.3;">
+								<i class="fa-solid fa-eye"></i>
+							</button> -->
+
+							}
+
+							@case ('approve') {
+
+							<button mat-menu-item [title]="'Approve'" (click)="storeIdForOtherBtn(item.id)" [disabled]="item.id == undefined || item.id == null || item.id == '' || item.status=='APPROVED'" (click)="actionEvent(item.id, action.name, 'success', action.actionUrl, '<p>Are you sure you want to <strong>Approved</strong> this record?</p><p>Please confirm your decision.</p>')">
+								<i class="fa-solid fa-thumbs-up me-2"></i>
+								<span>Approve</span>
+							</button>
+
+							<!-- <button (click)="storeIdForOtherBtn(item.id)" [disabled]="item.id == undefined || item.id == null || item.id == '' || item.status=='APPROVED'" [title]="'Approve'" (click)="actionEvent(item.id, action.name, 'success', action.actionUrl, '<p>Are you sure you want to <strong>Approved</strong> this record?</p><p>Please confirm your decision.</p>')" type="button" class="actionBtn bg-gradient btn btn-success btn-sm d-flex justify-content-center align-items-center" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .875rem; --bs-btn-disabled-opacity: 0.3;">
+								
+								<i class="fa-solid fa-thumbs-up"></i>
+							</button> -->
+
+							}
+
+							@case ('reject') {
+
+							<button mat-menu-item [title]="'Reject'" (click)="storeIdForOtherBtn(item.id)" [disabled]="item.id == undefined || item.id == null || item.id == '' ||  item.status=='REJECTED'" (click)="actionEvent(item.id, action.name, 'danger', action.actionUrl, '<p>Are you sure you want to <strong>Reject</strong> this record?</p><p>Please confirm your decision.</p>')">
+								<i class="fa-solid fa-thumbs-down me-2"></i>
+								<span>Reject</span>
+							</button>
+
+							<!-- <button (click)="storeIdForOtherBtn(item.id)" [disabled]="item.id == undefined || item.id == null || item.id == '' ||  item.status=='REJECTED'" [title]="'Reject'" (click)="actionEvent(item.id, action.name, 'danger', action.actionUrl, '<p>Are you sure you want to <strong>Reject</strong> this record?</p><p>Please confirm your decision.</p>')" type="button" class="actionBtn bg-gradient btn btn-danger btn-sm d-flex justify-content-center align-items-center" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .875rem; --bs-btn-disabled-opacity: 0.3;">
+
+								<i class="fa-solid fa-thumbs-down"></i>
+
+							</button> -->
+
+							}
+
+							@case ('delete') {
+
+							<button mat-menu-item [title]="'Delete'" (click)="storeIdForOtherBtn(item.id)" [disabled]="item.id == undefined || item.id == null || item.id == '' ||  item.status=='DELETED'" (click)="actionEvent(item.id, action.name, 'danger', action.actionUrl, '<p>Are you sure you want to <strong>Delete</strong> this record?</p><p>Please confirm your decision.</p>')">
+								<i class="fa-solid fa-xmark me-2"></i>
+								<span>Delete</span>
+							</button>
+
+							<!-- <button (click)="storeIdForOtherBtn(item.id)" [disabled]="item.id == undefined || item.id == null || item.id == '' ||  item.status=='DELETED'" [title]="'Delete'" (click)="actionEvent(item.id, action.name, 'danger', action.actionUrl, '<p>Are you sure you want to <strong>Delete</strong> this record?</p><p>Please confirm your decision.</p>')" type="button" class="actionBtn bg-gradient btn btn-danger btn-sm d-flex justify-content-center align-items-center" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .875rem; --bs-btn-disabled-opacity: 0.3;">
+
+								<i class="fa-solid fa-xmark"></i>
+
+							</button> -->
+
+							}
+
+							@case ('resolved') {
+							<button mat-menu-item [title]="'Resolved'" (click)="storeIdForOtherBtn(item.id)" [disabled]="item.id == undefined || item.id == null || item.id == '' || item.status=='RESOLVED'" (click)="actionEvent(item.id, item.name, 'success', action.actionUrl, '<p>Are you sure you want to <strong>Resolved</strong> this record?</p><p>Please confirm your decision.</p>')">
+								<i class="fa-solid fa-spell-check me-2"></i>
+								<span>Resolved</span>
+							</button>
+
+							<!-- <button (click)="storeIdForOtherBtn(item.id)" [disabled]="item.id == undefined || item.id == null || item.id == '' || item.status=='RESOLVED'" [title]="'Resolved'" (click)="actionEvent(item.id, item.name, 'success', action.actionUrl, '<p>Are you sure you want to <strong>Resolved</strong> this record?</p><p>Please confirm your decision.</p>')" type="button" class="actionBtn bg-gradient btn btn-success btn-sm d-flex justify-content-center align-items-center" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .875rem; --bs-btn-disabled-opacity: 0.3;">
+								<i class="fa-solid fa-spell-check"></i>
+							</button> -->
+
+							}
+
+							@case ('defaulter') {
+							<button mat-menu-item [title]="'Mark as Defaulter'" (click)="storeIdForOtherBtn(item.id)" [disabled]="item.id == undefined || item.id == null || item.id == '' || item.status=='DEFAULTER'" (click)="actionEvent(item.id, item.name, 'primary', action.actionUrl, '<p>Are you sure you want to <strong>Mark as Defaulter</strong> this record?</p><p>Please confirm your decision.</p>')">
+								<i class="fa-solid fa-user-tag me-2"></i>
+								<span>Mark as Defaulter</span>
+							</button>
+
+							}
+
+
+							@case ('validation-done') {
+
+							<button mat-menu-item [title]="'Validation Done'" (click)="actionEvent(item.id, item.name, 'success', action.actionUrl, '<p>Are you sure you want to mark as <strong>Validation Done</strong> for this record?</p><p>Please confirm your decision.</p>')">
+								<i class="fa-solid fa-thumbs-up me-2"></i>
+								<span>Validation Done</span>
+							</button>
+							<!-- <button [title]="'Validation Done'" (click)="actionEvent(item.id, item.name, 'success', action.actionUrl, '<p>Are you sure you want to mark as <strong>Validation Done</strong> for this record?</p><p>Please confirm your decision.</p>')" type="button" class="actionBtn bg-gradient btn btn-success btn-sm d-flex justify-content-center align-items-center" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .875rem; --bs-btn-disabled-opacity: 0.3;">
+								<i class="fa-solid fa-thumbs-up"></i>
+							</button> -->
+
+							}
+
+							@case ('validation-fail') {
+
+							<button mat-menu-item [title]="'Validation Fail'" (click)="actionEvent(item.id, item.name, 'danger', action.actionUrl, '<p>Are you sure you want to mark as <strong>Validation Failed</strong> for this record?</p><p>Please confirm your decision.</p>')">
+								<i class="fa-solid fa-thumbs-down me-2"></i>
+								<span>Validation Fail</span>
+							</button>
+
+							<!-- <button [title]="'Validation Fail'" (click)="actionEvent(item.id, item.name, 'danger', action.actionUrl, '<p>Are you sure you want to mark as <strong>Validation Failed</strong> for this record?</p><p>Please confirm your decision.</p>')" type="button" class="actionBtn bg-gradient btn btn-danger btn-sm d-flex justify-content-center align-items-center" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .875rem; --bs-btn-disabled-opacity: 0.3;">
+								<i class="fa-solid fa-thumbs-down"></i>
+							</button> -->
+
+							}
+
+							@case ('verification-done') {
+
+							<button mat-menu-item [title]="'Verification Done'" (click)="actionEvent(item.id, item.name, 'success', action.actionUrl, '<p>Are you sure you want to mark as <strong>Verification Done</strong> for this record?</p><p>Please confirm your decision.</p>')">
+								<i class="fa-solid fa-shield-halved me-2"></i>
+								<span>Verification Done</span>
+							</button>
+
+							<!-- <button [title]="'Verification Done'" (click)="actionEvent(item.id, item.name, 'success', action.actionUrl, '<p>Are you sure you want to mark as <strong>Verification Done</strong> for this record?</p><p>Please confirm your decision.</p>')" type="button" class="actionBtn bg-gradient btn btn-success btn-sm d-flex justify-content-center align-items-center" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .875rem; --bs-btn-disabled-opacity: 0.3;">
+								<i class="fa-solid fa-shield-halved"></i>
+							</button> -->
+
+							}
+
+							@case ('verification-fail') {
+							<button mat-menu-item [title]="'Verification Fail'" (click)="actionEvent(item.id, item.name, 'danger', action.actionUrl, '<p>Are you sure you want to mark as <strong>Verification Failed</strong> for this record?</p><p>Please confirm your decision.</p>')">
+								<i class="fa-solid fa-shield-virus me-2"></i>
+								<span>Verification Fail</span>
+							</button>
+
+							<!-- <button [title]="'Verification Fail'" (click)="actionEvent(item.id, item.name, 'danger', action.actionUrl, '<p>Are you sure you want to mark as <strong>Verification Failed</strong> for this record?</p><p>Please confirm your decision.</p>')" type="button" class="actionBtn bg-gradient btn btn-danger btn-sm d-flex justify-content-center align-items-center" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .875rem; --bs-btn-disabled-opacity: 0.3;">
+								<i class="fa-solid fa-shield-virus"></i>
+							</button> -->
+
+							}
+
+							}
+
+							}
+						</mat-menu>
+					</div>
+					}
+				</td>
+
+				}
+
+				<!--/ end /-->
+			</tr>
+			}
+
+			} @else {
+
+			<tr>
+				<td [attr.colspan]="columns.length + 1" style="height: calc(100svh - 249px);">
+					<div class="text-center" style="font-size: 1.5rem;"><i class="fa-regular fa-face-frown-open"></i> No Records Found...</div>
+				</td>
+			</tr>
+
+			}
+
+		</tbody>
+	</table>
+</div>
+
+<ng-template #thumbnailModal let-c="close" let-d="dismiss">
+	<div class="modal-header bg-primary text-white bg-gradient py-2" style="--bs-modal-header-padding: 0.5rem 1rem; border-bottom: 0rem;">
+		<h6 class="modal-title" id="modal-basic-title">
+			<!-- <button type="button" class="btn-close" aria-label="Close" (click)="d('Cross click')"></button> -->
+
+			@if (thumbnailModalName != null || thumbnailModalName != '') {
+
+			{{thumbnailModalName | titlecase}}
+
+			} @else {Thumbnail}
+
+		</h6>
+		<button type="button" class="btn-close" aria-label="Close" (click)="d('Cross click')"></button>
+	</div>
+	<div class="modal-body p-0">
+		<img [src]="thumbnailModalSrc" style="display: block; margin: 0 auto; max-width: 100%;" />
+	</div>
+</ng-template>
+
+<ng-template #actionModal let-c="close" let-d="dismiss">
+	<div class="modal-header text-white bg-gradient py-2" [class]="'bg-'+modalColorType" style="--bs-modal-header-padding: 0.5rem 1rem;">
+		<h6 class="modal-title" id="modal-basic-title">Confirmation</h6>
+		<button type="button" class="btn-close" aria-label="Close" (click)="d('Cross click')"></button>
+	</div>
+	<div class="modal-body">
+		<div [innerHTML]="modalConfirmationMessage"></div>
+	</div>
+	<div class="modal-footer d-flex justify-content-between">
+		<button type="button" class="btn btn-sm bg-gradient" [class]="'btn-'+modalColorType" (click)="c('Confirm click')">Confirm.!</button>
+		<button type="button" class="btn btn-sm btn-secondary bg-gradient" (click)="d('Cancel click')">Cancel</button>
+	</div>
+</ng-template>
+
+<ng-template #kmlLeafletMapModal let-c="close" let-d="dismiss">
+	<div class="modal-header text-white bg-gradient py-2" [class]="'bg-primary'" style="--bs-modal-header-padding: 0.5rem 1rem;">
+		<h6 class="modal-title w-100 d-flex justify-content-between align-items-center" id="modal-basic-title">
+			<span><i class="fa-solid fa-location-dot me-2"></i>{{kmlLocationName}} </span>
+			<button type="button" class="btn-close" aria-label="Close" (click)="d('Cross click')"></button>
+		</h6>
+	</div>
+	<div class="modal-body">
+		<app-kml-map [coordinates]="kmlCoordinates" [locationName]="kmlLocationName"></app-kml-map>
+	</div>
+</ng-template>
+
+<ng-template #htmlRenderModal let-c="close" let-d="dismiss">
+
+	<div class="modal-header text-white bg-gradient py-2" [class]="'bg-primary'" style="--bs-modal-header-padding: 0.5rem 1rem;">
+		<h6 class="modal-title w-100 d-flex justify-content-between align-items-center" id="modal-basic-title">
+			<span><i class="fa-solid fa-code me-2"></i>{{htmlName}}</span>
+			<button type="button" class="btn-close" aria-label="Close" (click)="d('Cross click')"></button>
+		</h6>
+	</div>
+	<div class="modal-body bg-white text-dark">
+		<div [innerHTML]="htmlCode"></div>
+	</div>
+</ng-template>

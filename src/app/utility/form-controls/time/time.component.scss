@@ -1,0 +1,23 @@
+.example-full-width {
+	width: 100%;
+}
+
+// ::ng-deep .cdk-overlay-container {
+// 	z-index: 10000;
+
+// 	.mat-mdc-optgroup-label {
+// 		display: block !important;
+// 	}
+
+// 	.cdk-overlay-dark-backdrop {
+// 		background: rgba(var(--bs-primary-rgb), 0.15);
+// 		// background-color: var(--bs-body-bg);
+// 		backdrop-filter: blur(0.625rem);
+// 	}
+// }
+
+/*# sourceMappingURL=date.component.css.map */
+
+.mat-mdc-form-field-bottom-align::before {
+	display: none;
+}

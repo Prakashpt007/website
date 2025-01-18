@@ -1,0 +1,27 @@
+<mat-form-field class="example-full-width" appearance="outline">
+	<mat-label>
+		@if (getSelectedOptionNames(selectedValue) == '') {
+		<mat-label>Select {{ componentData.label }}</mat-label>
+		} @else {
+		<mat-label>Selected {{ componentData.label }}</mat-label>
+		}
+
+	</mat-label>
+
+	<mat-select placeholder="Select" [formControl]="selectFormControl" [disableOptionCentering]="true">
+		<mat-select-trigger>
+			{{ getSelectedOptionNames(selectedValue) }}
+		</mat-select-trigger>
+		<div class="select-container" style="width: 100%;">
+		</div>
+
+		@for (option of filteredOptions | async; track option.value) {
+
+		<mat-option (onSelectionChange)="selectionChangeEvent($event)" [value]="option.value">
+			{{ option.label }}
+		</mat-option>
+
+		}
+
+	</mat-select>
+</mat-form-field>

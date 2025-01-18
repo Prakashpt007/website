@@ -1,0 +1,84 @@
+@if(designStyle==1){
+@if (searchMenuList().length!=0) {
+<div style="max-width: 100%; width: 450px; margin: 0 auto 2rem;">
+	<form class="d-flex input-group" [formGroup]="searchMenuForm" (ngSubmit)="searchFormSubmit()" novalidate>
+		<input type="search" class="form-control custom-form-control" minlength="1" maxlength="20" placeholder="Search Menu..." formControlName="searchMenu" [ngClass]="{'is-invalid': searchMenuFormSubmitHandler && f['searchMenu'].errors}" [autocomplete]="0" />
+		<button [disabled]="!searchMenuForm.get('searchMenu')?.value" type="submit" class="btn btn-primary"><i class="fa-solid fa-magnifying-glass"></i></button>
+	</form>
+	@if (searchMenuFormSubmitHandler && f['searchMenu'].errors) {
+
+	<div class="invalid-feedback" style="font-size: 0.75rem;">
+
+		@if (f['searchMenu'].errors['required']) {
+
+		<div>Please Enter Menu Name</div>
+
+		} @else if(f['searchMenu'].errors['pattern']) {
+
+		<div>Please Enter Characters Only</div>
+
+		} @else if(f['searchMenu'].errors['minlength']) {
+
+		<div>Please Enter Minimum 3 Characters</div>
+
+		} @else if(f['searchMenu'].errors['maxlength']) {
+
+		<div>Please Enter Maximum 20 Characters</div>
+
+		} @else {
+		<div>Unknown Error</div>
+		}
+	</div>
+
+	}
+</div>
+} @else {
+<div class="text-center py-2">Loading...</div>
+}
+
+
+} @else{
+@if (searchMenuList().length!=0) {
+<li class="searchParentContainer" [ngClass]="{'is-invalid': searchMenuFormSubmitHandler && f['searchMenu'].errors, 'is-value': searchMenuForm.get('searchMenu')?.value}">
+	<form class="d-flex" [formGroup]="searchMenuForm" (ngSubmit)="searchFormSubmit()" novalidate>
+		<input type="search" class="form-control custom-form-control" minlength="1" maxlength="20" placeholder="Search Menu..." formControlName="searchMenu" [ngClass]="{'is-invalid': searchMenuFormSubmitHandler && f['searchMenu'].errors}" [autocomplete]="0" />
+		<button [disabled]="!searchMenuForm.get('searchMenu')?.value" type="submit" class="btn btn-primary"><i class="fa-solid fa-magnifying-glass"></i></button>
+	</form>
+</li>
+}@else {
+<div class="text-center py-2">Loading...</div>
+}
+}
+
+
+
+
+
+
+<ng-template #searchResultModel let-c="close" let-d="dismiss">
+	<div class="modal-header text-white bg-gradient bg-primary py-2" style="--bs-modal-header-padding: 0.5rem 1rem;">
+		<h6 class="modal-title w-100 d-flex justify-content-between align-items-center" id="modal-basic-title">
+
+			<span><i class="fa-solid fa-magnifying-glass me-2"></i>Search Results...</span>
+			<button type="button" class="btn-close" aria-label="Close" (click)="d('Cross click')"></button>
+		</h6>
+	</div>
+	<div class="modal-body">
+
+		@for (item of searchMenuResultList; track item) {
+
+		<div class="list-group mb-4">
+			<div aria-disabled="true" class="list-group-item bg-gradient"><span class="me-2" [innerHTML]="item.icon"></span> <strong [innerHTML]="item.mainMenu"></strong></div>
+
+			@for (submenuItem of item.subMenu; track submenuItem) {
+			<a [routerLink]="[submenuItem.href]" (click)="d('menu click')" class="list-group-item list-group-item-action" style="font-size: 0.875rem;">
+				{{submenuItem.name}}
+			</a>
+			}
+
+		</div>
+
+		}
+
+	</div>
+</ng-template>

@@ -1,0 +1,686 @@
+<div class="d-flex justify-content-between align-items-center stickyHeader" style="overflow: hidden;">
+	<h5 class="m-0" style="display: flex;align-items: center;gap: 0.75rem;">
+		<a [routerLink]="['/finance-qa/bnt-error/company/list']" [queryParams]="backUrlParams" style="font-size: 80%;color: inherit;"><i class="fa-solid fa-arrow-left"></i> </a>Company Field Error
+	</h5>
+</div>
+
+<div class="row align-items-start" [@fade]>
+	<div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-5 col-xxl-4">
+		<form [formGroup]="form" (ngSubmit)="formSubmit()" novalidate>
+
+			<div class="row" style="max-width:initial;">
+				<div class="col-12">
+					<div class="container-fluid p-0">
+						<div class="card formCard mb-2" style="max-width: initial;">
+							<div class="card-header bg-body-secondary bg-gradient">
+								<h6 class=" m-0 d-flex gap-2 align-items-center"><i class="fa-regular fa-building"></i> Details</h6>
+							</div>
+
+							@if (formData!= undefined) {
+
+							<div class="card-body">
+								<!--Company Name-->
+								<div class="mb-3 row" [ngClass]="{'fieldError': formData['companyName'].error}">
+									<label for="companyName" [ngClass]="form.get('companyName')?.disabled ? 'disabled': ''" class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-3 col-xxl-3 col-form-label-sm pe-xl-0 pe-xxl-0">
+										<span>Company Name</span>
+
+										@if (formData['companyName'].required) {<span class="required ms-1" [title]="'Required'">*</span>}
+
+									</label>
+									<div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-9 col-xxl-9">
+										<input type="text" class="form-control form-control-sm" id="companyName" placeholder="Please Enter Company Name" formControlName="companyName" [ngClass]="{'is-invalid': formSubmitHandler && f['companyName'].errors}" [autocomplete]="0" />
+
+										@if (formSubmitHandler && f['companyName'].errors) {
+										<div class="invalid-feedback">
+
+											@if (f['companyName'].errors['required']) {
+
+											<div>Please Enter Company Name</div>
+
+											}
+
+											@if (form.get('companyName')?.hasError('backendError')) {
+
+											<div>{{ form.get('companyName')?.getError('backendError') }}</div>
+
+											}
+
+										</div>
+
+										}
+
+									</div>
+								</div>
+
+								<!--Company Phone No.-->
+								<div class="mb-3 row">
+									<label for="companyPhone" [ngClass]="form.get('companyPhone')?.disabled ? 'disabled': ''" class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-3 col-xxl-3 col-form-label-sm pe-xl-0 pe-xxl-0">
+										<span>Phone No.</span>
+										@if (formData['companyPhone'].required) {<span class="required ms-1" [title]="'Required'">*</span>}
+
+									</label>
+									<div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-9 col-xxl-9">
+										<div formArrayName="companyPhones">
+											<div *ngFor="let phoneControl of companyPhones.controls; let i = index" class="mb-2">
+												<div class="input-group input-group-sm" [ngClass]="{'is-invalid': formSubmitHandler && phoneControl.errors}">
+													<input type="text" class="form-control form-control-sm" [formControlName]="i" placeholder="Enter Phone Number" />
+													<button class="btn btn-danger input-group-text" style="background-color: var(--bs-danger);border-color: var(--bs-danger);color: var(--bs-btn-color);" [disabled]="form.get('companyPhones')?.value.length == 1" type="button" (click)="removePhone(i)"><i class="fa-solid fa-trash"></i></button>
+												</div>
+												<div *ngIf="phoneControl.invalid && (phoneControl.dirty || phoneControl.touched || formSubmitHandler)" class="invalid-feedback d-block">
+													{{ getPhoneErrorMessage(phoneControl) }}
+												</div>
+											</div>
+										</div>
+										<button class="btn btn-primary btn-sm" [disabled]="form.get('companyPhones')?.value.length > 7" type="button" (click)="addPhone('', true)" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem; --bs-btn-disabled-opacity: 0.3;"><i class="fa-solid fa-plus"></i> Add More</button>
+										<div *ngIf="companyPhones.errors?.['atLeastOneRequired'] && (companyPhones.touched || formSubmitHandler)" class="invalid-feedback d-block">
+											At least one phone number is required.
+										</div>
+									</div>
+								</div>
+
+								<!--Business Entity Type-->
+								<div class="mb-3 row" [ngClass]="{'fieldError': formData['businessEntityType'].error}">
+									<label for="businessEntityType" [ngClass]="form.get('businessEntityType')?.disabled ? 'disabled': ''" class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-3 col-xxl-3 col-form-label-sm pe-xl-0 pe-xxl-0">
+										<span>Business Entity Type</span>
+
+										@if (formData['businessEntityType'].required) {<span class="required ms-1" [title]="'Required'">*</span>}
+
+									</label>
+									<div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-9 col-xxl-9">
+
+										<select class="form-select form-select-sm" formControlName="businessEntityType" [ngClass]="{'is-invalid': formSubmitHandler && f['businessEntityType'].errors}">
+											<option selected value="" disabled>Select Type</option>
+											<option value="C Corporation">C Corporation</option>
+											<option value="Company">Company</option>
+											<option value="Corporation">Corporation</option>
+											<option value="Limited Liability Company (LLC)">Limited Liability Company (LLC)</option>
+											<option value="Limited Liability Partnership (LLP)">Limited Liability Partnership (LLP)</option>
+											<option value="Partnership">Partnership</option>
+											<option value="Private Limited">Private Limited</option>
+											<option value="Proprietorship">Proprietorship</option>
+											<option value="Public Limited">Public Limited</option>
+											<option value="S Corporation">S Corporation</option>
+											<option value="Sole Proprietorship">Sole Proprietorship</option>
+										</select>
+
+										@if (formSubmitHandler && f['businessEntityType'].errors) {
+										<div class="invalid-feedback">
+
+											@if (f['businessEntityType'].errors['required']) {
+
+											<div>Please Select Business Entity Type</div>
+
+											}
+
+											@if (form.get('businessEntityType')?.hasError('backendError')) {
+
+											<div>{{ form.get('businessEntityType')?.getError('backendError') }}</div>
+
+											}
+
+										</div>
+
+										}
+
+									</div>
+								</div>
+
+								<!--License No.-->
+								<div class="mb-3 row" [ngClass]="{'fieldError': formData['companyLicenseNo'].error}">
+									<label for="companyLicenseNo" [ngClass]="form.get('companyLicenseNo')?.disabled ? 'disabled': ''" class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-3 col-xxl-3 col-form-label-sm pe-xl-0 pe-xxl-0">
+										<span>License No.</span>
+
+										@if (formData['companyLicenseNo'].required) {<span class="required ms-1" [title]="'Required'">*</span>}
+
+									</label>
+									<div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-9 col-xxl-9">
+										<input type="text" class="form-control form-control-sm" id="companyLicenseNo" placeholder="Please Enter License No." formControlName="companyLicenseNo" [ngClass]="{'is-invalid': formSubmitHandler && f['companyLicenseNo'].errors}" [autocomplete]="0" />
+
+										@if (formSubmitHandler && f['companyLicenseNo'].errors) {
+										<div class="invalid-feedback">
+
+											@if (f['companyLicenseNo'].errors['required']) {
+
+											<div>Please Enter License No.</div>
+
+											}
+
+											@if (form.get('companyLicenseNo')?.hasError('backendError')) {
+
+											<div>{{ form.get('companyLicenseNo')?.getError('backendError') }}</div>
+
+											}
+
+										</div>
+
+										}
+
+									</div>
+								</div>
+
+								<!-- License Issue Date -->
+								<div class="mb-3 row" [ngClass]="{'fieldError': formData['licenseIssueDate'].error}">
+									<label for="licenseIssueDate" [ngClass]="form.get('licenseIssueDate')?.disabled ? 'disabled': ''" class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-3 col-xxl-3 col-form-label-sm pe-xl-0 pe-xxl-0">
+										<span>License Issue Date</span>
+
+										@if (formData['licenseIssueDate'].required) {<span class="required ms-1" [title]="'Required'">*</span>}
+
+									</label>
+									<div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-9 col-xxl-9">
+										<input type="date" class="form-control form-control-sm" id="licenseIssueDate" [max]="getMinFutureDate()" [min]="getMaxBackDate()" formControlName="licenseIssueDate" [ngClass]="{'is-invalid': formSubmitHandler && f['licenseIssueDate'].errors}" [autocomplete]="0" />
+
+										@if (formSubmitHandler && f['licenseIssueDate'].errors) {
+										<div class="invalid-feedback">
+
+											@if (f['licenseIssueDate'].errors['required']) {
+
+											<div>Please Select License Issue Date</div>
+
+											}
+
+											@if (f['licenseIssueDate'].errors['min']) {
+
+											<div>Date Must Be After {{ getMaxBackDate() | date:'dd-MMM-yyyy' }}</div>
+
+											}
+
+											@if (f['licenseIssueDate'].errors['max']) {
+
+											<div>Date Must Be Before {{ getMinFutureDate() | date:'dd-MMM-yyyy' }}</div>
+
+											}
+
+											@if (form.get('licenseIssueDate')?.hasError('backendError')) {
+
+											<div>{{ form.get('licenseIssueDate')?.getError('backendError') }}</div>
+
+											}
+
+										</div>
+
+										}
+									</div>
+								</div>
+
+								<!-- License Expiry Date -->
+								<div class="mb-3 row" [ngClass]="{'fieldError': formData['companyLicenseExpiryDate'].error}">
+									<label for="companyLicenseExpiryDate" [ngClass]="form.get('companyLicenseExpiryDate')?.disabled ? 'disabled': ''" class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-3 col-xxl-3 col-form-label-sm pe-xl-0 pe-xxl-0">
+										<span>License Expiry Date</span>
+
+										@if (formData['companyLicenseExpiryDate'].required) {<span class="required ms-1" [title]="'Required'">*</span>}
+
+									</label>
+									<div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-9 col-xxl-9">
+										<input type="date" class="form-control form-control-sm" id="companyLicenseExpiryDate" [min]="getRestrictBackDate()" [max]="getRestrictFutureDate()" formControlName="companyLicenseExpiryDate" [ngClass]="{'is-invalid': formSubmitHandler && f['companyLicenseExpiryDate'].errors}" [autocomplete]="0" />
+
+										@if (formSubmitHandler && f['companyLicenseExpiryDate'].errors) {
+										<div class="invalid-feedback">
+
+											@if (f['companyLicenseExpiryDate'].errors['required']) {
+
+											<div>Please Select License Expiry Date</div>
+
+											}
+
+											@if (f['companyLicenseExpiryDate'].errors['min']) {
+
+											<div>Date Must Be After {{ getRestrictBackDate() | date:'dd-MMM-yyyy' }}</div>
+
+											}
+
+											@if (f['companyLicenseExpiryDate'].errors['max']) {
+
+											<div>Date Must Be Before {{ getRestrictFutureDate() | date:'dd-MMM-yyyy' }}</div>
+
+											}
+
+											@if (form.get('companyLicenseExpiryDate')?.hasError('backendError')) {
+
+											<div>{{ form.get('companyLicenseExpiryDate')?.getError('backendError') }}</div>
+
+											}
+
+										</div>
+
+										}
+									</div>
+								</div>
+
+								<!-- Date of Incorporation -->
+								<div class="mb-3 row" [ngClass]="{'fieldError': formData['companyDateOfIncorporation'].error}">
+									<label for="companyDateOfIncorporation" [ngClass]="form.get('companyDateOfIncorporation')?.disabled ? 'disabled': ''" class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-3 col-xxl-3 col-form-label-sm pe-xl-0 pe-xxl-0">
+										<span>Date of Incorporation</span>
+
+										@if (formData['companyDateOfIncorporation'].required) {<span class="required ms-1" [title]="'Required'">*</span>}
+
+									</label>
+									<div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-9 col-xxl-9">
+										<input type="date" class="form-control form-control-sm" id="companyDateOfIncorporation" [min]="getMaxBackDate()" [max]="getMinFutureDate()" formControlName="companyDateOfIncorporation" [ngClass]="{'is-invalid': formSubmitHandler && f['companyDateOfIncorporation'].errors}" [autocomplete]="0" />
+
+										@if (formSubmitHandler && f['companyDateOfIncorporation'].errors) {
+										<div class="invalid-feedback">
+
+											@if (f['companyDateOfIncorporation'].errors['required']) {
+
+											<div>Please Select Date of Incorporation</div>
+
+											}
+
+											@if (f['companyDateOfIncorporation'].errors['min']) {
+
+											<div>Date Must Be After {{ getMaxBackDate() | date:'dd-MMM-yyyy' }}</div>
+
+											}
+
+											@if (f['companyDateOfIncorporation'].errors['max']) {
+
+											<div>Date Must Be Before {{ getMinFutureDate() | date:'dd-MMM-yyyy' }}</div>
+
+											}
+
+											@if (form.get('companyDateOfIncorporation')?.hasError('backendError')) {
+
+											<div>{{ form.get('companyDateOfIncorporation')?.getError('backendError') }}</div>
+
+											}
+
+										</div>
+
+										}
+									</div>
+								</div>
+
+								<!--Website-->
+								<div class="mb-3 row" [ngClass]="{'fieldError': formData['website'].error}">
+									<label for="website" [ngClass]="form.get('website')?.disabled ? 'disabled': ''" class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-3 col-xxl-3 col-form-label-sm pe-xl-0 pe-xxl-0">
+										<span>Website</span>
+
+										@if (formData['website'].required) {<span class="required ms-1" [title]="'Required'">*</span>}
+
+									</label>
+									<div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-9 col-xxl-9">
+										<input type="text" class="form-control form-control-sm" id="website" placeholder="Please enter website URL" formControlName="website" [ngClass]="{'is-invalid': formSubmitHandler && f['website'].errors}" [autocomplete]="0" />
+
+										<!-- <pre>{{f['website'].errors | json}}</pre> -->
+										@if (formSubmitHandler && f['website'].errors) {
+										<div class="invalid-feedback">
+
+											@if (f['website'].errors['pattern']) {
+
+											<div>Please Enter Valid URL</div>
+
+											}
+
+
+											@if (f['website'].errors['required']) {
+
+											<div>Please Enter Website URL</div>
+
+											}
+
+											@if (form.get('website')?.hasError('backendError')) {
+
+											<div>{{ form.get('website')?.getError('backendError') }}</div>
+
+											}
+
+										</div>
+
+										}
+
+									</div>
+								</div>
+
+								<!--Nationality-->
+								<div class="mb-3 row" [ngClass]="{'fieldError': formData['nationality'].error}">
+									<label for="nationality" [ngClass]="form.get('nationality')?.disabled ? 'disabled': ''" class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-3 col-xxl-3 col-form-label-sm pe-xl-0 pe-xxl-0">
+										<span>Nationality</span>
+
+										@if (formData['nationality'].required) {<span class="required ms-1" [title]="'Required'">*</span>}
+
+									</label>
+									<div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-9 col-xxl-9">
+
+										<select class="form-select form-select-sm" formControlName="nationality" [ngClass]="{'is-invalid': formSubmitHandler && f['nationality'].errors}">
+											<option selected value="" disabled>Select Nationality</option>
+											<option value="Permanent Resident">Permanent Resident</option>
+											<option value="Citizen">Citizen</option>
+											<option value="Dual Citizenship">Dual Citizenship</option>
+										</select>
+
+										@if (formSubmitHandler && f['nationality'].errors) {
+										<div class="invalid-feedback">
+
+											@if (f['nationality'].errors['required']) {
+
+											<div>Please Select Nationality</div>
+
+											}
+
+											@if (form.get('nationality')?.hasError('backendError')) {
+
+											<div>{{ form.get('nationality')?.getError('backendError') }}</div>
+
+											}
+
+										</div>
+
+										}
+
+									</div>
+								</div>
+
+								<!--Constitution-->
+								<div class="mb-3 row" [ngClass]="{'fieldError': formData['constitution'].error}">
+									<label for="constitution" [ngClass]="form.get('constitution')?.disabled ? 'disabled': ''" class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-3 col-xxl-3 col-form-label-sm pe-xl-0 pe-xxl-0">
+										<span>Constitution</span>
+
+										@if (formData['constitution'].required) {<span class="required ms-1" [title]="'Required'">*</span>}
+
+									</label>
+									<div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-9 col-xxl-9">
+
+										<select class="form-select form-select-sm" formControlName="constitution" [ngClass]="{'is-invalid': formSubmitHandler && f['constitution'].errors}">
+											<option selected value="" disabled>Select Constitution</option>
+											<option value="Citizen">Citizen</option>
+											<option value="Permanent Resident">Permanent Resident</option>
+											<option value="Dual Citizenship">Dual Citizenship</option>
+											<option value="Overseas Citizen">Overseas Citizen</option>
+											<option value="Refugee">Refugee</option>
+										</select>
+
+										@if (formSubmitHandler && f['constitution'].errors) {
+										<div class="invalid-feedback">
+
+											@if (f['constitution'].errors['required']) {
+
+											<div>Please Select Constitution</div>
+
+											}
+
+											@if (form.get('constitution')?.hasError('backendError')) {
+
+											<div>{{ form.get('constitution')?.getError('backendError') }}</div>
+
+											}
+
+										</div>
+
+										}
+
+									</div>
+								</div>
+
+								<!-- Address -->
+								<div class="mb-3 row" [ngClass]="{'fieldError': formData['address'].error}">
+									<label for="address" [ngClass]="form.get('address')?.disabled ? 'disabled': ''" class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-3 col-xxl-3 col-form-label-sm pe-xl-0 pe-xxl-0">
+										<span>Address</span>
+
+										@if (formData['address'].required) {<span class="required ms-1" [title]="'Required'">*</span>}
+
+									</label>
+									<div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-9 col-xxl-9">
+										<textarea autosize class="form-control form-control-sm" rows="2" placeholder="Enter Address" formControlName="address" [ngClass]="{'is-invalid': formSubmitHandler && f['address'].errors}" [autocomplete]="0"></textarea>
+
+										@if (formSubmitHandler && f['address'].errors) {
+										<div class="invalid-feedback">
+
+											@if (f['address'].errors['required']) {
+
+											<div>Please Enter Address</div>
+
+											}
+
+											@if (form.get('address')?.hasError('backendError')) {
+
+											<div>{{ form.get('address')?.getError('backendError') }}</div>
+
+											}
+
+										</div>
+
+										}
+									</div>
+								</div>
+
+								<!--CIN-->
+								<div class="mb-3 row" [ngClass]="{'fieldError': formData['companyCin'].error}">
+									<label for="companyCin" [ngClass]="form.get('companyCin')?.disabled ? 'disabled': ''" class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-3 col-xxl-3 col-form-label-sm pe-xl-0 pe-xxl-0">
+										<span>CIN</span>
+
+										@if (formData['companyCin'].required) {<span class="required ms-1" [title]="'Required'">*</span>}
+
+									</label>
+									<div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-9 col-xxl-9">
+										<input type="text" class="form-control form-control-sm" id="companyCin" placeholder="Please Enter CIN" oninput="this.value = this.value.toUpperCase()" formControlName="companyCin" [ngClass]="{'is-invalid': formSubmitHandler && f['companyCin'].errors}" [autocomplete]="0" />
+
+										@if (formSubmitHandler && f['companyCin'].errors) {
+										<div class="invalid-feedback">
+
+											@if (f['companyCin'].errors['pattern']) {
+
+											<div>Please Enter Valid CIN</div>
+
+											}
+
+											@if (f['companyCin'].errors['required']) {
+
+											<div>Please Enter CIN</div>
+
+											}
+
+											@if (f['companyCin'].errors['minlength']) {
+
+											<div>Please Enter Valid {{f['companyCin'].errors['minlength'].requiredLength}} Alphanumeric CIN</div>
+
+											}
+
+											@if (f['companyCin'].errors['maxlength']) {
+
+											<div>You Have Entered More than {{f['companyCin'].errors['maxlength'].requiredLength}} Alphanumeric CIN</div>
+
+											}
+
+											@if (form.get('companyCin')?.hasError('backendError')) {
+
+											<div>{{ form.get('companyCin')?.getError('backendError') }}</div>
+
+											}
+
+										</div>
+
+										}
+
+									</div>
+								</div>
+
+								<!--GST No.-->
+								<div class="mb-3 row" [ngClass]="{'fieldError': formData['companyGstn'].error}">
+									<label for="companyGstn" [ngClass]="form.get('companyGstn')?.disabled ? 'disabled': ''" class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-3 col-xxl-3 col-form-label-sm pe-xl-0 pe-xxl-0">
+										<span>GST</span>
+
+										@if (formData['companyGstn'].required) {<span class="required ms-1" [title]="'Required'">*</span>}
+
+									</label>
+									<div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-9 col-xxl-9">
+										<input type="text" class="form-control form-control-sm" id="companyGstn" placeholder="Please Enter GST No." oninput="this.value = this.value.toUpperCase()" formControlName="companyGstn" [ngClass]="{'is-invalid': formSubmitHandler && f['companyGstn'].errors}" [autocomplete]="0" />
+
+										@if (formSubmitHandler && f['companyGstn'].errors) {
+										<div class="invalid-feedback">
+
+											@if (f['companyGstn'].errors['pattern']) {
+
+											<div>Please Enter Valid GST No.</div>
+
+											}
+
+											@if (f['companyGstn'].errors['required']) {
+
+											<div>Please Enter GST No. </div>
+
+											}
+
+											@if (f['companyGstn'].errors['minlength']) {
+
+											<div>Please Enter Valid {{f['companyGstn'].errors['minlength'].requiredLength}} Alphanumeric GST No.</div>
+
+											}
+
+											@if (f['companyGstn'].errors['maxlength']) {
+
+											<div>You Have Entered More than {{f['companyGstn'].errors['maxlength'].requiredLength}} Alphanumeric GST No.</div>
+
+											}
+
+											@if (form.get('companyGstn')?.hasError('backendError')) {
+
+											<div>{{ form.get('companyGstn')?.getError('backendError') }}</div>
+
+											}
+
+										</div>
+
+										}
+
+									</div>
+								</div>
+
+								<!--PAN-->
+								<div class="mb-3 row" [ngClass]="{'fieldError': formData['companyPan'].error}">
+									<label for="companyPan" [ngClass]="form.get('companyPan')?.disabled ? 'disabled': ''" class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-3 col-xxl-3 col-form-label-sm pe-xl-0 pe-xxl-0">
+										<span>PAN</span>
+
+										@if (formData['companyPan'].required) {<span class="required ms-1" [title]="'Required'">*</span>}
+
+									</label>
+									<div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-9 col-xxl-9">
+										<input type="text" class="form-control form-control-sm" id="companyPan" placeholder="Please Enter PAN" oninput="this.value = this.value.toUpperCase()" formControlName="companyPan" [ngClass]="{'is-invalid': formSubmitHandler && f['companyPan'].errors}" [autocomplete]="0" />
+
+										@if (formSubmitHandler && f['companyPan'].errors) {
+										<div class="invalid-feedback">
+
+											@if (f['companyPan'].errors['pattern']) {
+
+											<div>Please Enter Valid PAN</div>
+
+											}
+
+											@if (f['companyPan'].errors['required']) {
+
+											<div>Please Enter PAN</div>
+
+											}
+
+											@if (f['companyPan'].errors['minlength']) {
+
+											<div>Please Enter Valid {{f['companyPan'].errors['minlength'].requiredLength}} Alphanumeric PAN</div>
+
+											}
+
+											@if (f['companyPan'].errors['maxlength']) {
+
+											<div>You Have Entered More than {{f['companyPan'].errors['maxlength'].requiredLength}} Alphanumeric PAN</div>
+
+											}
+
+											@if (form.get('companyPan')?.hasError('backendError')) {
+
+											<div>{{ form.get('companyPan')?.getError('backendError') }}</div>
+
+											}
+
+										</div>
+
+										}
+
+									</div>
+								</div>
+
+								<!-- Pincode  -->
+								<div class="row" [ngClass]="{'fieldError': formData['pincode'].error}">
+									<label for="pincode" [ngClass]="form.get('pincode')?.disabled ? 'disabled': ''" class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-3 col-xxl-3 col-form-label-sm pe-xl-0 pe-xxl-0">
+										<span>Pincode</span>
+
+										@if (formData['pincode'].required) {<span class="required ms-1" [title]="'Required'">*</span>}
+
+									</label>
+
+									<div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-9 col-xxl-9">
+										<input type="tel" class="form-control form-control-sm" id="pincode" minlength="6" maxlength="6" placeholder="Enter Pincode" formControlName="pincode" [ngClass]="{'is-invalid': formSubmitHandler && f['pincode'].errors}" [autocomplete]="0" />
+
+										@if (formSubmitHandler && f['pincode'].errors) {
+										<div class="invalid-feedback">
+
+											@if (f['pincode'].errors['pattern']) {
+
+											<div>Please Enter Valid Pincode</div>
+
+											}
+
+											@if (f['pincode'].errors['required']) {
+
+											<div>Please Enter Pincode</div>
+
+											}
+
+											@if (f['pincode'].errors['minlength']) {
+
+											<div>Please Enter Valid {{f['pincode'].errors['minlength'].requiredLength}} Digit Pincode</div>
+
+											}
+
+											@if (f['pincode'].errors['maxlength']) {
+
+											<div>You Have Entered More than {{f['pincode'].errors['maxlength'].requiredLength}} Digits</div>
+
+											}
+
+											@if (form.get('pincode')?.hasError('backendError')) {
+
+											<div>{{ form.get('pincode')?.getError('backendError') }}</div>
+
+											}
+
+										</div>
+
+										}
+
+									</div>
+								</div>
+							</div>
+
+							<div class="card-footer">
+								<div class="text-center">
+									<button type="submit" class="btn btn-primary btn-sm" [disabled]="!form.dirty">Update</button>
+								</div>
+							</div>
+
+							}
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+
+	<div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-7 col-xxl-8">
+		@defer (on viewport) {
+
+		<app-doc-modal [docsData]="docs"></app-doc-modal>
+
+		} @error {
+
+		<div class="alert alert-warning" role="alert">
+			Loading Failed... Please contact administrator for more information
+		</div>
+
+		} @placeholder (minimum 1s){
+
+		<div class="d-flex justify-content-center align-items-center display-3">
+			<i class="fa-solid fa-spinner fa-spin-pulse"></i>
+		</div>
+
+		}
+	</div>
+</div>

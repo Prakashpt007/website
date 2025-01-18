@@ -1,0 +1,37 @@
+<div class="dashboard-layout" style="height: 100%; overflow: auto;">
+	<div class="parent-com">
+
+		<div style="position: relative;z-index: 1;">
+			@defer (on timer(500ms)) {
+			<app-search-menu [designStyle]="1" />
+			} @placeholder {
+			<div class="text-center">Loading...</div>
+			}
+
+			<h3 class="subTitle text-center">Unified App</h3>
+			<h2 class="title text-center">Welcome to CropData</h2>
+			<p class="intro-para text-center">CropData is on a mission to connect millions of distant farmers to knowledge, markets and essential services in a <span class="primary-color"><i> Neutral</i></span> environment.</p>
+			<div class="container-fluid">
+				<div class="row align-items-center">
+					<div class="col-12 col-lg-12 col-xl-4 firstColumn">
+						<img src="https://cropdata.in/images/three-circles.png" class="img-fluid">
+					</div>
+					<div class="col-12 col-lg-12 col-xl-4 secondColumn directionLeft">
+						<div class="about-box">
+							<h4 class="section-title title-border">Our Mission</h4>
+							<p>CropData is on a mission to impact the lives of the small &amp; marginal farmers, increasing their income and managing their core risks, by providing access to customized knowledge, fair markets, and essential services.</p>
+						</div>
+					</div>
+					<div class="col-12 col-lg-12 col-xl-4 thirdColumn directionRight">
+						<div class="about-box">
+							<h4 class="section-title title-border">Our Vision</h4>
+							<p>CropData intends to be the leader in the agriculture offtake marketplace for unprocessed crops and focuses on areas that make its model economically viable and self-sustaining.</p>
+						</div>
+					</div>
+
+
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

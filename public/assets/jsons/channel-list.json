@@ -1,0 +1,135 @@
+{
+	"status": 200,
+	"success": true,
+	"message": "Success response",
+	"data": {
+		"columns": [
+			{
+				"name": "id",
+				"tableField": "id",
+				"type": "text"
+			},
+			{
+				"name": "name",
+				"tableField": "name",
+				"type": "text"
+			},
+			{
+				"name": "logo",
+				"tableField": "Logo",
+				"type": "imageLink"
+			},
+			{
+				"name": "authKey",
+				"tableField": "Auth Key",
+				"type": "text"
+			},
+			{
+				"name": "token",
+				"tableField": "token",
+				"type": "text"
+			},
+			{
+				"name": "status",
+				"tableField": "status",
+				"type": "badge"
+			}
+		],
+		"rows": [
+			{
+				"id": 25,
+				"name": "Telegram",
+				"logo": "https://media.istockphoto.com/id/1973365581/vector/sample-ink-rubber-stamp.jpg?s=612x612&w=0&k=20&c=_m6hNbFtLdulg3LK5LRjJiH6boCb_gcxPvRLytIz0Ws=",
+				"authKey": "42342dffgdgaadad3232dsds3434",
+				"token": "1111111111132323244dfdf344e",
+				"status": "APPROVED"
+			},
+			{
+				"id": 24,
+				"name": "Whatsapp",
+				"logo": "https://media.istockphoto.com/id/1973365581/vector/sample-ink-rubber-stamp.jpg?s=612x612&w=0&k=20&c=_m6hNbFtLdulg3LK5LRjJiH6boCb_gcxPvRLytIz0Ws=",
+				"authKey": "42342dffgdgaadad3232dsds3434",
+				"token": "1111111111132323244dfdf344e",
+				"status": "APPROVED"
+			},
+			{
+				"id": 23,
+				"name": "Email",
+				"logo": "https://media.istockphoto.com/id/1973365581/vector/sample-ink-rubber-stamp.jpg?s=612x612&w=0&k=20&c=_m6hNbFtLdulg3LK5LRjJiH6boCb_gcxPvRLytIz0Ws=",
+				"authKey": "42342dffgdgaadad3232dsds3434",
+				"token": "1111111111132323244dfdf344e",
+				"status": "APPROVED"
+			},
+			{
+				"id": 22,
+				"name": "Sms.",
+				"logo": "https://media.istockphoto.com/id/1973365581/vector/sample-ink-rubber-stamp.jpg?s=612x612&w=0&k=20&c=_m6hNbFtLdulg3LK5LRjJiH6boCb_gcxPvRLytIz0Ws=",
+				"authKey": "1111111111132323244dfdf344e",
+				"token": "42342dffgdgaadad3232dsds3434",
+				"status": "PENDING"
+			},
+			{
+				"id": 21,
+				"name": "Sms",
+				"logo": "https://media.istockphoto.com/id/1973365581/vector/sample-ink-rubber-stamp.jpg?s=612x612&w=0&k=20&c=_m6hNbFtLdulg3LK5LRjJiH6boCb_gcxPvRLytIz0Ws=",
+				"authKey": "42342dffgdgaadad3232dsds3434",
+				"token": "42342dffgdgaadad3232dsds3434",
+				"status": "APPROVED"
+			}
+		],
+		"filters": [
+			{
+				"name": "name",
+				"label": "Name",
+				"type": "text",
+				"options": [],
+				"validators": {
+					"required": false
+				},
+				"value": ""
+			},
+			{
+				"name": "status",
+				"label": "Status",
+				"type": "select",
+				"options": [
+					{
+						"value": "PENDING",
+						"label": "PENDING"
+					},
+					{
+						"value": "APPROVED",
+						"label": "APPROVED"
+					},
+					{
+						"value": "REJECTED",
+						"label": "REJECTED"
+					}
+				],
+				"validators": {
+					"required": false
+				},
+				"value": ""
+			}
+		],
+		"pagination": {
+			"totalElements": 5,
+			"pageSize": 15,
+			"totalPages": 1
+		},
+		"actions": [
+			{
+				"name": "edit",
+				"actionUrl": ""
+			},
+			{
+				"name": "approve",
+				"actionUrl": "alert/Channel/approve"
+			},
+			{
+				"name": "reject",
+				"actionUrl": "alert/Channel/reject"
+			}
+		]
+	}
+}

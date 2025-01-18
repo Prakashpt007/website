@@ -1,0 +1,92 @@
+<div class="d-flex justify-content-between align-items-center stickyHeader" style="overflow: hidden;">
+	<h5 class="m-0" style="display: flex;align-items: center;gap: 0.75rem;">
+		<a [routerLink]="['/acl/menu/list']" style="font-size: 80%;color: inherit;"><i class="fa-solid fa-arrow-left"></i> </a>Back To Menu
+		<button class="btn btn-success btn-sm" [disabled]="mainMenuList.length == 0 && subMenuList.length == 0" (click)="storeUpdatedOrder()">Update Menu Order</button>
+	</h5>
+</div>
+<div style="max-height:calc(100svh - 10.75rem); overflow: auto; display: grid; gap: 2rem; padding: 0 1rem 1rem;">
+
+	@for (item of list; track item; let i = $index) {
+	<div class="card" style="max-width: initial; max-height: auto;min-height: auto;">
+		<div class="card-header fw-bold bg-body-secondary bg-gradient d-flex justify-content-between align-items-center">
+			<span>{{item.order}}) {{ item.mainMenu }}</span>
+			<div class="btn-group" role="group" aria-label="Toggle Position" style="font-size: 0.625rem;">
+
+				<!-- @if(!(i === 0)){ -->
+				<button [disabled]="i === 0" type="button" title="Move Up" class="btn btn-sm bg-gradient" style="font-size: 0.625rem;" [ngClass]="(i === 0)? 'btn-secondary': 'btn-primary'" (click)="moveUp(i)" [disabled]="i === 0"><i class="fa-solid fa-arrow-up"></i></button>
+				<!-- }
+
+				@if(!(i === list.length - 1)){ -->
+
+				<button [disabled]="i === list.length - 1" type="button" title="Move Down" class="btn btn-sm bg-gradient" style="font-size: 0.625rem;" [ngClass]="(i === list.length - 1)? 'btn-secondary': 'btn-primary'" (click)="moveDown(i)" [disabled]="i === list.length - 1"><i class="fa-solid fa-arrow-down"></i></button>
+				<!-- } -->
+			</div>
+		</div>
+
+		<div class="card-body" style="min-height:auto;">
+			<ul class="p-0">
+				@for (subItem of item.subMenu; track subItem; let j = $index) {
+				<li>
+					<div class="d-flex justify-content-between">
+						<div style="display: flex;align-items: center;gap:0.3125rem">
+							<span style="color: var(--bs-link-color); font-weight: bold;">{{subItem.order}})</span>
+							<!-- <span style="color: var(--bs-link-color);">
+											<i class="fa-solid fa-arrow-right"></i>
+										</span> -->
+							<span>{{ subItem.name }}</span>
+						</div>
+						<div class="btn-group" role="group" aria-label="Toggle Position">
+							<!-- @if(!(j === 0)){ -->
+							<button [disabled]="j === 0" type="button" title="Move Up" class="btn btn-sm bg-gradient" [ngClass]="(j === 0)? 'btn-secondary': 'btn-primary'" (click)="moveSubUp(i, j)" [disabled]="j === 0"><i class="fa-solid fa-arrow-up"></i></button>
+							<!-- }
+							@if(!(j === item.subMenu.length - 1)){ -->
+							<button [disabled]="j === item.subMenu.length - 1" type="button" title="Move Down" class="btn btn-sm bg-gradient" [ngClass]="(j === item.subMenu.length - 1)? 'btn-secondary': 'btn-primary'" (click)="moveSubDown(i, j)" [disabled]="j === item.subMenu.length - 1"><i class="fa-solid fa-arrow-down"></i></button>
+							<!-- } -->
+						</div>
+					</div>
+				</li>
+				}
+			</ul>
+		</div>
+	</div>
+	}
+
+
+	<!-- <ul class="p-0">
+
+		@for (item of list; track item; let i = $index) {
+		<li>
+			<div class="d-flex align-items-center gap-2">
+				<h6 class="m-0" style="padding-left: 1.5rem;">
+					<strong style="color: var(--bs-link-color);">
+						{{item.order}})
+						{{ item.mainMenu }}
+					</strong>
+				</h6>
+				<div class="btn-group" role="group" aria-label="Toggle Position">
+					<button type="button" class="btn btn-sm bg-gradient" [ngClass]="(i === 0)? 'btn-secondary': 'btn-primary'" (click)="moveUp(i)" [disabled]="i === 0"><i class="fa-solid fa-arrow-up"></i></button>
+					<button type="button" class="btn btn-sm bg-gradient" [ngClass]="(i === list.length - 1)? 'btn-secondary': 'btn-primary'" (click)="moveDown(i)" [disabled]="i === list.length - 1"><i class="fa-solid fa-arrow-down"></i></button>
+				</div>
+			</div>
+
+			<ul class="p-0">
+				@for (subItem of item.subMenu; track subItem; let j = $index) {
+				<li>
+					<div class="d-flex justify-content-between">
+						<div style="display: flex;align-items: center;gap:0.3125rem">
+							<span style="color: var(--bs-link-color); font-weight: bold;">{{subItem.order}})</span>
+							<span>{{ subItem.name }}</span>
+						</div>
+						<div class="btn-group" role="group" aria-label="Toggle Position">
+							<button type="button" class="btn btn-sm bg-gradient" [ngClass]="(j === 0)? 'btn-secondary': 'btn-primary'" (click)="moveSubUp(i, j)" [disabled]="j === 0"><i class="fa-solid fa-arrow-up"></i></button>
+							<button type="button" class="btn btn-sm bg-gradient" [ngClass]="(j === item.subMenu.length - 1)? 'btn-secondary': 'btn-primary'" (click)="moveSubDown(i, j)" [disabled]="j === item.subMenu.length - 1"><i class="fa-solid fa-arrow-down"></i></button>
+						</div>
+					</div>
+				</li>
+				}
+			</ul>
+		</li>
+		<div class="b-example-divider"></div>
+		}
+	</ul> -->
+</div>

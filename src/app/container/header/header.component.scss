@@ -1,0 +1,88 @@
+.mode-btn {
+	width: 1.875rem;
+	height: 1.875rem;
+	border-radius: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	&:after {
+		display: none;
+	}
+}
+
+.profileBrief {
+	position: relative;
+	overflow: hidden;
+
+	a {
+		position: relative;
+		display: flex;
+		white-space: nowrap;
+		text-decoration: none;
+
+		.icon {
+
+			position: relative;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			height: auto;
+			// min-width: 3.75rem;
+			margin-right: 0.875rem;
+
+			.imgBx {
+				position: relative;
+				border-radius: 50%;
+				overflow: hidden;
+				width: 1.9375rem;
+				height: 1.9375rem;
+				border: solid 2px rgba(63, 81, 181, 0.5);
+
+				img {
+					position: absolute;
+					top: 0;
+					left: 0;
+					width: 100%;
+					height: 100%;
+					object-fit: cover;
+				}
+			}
+		}
+
+		.text {
+			position: relative;
+			display: flex;
+			align-items: center;
+			height: auto;
+			font-size: 1rem;
+			color: var(--bs-emphasis-color);
+			padding-left: 0;
+			max-width: 10.3125rem;
+			font-weight: 700;
+
+			.user-name {
+				overflow: hidden;
+				text-overflow: ellipsis;
+				// max-width: 100%;
+				line-height: 1rem;
+				margin-top: -2px;
+				max-width: 8.125rem;
+			}
+
+			.user-role {
+				font-size: 0.75rem;
+				line-height: normal;
+				margin-top: 2px;
+			}
+		}
+
+		&.active {
+			.text {
+				.user-name {
+					color: var(--bs-link-color);
+				}
+			}
+		}
+	}
+}

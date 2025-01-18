@@ -1,0 +1,156 @@
+<div class="d-flex justify-content-between align-items-center stickyHeader" style="overflow: hidden;">
+	<h5 class="m-0" style="display: flex;align-items: center;gap: 0.75rem;">
+		<a [routerLink]="['/finance-qa/company-turnover/list']" [queryParams]="backUrlParams" style="font-size: 80%;color: inherit;"><i class="fa-solid fa-arrow-left"></i> </a>Turnover
+	</h5>
+</div>
+
+<div class="row align-items-start" [@fade]>
+	<div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-5 col-xxl-4">
+		<form [formGroup]="form" (ngSubmit)="formSubmit()" novalidate>
+
+			<div class="row" style="max-width:initial;">
+				<div class="col-12">
+					<div class="container-fluid p-0">
+						<div class="card formCard mb-2" style="max-width: initial;">
+							<div class="card-header bg-body-secondary bg-gradient">
+								<h6 class=" m-0 d-flex gap-2 align-items-center"><i class="fa-regular fa-building"></i> Details</h6>
+							</div>
+
+							@if (formData!= undefined) {
+
+							<div class="card-body">
+								<!--Company Name-->
+								<div class="mb-3 row">
+									<label for="companyName" [ngClass]="form.get('companyName')?.disabled ? 'disabled': ''" class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-3 col-xxl-3 col-form-label-sm pe-xl-0 pe-xxl-0">
+										<span>Company Name</span>
+
+										@if (formData['companyName'].required) {<span class="required ms-1" [title]="'Required'">*</span>}
+
+									</label>
+									<div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-9 col-xxl-9">
+										<input type="text" class="form-control form-control-sm" id="companyName" placeholder="Please Enter Company Name" formControlName="companyName" [ngClass]="{'is-invalid': formSubmitHandler && f['companyName'].errors}" [autocomplete]="0" />
+
+										@if (formSubmitHandler && f['companyName'].errors) {
+										<div class="invalid-feedback">
+
+											@if (f['companyName'].errors['required']) {
+
+											<div>Please Enter Company Name</div>
+
+											}
+
+											@if (form.get('companyName')?.hasError('backendError')) {
+
+											<div>{{ form.get('companyName')?.getError('backendError') }}</div>
+
+											}
+
+										</div>
+
+										}
+
+									</div>
+								</div>
+
+								<!--Assessment Year-->
+								<div class="mb-3 row">
+									<label for="assessmentYear" [ngClass]="form.get('assessmentYear')?.disabled ? 'disabled': ''" class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-3 col-xxl-3 col-form-label-sm pe-xl-0 pe-xxl-0">
+										<span>Assessment Year</span>
+
+										@if (formData['assessmentYear'].required) {<span class="required ms-1" [title]="'Required'">*</span>}
+
+									</label>
+									<div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-9 col-xxl-9">
+										<input type="text" class="form-control form-control-sm" id="assessmentYear" placeholder="Please Enter Company Name" formControlName="assessmentYear" [ngClass]="{'is-invalid': formSubmitHandler && f['assessmentYear'].errors}" [autocomplete]="0" />
+
+										@if (formSubmitHandler && f['assessmentYear'].errors) {
+										<div class="invalid-feedback">
+
+											@if (f['assessmentYear'].errors['required']) {
+
+											<div>Please Enter Assessment Year</div>
+
+											}
+
+											@if (form.get('assessmentYear')?.hasError('backendError')) {
+
+											<div>{{ form.get('assessmentYear')?.getError('backendError') }}</div>
+
+											}
+
+										</div>
+
+										}
+
+									</div>
+								</div>
+
+								<!--Turnover Paisa-->
+								<div class="mb-3 row">
+									<label for="turnoverPaisa" [ngClass]="form.get('turnoverPaisa')?.disabled ? 'disabled': ''" class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-3 col-xxl-3 col-form-label-sm pe-xl-0 pe-xxl-0">
+										<span>Turnover Paisa</span>
+
+										@if (formData['turnoverPaisa'].required) {<span class="required ms-1" [title]="'Required'">*</span>}
+
+									</label>
+									<div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-9 col-xxl-9">
+										<input type="text" class="form-control form-control-sm" id="turnoverPaisa" placeholder="Please Enter Company Name" formControlName="turnoverPaisa" [ngClass]="{'is-invalid': formSubmitHandler && f['turnoverPaisa'].errors}" [autocomplete]="0" />
+
+										@if (formSubmitHandler && f['turnoverPaisa'].errors) {
+										<div class="invalid-feedback">
+
+											@if (f['turnoverPaisa'].errors['required']) {
+
+											<div>Please Enter Turnover Paisa</div>
+
+											}
+
+											@if (form.get('turnoverPaisa')?.hasError('backendError')) {
+
+											<div>{{ form.get('turnoverPaisa')?.getError('backendError') }}</div>
+
+											}
+
+										</div>
+
+										}
+
+									</div>
+								</div>
+							</div>
+
+							<div class="card-footer">
+								<div class="text-center">
+									<button type="submit" class="btn btn-primary btn-sm" [disabled]="!form.dirty">Update</button>
+								</div>
+							</div>
+
+							}
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+
+	<div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-7 col-xxl-8">
+		@defer (on viewport) {
+
+		<app-doc-approve-reject-modal [docsData]="docs" [requestUrl]="pageId+ '/company-proof-of-turnover-doc-validation'" (docRejected)="getRejectedSts($event)" (docApproved)="getApprovedSts($event)"></app-doc-approve-reject-modal>
+
+		} @error {
+
+		<div class="alert alert-warning" role="alert">
+			Loading Failed... Please contact administrator for more information
+		</div>
+
+		} @placeholder (minimum 1s){
+
+		<div class="d-flex justify-content-center align-items-center display-3">
+			<i class="fa-solid fa-spinner fa-spin-pulse"></i>
+		</div>
+
+		}
+	</div>
+</div>

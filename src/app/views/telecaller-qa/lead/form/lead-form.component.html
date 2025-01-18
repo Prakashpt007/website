@@ -1,0 +1,4 @@
+@if (showFormBuilder) {
+<app-formbuilder [backUrl]="backUrl" [componentData]="componentData" [formErrorData]="formErrorData" [formActivity]="formActivity" (formBuilderSubmit)="getFormValuesFromBuilder($event)">
+</app-formbuilder>
+}

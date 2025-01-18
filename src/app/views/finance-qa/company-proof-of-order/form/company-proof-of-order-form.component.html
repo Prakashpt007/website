@@ -1,0 +1,156 @@
+<div class="d-flex justify-content-between align-items-center stickyHeader" style="overflow: hidden;">
+	<h5 class="m-0" style="display: flex;align-items: center;gap: 0.75rem;">
+		<a [routerLink]="['/finance-qa/company-proof-of-order/list']" [queryParams]="backUrlParams" style="font-size: 80%;color: inherit;"><i class="fa-solid fa-arrow-left"></i> </a>Order
+	</h5>
+</div>
+
+<div class="row align-items-start" [@fade]>
+	<div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-5 col-xxl-4">
+		<form [formGroup]="form" (ngSubmit)="formSubmit()" novalidate>
+
+			<div class="row" style="max-width:initial;">
+				<div class="col-12">
+					<div class="container-fluid p-0">
+						<div class="card formCard mb-2" style="max-width: initial;">
+							<div class="card-header bg-body-secondary bg-gradient">
+								<h6 class=" m-0 d-flex gap-2 align-items-center"><i class="fa-regular fa-building"></i> Details</h6>
+							</div>
+
+							@if (formData!= undefined) {
+
+							<div class="card-body">
+								<!--Company Name-->
+								<div class="mb-3 row">
+									<label for="companyName" [ngClass]="form.get('companyName')?.disabled ? 'disabled': ''" class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-3 col-xxl-3 col-form-label-sm pe-xl-0 pe-xxl-0">
+										<span>Company Name</span>
+
+										@if (formData['companyName'].required) {<span class="required ms-1" [title]="'Required'">*</span>}
+
+									</label>
+									<div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-9 col-xxl-9">
+										<input type="text" class="form-control form-control-sm" id="companyName" placeholder="Please Enter Company Name" formControlName="companyName" [ngClass]="{'is-invalid': formSubmitHandler && f['companyName'].errors}" [autocomplete]="0" />
+
+										@if (formSubmitHandler && f['companyName'].errors) {
+										<div class="invalid-feedback">
+
+											@if (f['companyName'].errors['required']) {
+
+											<div>Please Enter Company Name</div>
+
+											}
+
+											@if (form.get('companyName')?.hasError('backendError')) {
+
+											<div>{{ form.get('companyName')?.getError('backendError') }}</div>
+
+											}
+
+										</div>
+
+										}
+
+									</div>
+								</div>
+
+								<!--Order Value Paisa-->
+								<div class="mb-3 row">
+									<label for="orderValuePaisa" [ngClass]="form.get('orderValuePaisa')?.disabled ? 'disabled': ''" class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-3 col-xxl-3 col-form-label-sm pe-xl-0 pe-xxl-0">
+										<span>Order Value Paisa</span>
+
+										@if (formData['orderValuePaisa'].required) {<span class="required ms-1" [title]="'Required'">*</span>}
+
+									</label>
+									<div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-9 col-xxl-9">
+										<input type="text" class="form-control form-control-sm" id="orderValuePaisa" placeholder="Please Enter Company Name" formControlName="orderValuePaisa" [ngClass]="{'is-invalid': formSubmitHandler && f['orderValuePaisa'].errors}" [autocomplete]="0" />
+
+										@if (formSubmitHandler && f['orderValuePaisa'].errors) {
+										<div class="invalid-feedback">
+
+											@if (f['orderValuePaisa'].errors['required']) {
+
+											<div>Please Enter Order Value Paisa</div>
+
+											}
+
+											@if (form.get('orderValuePaisa')?.hasError('backendError')) {
+
+											<div>{{ form.get('orderValuePaisa')?.getError('backendError') }}</div>
+
+											}
+
+										</div>
+
+										}
+
+									</div>
+								</div>
+
+								<!--Project Name-->
+								<div class="mb-3 row">
+									<label for="projectName" [ngClass]="form.get('projectName')?.disabled ? 'disabled': ''" class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-3 col-xxl-3 col-form-label-sm pe-xl-0 pe-xxl-0">
+										<span>Project Name</span>
+
+										@if (formData['projectName'].required) {<span class="required ms-1" [title]="'Required'">*</span>}
+
+									</label>
+									<div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-9 col-xxl-9">
+										<input type="text" class="form-control form-control-sm" id="projectName" placeholder="Please Enter Company Name" formControlName="projectName" [ngClass]="{'is-invalid': formSubmitHandler && f['projectName'].errors}" [autocomplete]="0" />
+
+										@if (formSubmitHandler && f['projectName'].errors) {
+										<div class="invalid-feedback">
+
+											@if (f['projectName'].errors['required']) {
+
+											<div>Please Enter Project Name</div>
+
+											}
+
+											@if (form.get('projectName')?.hasError('backendError')) {
+
+											<div>{{ form.get('projectName')?.getError('backendError') }}</div>
+
+											}
+
+										</div>
+
+										}
+
+									</div>
+								</div>
+							</div>
+
+							<div class="card-footer">
+								<div class="text-center">
+									<button type="submit" class="btn btn-primary btn-sm" [disabled]="!form.dirty">Update</button>
+								</div>
+							</div>
+
+							}
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+
+	<div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-7 col-xxl-8">
+		@defer (on viewport) {
+
+		<app-doc-approve-reject-modal [docsData]="docs" [requestUrl]="pageId+ '/company-proof-of-order-completion-doc-validation'" (docRejected)="getRejectedSts($event)" (docApproved)="getApprovedSts($event)"></app-doc-approve-reject-modal>
+
+		} @error {
+
+		<div class="alert alert-warning" role="alert">
+			Loading Failed... Please contact administrator for more information
+		</div>
+
+		} @placeholder (minimum 1s){
+
+		<div class="d-flex justify-content-center align-items-center display-3">
+			<i class="fa-solid fa-spinner fa-spin-pulse"></i>
+		</div>
+
+		}
+	</div>
+</div>

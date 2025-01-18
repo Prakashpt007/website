@@ -1,0 +1,536 @@
+<div class="d-flex justify-content-between align-items-center stickyHeader" style="overflow: hidden;">
+  <h5 class="m-0" style="display: flex;align-items: center;gap: 0.75rem;">
+    <a [routerLink]="['/finance-qa/leased-land/list']" [queryParams]="backUrlParams" style="font-size: 80%;color: inherit;"><i class="fa-solid fa-arrow-left"></i> </a>
+    Land Details
+  </h5>
+</div>
+
+<div class="row align-items-start" [@fade]>
+  <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-5 col-xxl-4">
+    <form [formGroup]="form" (ngSubmit)="formSubmit()" novalidate>
+
+      <div class="row" style="max-width:initial;">
+        <div class="col-12">
+          <div class="container-fluid p-0">
+            <div class="card formCard mb-2" style="max-width: initial;">
+              <div class="card-header bg-body-secondary bg-gradient">
+                <h6 class=" m-0 d-flex gap-2 align-items-center"><i class="fa-regular fa-building"></i> Details</h6>
+              </div>
+
+              @if (formData!= undefined) {
+
+                <div class="card-body">
+                  <!--Ownership Type-->
+                  <div class="mb-3 row">
+                    <label for="ownershipType" [ngClass]="form.get('ownershipType')?.disabled ? 'disabled': ''" class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-4 col-xxl-4 col-form-label-sm pe-xl-0 pe-xxl-0">
+                      <span>Ownership</span>
+
+                      @if (formData['ownershipType'].required) {<span class="required ms-1" [title]="'Required'">*</span>}
+
+                    </label>
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-8 col-xxl-8">
+
+                      <select class="form-select form-select-sm" formControlName="ownershipType" [ngClass]="{'is-invalid': formSubmitHandler && f['ownershipType'].errors}">
+                        <option selected value="" disabled>Select Type</option>
+                        <option [value]="'OWNED'">Owned</option>
+                        <option [value]="'LEASED'">Leased</option>
+                      </select>
+
+                      @if (formSubmitHandler && f['ownershipType'].errors) {
+                        <div class="invalid-feedback">
+
+                          @if (f['ownershipType'].errors['required']) {
+
+                            <div>Please Select Ownership Type</div>
+
+                          }
+
+                          @if (form.get('ownershipType')?.hasError('backendError')) {
+
+                            <div>{{ form.get('ownershipType')?.getError('backendError') }}</div>
+
+                          }
+
+                        </div>
+
+                      }
+
+                    </div>
+                  </div>
+
+                  <!--Farm Name-->
+                  <div class="mb-3 row">
+                    <label for="farmName" [ngClass]="form.get('farmName')?.disabled ? 'disabled': ''" class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-4 col-xxl-4 col-form-label-sm pe-xl-0 pe-xxl-0">
+                      <span>Farm Name</span>
+
+                      @if (formData['farmName'].required) {<span class="required ms-1" [title]="'Required'">*</span>}
+
+                    </label>
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-8 col-xxl-8">
+                      <input type="text" class="form-control form-control-sm" id="farmName" placeholder="Please Enter Farm Name" formControlName="farmName" [ngClass]="{'is-invalid': formSubmitHandler && f['farmName'].errors}" [autocomplete]="0" />
+
+                      @if (formSubmitHandler && f['farmName'].errors) {
+                        <div class="invalid-feedback">
+
+                          @if (f['farmName'].errors['required']) {
+
+                            <div>Please Enter Farm Name</div>
+
+                          }
+
+                          @if (form.get('farmName')?.hasError('backendError')) {
+
+                            <div>{{ form.get('farmName')?.getError('backendError') }}</div>
+
+                          }
+
+                        </div>
+
+                      }
+
+                    </div>
+                  </div>
+
+                  <!--Owner Name-->
+                  <div class="mb-3 row">
+                    <label for="ownerName" [ngClass]="form.get('ownerName')?.disabled ? 'disabled': ''" class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-4 col-xxl-4 col-form-label-sm pe-xl-0 pe-xxl-0">
+                      <span>Owner Name</span>
+
+                      @if (formData['ownerName'].required) {<span class="required ms-1" [title]="'Required'">*</span>}
+
+                    </label>
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-8 col-xxl-8">
+                      <input type="text" class="form-control form-control-sm" id="ownerName" placeholder="Please Enter Owner Name" formControlName="ownerName" [ngClass]="{'is-invalid': formSubmitHandler && f['ownerName'].errors}" [autocomplete]="0" />
+
+                      @if (formSubmitHandler && f['ownerName'].errors) {
+                        <div class="invalid-feedback">
+
+                          @if (f['ownerName'].errors['required']) {
+
+                            <div>Please Enter Owner Name</div>
+
+                          }
+
+                          @if (form.get('ownerName')?.hasError('backendError')) {
+
+                            <div>{{ form.get('ownerName')?.getError('backendError') }}</div>
+
+                          }
+
+                        </div>
+
+                      }
+
+                    </div>
+                  </div>
+
+                  <!--Lessor-->
+                  <div class="mb-3 row">
+                    <label for="lessor" [ngClass]="form.get('lessor')?.disabled ? 'disabled': ''" class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-4 col-xxl-4 col-form-label-sm pe-xl-0 pe-xxl-0">
+                      <span>Lessor</span>
+                      @if (formData['lessor'].required) {<span class="required ms-1" [title]="'Required'">*</span>}
+                    </label>
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-8 col-xxl-8">
+                      <input type="text" class="form-control form-control-sm" id="lessor" placeholder="Please Enter Lessor" formControlName="lessor" [ngClass]="{'is-invalid': formSubmitHandler && f['lessor'].errors}" [autocomplete]="0" />
+
+                      @if (formSubmitHandler && f['lessor'].errors) {
+                        <div class="invalid-feedback">
+
+                          @if (f['lessor'].errors['required']) {
+
+                            <div>Please Enter Lessor Name</div>
+
+                          }
+
+                          @if (form.get('lessor')?.hasError('backendError')) {
+
+                            <div>{{ form.get('lessor')?.getError('backendError') }}</div>
+
+                          }
+
+                        </div>
+
+                      }
+                    </div>
+                  </div>
+
+                  <!--Lessees-->
+                  <div class="mb-3 row">
+                    <label for="lessees" [ngClass]="form.get('lessees')?.disabled ? 'disabled': ''" class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-4 col-xxl-4 col-form-label-sm pe-xl-0 pe-xxl-0">
+                      <span>Lessees</span>
+                      @if (formData['lessees'].required) {<span class="required ms-1" [title]="'Required'">*</span>}
+                    </label>
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-8 col-xxl-8">
+                      <input type="text" class="form-control form-control-sm" id="lessees" placeholder="Please Enter Lessees" formControlName="lessees" [ngClass]="{'is-invalid': formSubmitHandler && f['lessees'].errors}" [autocomplete]="0" />
+
+                      @if (formSubmitHandler && f['lessees'].errors) {
+                        <div class="invalid-feedback">
+
+                          @if (f['lessees'].errors['required']) {
+
+                            <div>Please Enter Lessees</div>
+
+                          }
+
+                          @if (form.get('lessees')?.hasError('backendError')) {
+
+                            <div>{{ form.get('lessees')?.getError('backendError') }}</div>
+
+                          }
+
+                        </div>
+
+                      }
+                    </div>
+                  </div>
+
+                  <!--Registration No.-->
+                  <div class="mb-3 row">
+                    <label for="registrationNo" [ngClass]="form.get('registrationNo')?.disabled ? 'disabled': ''" class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-4 col-xxl-4 col-form-label-sm pe-xl-0 pe-xxl-0">
+                      <span>Registration No.</span>
+                      @if (formData['registrationNo'].required) {<span class="required ms-1" [title]="'Required'">*</span>}
+                    </label>
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-8 col-xxl-8">
+                      <input type="text" class="form-control form-control-sm" id="registrationNo" placeholder="Please Enter Registration No." formControlName="registrationNo" [ngClass]="{'is-invalid': formSubmitHandler && f['registrationNo'].errors}" [autocomplete]="0" />
+
+                      @if (formSubmitHandler && f['registrationNo'].errors) {
+                        <div class="invalid-feedback">
+
+                          @if (f['registrationNo'].errors['required']) {
+
+                            <div>Please Enter Lessor Name</div>
+
+                          }
+
+                          @if (form.get('registrationNo')?.hasError('backendError')) {
+
+                            <div>{{ form.get('registrationNo')?.getError('backendError') }}</div>
+
+                          }
+
+                        </div>
+
+                      }
+                    </div>
+                  </div>
+
+                  <!--Mutation No.-->
+                  <div class="mb-3 row">
+                    <label for="mutationNo" [ngClass]="form.get('mutationNo')?.disabled ? 'disabled': ''" class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-4 col-xxl-4 col-form-label-sm pe-xl-0 pe-xxl-0">
+                      <span>Mutation No.</span>
+                      @if (formData['mutationNo'].required) {<span class="required ms-1" [title]="'Required'">*</span>}
+                    </label>
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-8 col-xxl-8">
+                      <input type="text" class="form-control form-control-sm" id="mutationNo" placeholder="Please Enter Mutation No." formControlName="mutationNo" [ngClass]="{'is-invalid': formSubmitHandler && f['mutationNo'].errors}" [autocomplete]="0" />
+
+                      @if (formSubmitHandler && f['mutationNo'].errors) {
+                        <div class="invalid-feedback">
+
+                          @if (f['mutationNo'].errors['required']) {
+
+                            <div>Please Enter Mutation No.</div>
+
+                          }
+
+                          @if (form.get('mutationNo')?.hasError('backendError')) {
+
+                            <div>{{ form.get('mutationNo')?.getError('backendError') }}</div>
+
+                          }
+
+                        </div>
+
+                      }
+                    </div>
+                  </div>
+
+                  <!--Sale Deed No.-->
+                  <div class="mb-3 row">
+                    <label for="saleDeedNo" [ngClass]="form.get('saleDeedNo')?.disabled ? 'disabled': ''" class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-4 col-xxl-4 col-form-label-sm pe-xl-0 pe-xxl-0">
+                      <span>Sale Deed No.</span>
+                      @if (formData['saleDeedNo'].required) {<span class="required ms-1" [title]="'Required'">*</span>}
+                    </label>
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-8 col-xxl-8">
+                      <input type="text" class="form-control form-control-sm" id="saleDeedNo" placeholder="Please Enter Sale Deed No." formControlName="saleDeedNo" [ngClass]="{'is-invalid': formSubmitHandler && f['saleDeedNo'].errors}" [autocomplete]="0" />
+
+                      @if (formSubmitHandler && f['saleDeedNo'].errors) {
+                        <div class="invalid-feedback">
+
+                          @if (f['saleDeedNo'].errors['required']) {
+
+                            <div>Please Enter Mutation No.</div>
+
+                          }
+
+                          @if (form.get('saleDeedNo')?.hasError('backendError')) {
+
+                            <div>{{ form.get('saleDeedNo')?.getError('backendError') }}</div>
+
+                          }
+
+                        </div>
+
+                      }
+                    </div>
+                  </div>
+
+                  <!--Leased From Dates-->
+                  <div class="mb-3 row">
+                    <label for="leasedFromDate" [ngClass]="form.get('leasedFromDate')?.disabled ? 'disabled': ''" class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-4 col-xxl-4 col-form-label-sm pe-xl-0 pe-xxl-0">
+                      <span>Leased From Date</span>
+                      @if (formData['leasedFromDate'].required) {<span class="required ms-1" [title]="'Required'">*</span>}
+                    </label>
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-8 col-xxl-8">
+                      <input type="date" class="form-control form-control-sm" id="leasedFromDate" [min]="getMaxBackDate()" [max]="getMinFutureDate()" formControlName="leasedFromDate" [ngClass]="{'is-invalid': formSubmitHandler && f['leasedFromDate'].errors}" />
+
+
+                      @if (formSubmitHandler && f['leasedFromDate'].errors) {
+                        <div class="invalid-feedback">
+
+                          @if (f['leasedFromDate'].errors['required']) {
+
+                            <div>Please Select Leased From Date</div>
+
+                          }
+
+                          @if (f['leasedFromDate'].errors['min']) {
+
+                            <div>Date Must Be After {{ getMaxBackDate() | date:'dd-MMM-yyyy' }}</div>
+
+                          }
+
+                          @if (f['leasedFromDate'].errors['max']) {
+
+                            <div>Date Must Be Before {{ getMinFutureDate() | date:'dd-MMM-yyyy' }}</div>
+
+                          }
+
+                          @if (form.get('leasedFromDate')?.hasError('backendError')) {
+
+                            <div>{{ form.get('leasedFromDate')?.getError('backendError') }}</div>
+
+                          }
+
+                        </div>
+
+                      }
+                    </div>
+                  </div>
+
+                  <!--Leased Till Dates-->
+                  <div class="mb-3 row">
+                    <label for="leasedTillDate" [ngClass]="form.get('leasedTillDate')?.disabled ? 'disabled': ''" class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-4 col-xxl-4 col-form-label-sm pe-xl-0 pe-xxl-0">
+                      <span>Leased Till Date</span>
+                      @if (formData['leasedTillDate'].required) {<span class="required ms-1" [title]="'Required'">*</span>}
+                    </label>
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-8 col-xxl-8">
+                      <input type="date" class="form-control form-control-sm" id="leasedTillDate" [min]="getRestrictBackDate()" [max]="getRestrictFutureDate()" formControlName="leasedTillDate" [ngClass]="{'is-invalid': formSubmitHandler && f['leasedTillDate'].errors}" />
+
+                      @if (formSubmitHandler && f['leasedTillDate'].errors) {
+                        <div class="invalid-feedback">
+
+                          @if (f['leasedTillDate'].errors['required']) {
+
+                            <div>Please Select Leased Till Date</div>
+
+                          }
+
+                          @if (f['leasedTillDate'].errors['min']) {
+
+                            <div>Date Must Be After {{ getRestrictBackDate() | date:'dd-MMM-yyyy' }}</div>
+
+                          }
+
+                          @if (f['leasedTillDate'].errors['max']) {
+
+                            <div>Date Must Be Before {{ getRestrictFutureDate() | date:'dd-MMM-yyyy' }}</div>
+
+                          }
+
+                          @if (form.get('leasedTillDate')?.hasError('backendError')) {
+
+                            <div>{{ form.get('leasedTillDate')?.getError('backendError') }}</div>
+
+                          }
+
+                        </div>
+
+                      }
+                    </div>
+
+                  </div>
+
+                  <!--Documented Area Sqm-->
+                  <div class="mb-3 row">
+                    <label for="documentedAreaSqm" [ngClass]="form.get('documentedAreaSqm')?.disabled ? 'disabled': ''" class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-4 col-xxl-4 col-form-label-sm pe-xl-0 pe-xxl-0">
+                      <span>Documented Area</span>
+                      @if (formData['documentedAreaSqm'].required) {<span class="required ms-1" [title]="'Required'">*</span>}
+                    </label>
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-8 col-xxl-8">
+                      <div class="input-group input-group-sm" [ngClass]="{'is-invalid': formSubmitHandler && f['documentedAreaSqm'].errors}">
+                        <input type="number" class="form-control form-control-sm" [min]="1" id="documentedAreaSqm" onKeyPress="if(this.value.length==3) return false;" placeholder="Please Enter Area" formControlName="documentedAreaSqm" [ngClass]="{'is-invalid': f['documentedAreaSqm'].errors}" [autocomplete]="0" />
+                        <div class="input-group-text">Square Meter</div>
+                      </div>
+
+                      @if (formSubmitHandler && f['documentedAreaSqm'].errors) {
+                        <div class="invalid-feedback">
+
+                          @if (f['documentedAreaSqm'].errors['required']) {
+
+                            <div>Please Enter Documented Area Sqm</div>
+
+                          }
+
+                          @if (f['documentedAreaSqm'].errors['min']) {
+
+                            <div>Please Enter At Least 1 Sqm Area</div>
+
+                          }
+
+                          @if (form.get('documentedAreaSqm')?.hasError('backendError')) {
+
+                            <div>{{ form.get('documentedAreaSqm')?.getError('backendError') }}</div>
+
+                          }
+
+                        </div>
+
+                      }
+
+                    </div>
+                  </div>
+
+                  <!--Survey No-->
+                  <div class="mb-3 row">
+                    <label for="surveyNo" [ngClass]="form.get('surveyNo')?.disabled ? 'disabled': ''" class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-4 col-xxl-4 col-form-label-sm pe-xl-0 pe-xxl-0">
+                      <span>Survey No.</span>
+                      @if (formData['surveyNo'].required) {<span class="required ms-1" [title]="'Required'">*</span>}
+                    </label>
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-8 col-xxl-8">
+                      <input type="text" class="form-control form-control-sm" id="surveyNo" placeholder="Please Enter Survey No." formControlName="surveyNo" [ngClass]="{'is-invalid': formSubmitHandler && f['surveyNo'].errors}" [autocomplete]="0" />
+                      @if (formSubmitHandler && f['surveyNo'].errors) {
+                        <div class="invalid-feedback">
+
+                          @if (f['surveyNo'].errors['required']) {
+
+                            <div>Please Enter Survey No.</div>
+
+                          }
+
+                          @if (form.get('surveyNo')?.hasError('backendError')) {
+
+                            <div>{{ form.get('surveyNo')?.getError('backendError') }}</div>
+
+                          }
+
+                        </div>
+
+                      }
+                    </div>
+                  </div>
+
+                  <!--Region-->
+                  <div class="mb-3 row">
+                    <label for="regionId" [ngClass]="form.get('regionId')?.disabled ? 'disabled': ''" class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-4 col-xxl-4 col-form-label-sm pe-xl-0 pe-xxl-0">
+                      <span>Region</span>
+                      @if (formData['regionId'].required) {<span class="required ms-1" [title]="'Required'">*</span>}
+                    </label>
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-8 col-xxl-8">
+                      <select class="form-select form-select-sm" formControlName="regionId" (change)="regionChangeEvent($event)" [ngClass]="{'is-invalid': formSubmitHandler && f['regionId'].errors}">
+                        <option selected value="" disabled>Select</option>
+                        @for (item of regionList; track item) {
+                          <option [value]="item.value">{{item.label}}</option>
+                        }
+                      </select>
+                      @if (formSubmitHandler && f['regionId'].errors) {
+                        <div class="invalid-feedback">
+
+                          @if (f['regionId'].errors['required']) {
+
+                            <div>Please Select Region</div>
+
+                          }
+
+                          @if (form.get('regionId')?.hasError('backendError')) {
+
+                            <div>{{ form.get('regionId')?.getError('backendError') }}</div>
+
+                          }
+
+                        </div>
+
+                      }
+                    </div>
+                  </div>
+
+                  <!--Warehouse Id-->
+                  <div class="mb-3 row">
+                    <label for="warehouseId" [ngClass]="form.get('warehouseId')?.disabled ? 'disabled': ''" class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-4 col-xxl-4 col-form-label-sm pe-xl-0 pe-xxl-0">
+                      <span>Warehouse</span>
+                      @if (formData['warehouseId'].required) {<span class="required ms-1" [title]="'Required'">*</span>}
+                    </label>
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-8 col-xxl-8">
+                      <select class="form-select form-select-sm" formControlName="warehouseId" [ngClass]="{'is-invalid': formSubmitHandler && f['warehouseId'].errors}">
+                        <option selected value="" disabled>Select</option>
+                        @for (item of warehouseList; track item) {
+                          <option [value]="item.value">{{item.label}}</option>
+                        }
+                      </select>
+                      @if (formSubmitHandler && f['warehouseId'].errors) {
+                        <div class="invalid-feedback">
+
+                          @if (f['warehouseId'].errors['required']) {
+
+                            <div>Please Select Warehouse</div>
+
+                          }
+
+                          @if (form.get('warehouseId')?.hasError('backendError')) {
+
+                            <div>{{ form.get('warehouseId')?.getError('backendError') }}</div>
+
+                          }
+
+                        </div>
+
+                      }
+                    </div>
+                  </div>
+                </div>
+
+                <div class="card-footer">
+
+                  <div class="text-center">
+                    <button type="submit" class="btn btn-primary btn-sm" [disabled]="!form.dirty">Update</button>
+                  </div>
+                </div>
+
+              }
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-7 col-xxl-8">
+    @defer (on viewport) {
+
+    <app-doc-approve-reject-modal [docsData]="docs" [requestUrl]="pageId+ '/land-doc-validation'" (docRejected)="getRejectedSts($event)" (docApproved)="getApprovedSts($event)"></app-doc-approve-reject-modal>
+
+    } @error {
+
+    <div class="alert alert-warning" role="alert">
+      Loading Failed... Please contact administrator for more information
+    </div>
+
+    } @placeholder (minimum 1s){
+
+    <div class="d-flex justify-content-center align-items-center display-3">
+      <i class="fa-solid fa-spinner fa-spin-pulse"></i>
+    </div>
+
+  }
+</div>
+</div>

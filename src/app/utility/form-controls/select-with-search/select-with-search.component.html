@@ -1,0 +1,123 @@
+<div class="d-flex align-items-center gap-3">
+	<mat-form-field class="example-full-width" appearance="outline">
+		<mat-label>{{ componentData.label }}</mat-label>
+
+		@if(componentData.prefix!= undefined && componentData.prefix.type == 'text'){
+		<span matTextPrefix>{{componentData.prefix.value}}&nbsp;&nbsp;</span>
+		}
+
+		@if(componentData.prefix!= undefined && componentData.prefix.type == 'icon') {
+		<span matTextPrefix>
+			<i [class]="componentData.prefix.value"></i>&nbsp;&nbsp;
+		</span>
+		}
+
+		@if(componentData.prefix!= undefined && componentData.prefix.type == 'matIcon') {
+		<mat-icon matPrefix>{{componentData.prefix.value}}</mat-icon>
+		}
+
+		<mat-select (openedChange)="openedChange($event)" placeholder="Select" [formControl]="selectFormControl" [disableOptionCentering]="true" [required]="this.componentData.validators?.required">
+
+			<mat-select-trigger>
+				{{ getSelectedOptionNames(selectedValue) }}
+			</mat-select-trigger>
+			<div class="select-container" style="width: 100%;">
+				<mat-optgroup>
+					<mat-form-field style="width: 100%;">
+						<input #search autocomplete="off" placeholder="Search" aria-label="Search" matInput [formControl]="searchTextboxControl">
+
+						@if (searchTextboxControl.value) {
+
+						<button [disableRipple]="true" matSuffix mat-icon-button aria-label="Clear" (click)="clearSearch($event)">
+							<i class="material-icons">close</i>
+						</button>
+
+						}
+
+					</mat-form-field>
+				</mat-optgroup>
+
+				@if ((filteredOptions | async)?.length === 0) {
+				<div class="p-3">Result Not found..!</div>
+				}
+
+				@for (option of filteredOptions | async; track option.value) {
+
+				<mat-option (onSelectionChange)="selectionChangeEvent($event)" [value]="option.value">
+					{{option.label}}
+				</mat-option>
+
+				}
+			</div>
+		</mat-select>
+
+		@if(componentData.suffix!= undefined && componentData.suffix.type == 'text'){
+		<span matTextSuffix>
+			&nbsp;&nbsp;{{componentData.suffix.value}}</span>
+		}
+
+		@if(componentData.suffix!= undefined && componentData.suffix.type == 'icon') {
+		<span matTextSuffix>
+			&nbsp;&nbsp;<i [class]="componentData.suffix.value"></i>
+		</span>
+		}
+
+		@if(componentData.suffix!= undefined && componentData.suffix.type == 'matIcon') {
+		<mat-icon matSuffix>{{componentData.suffix.value}}</mat-icon>
+		}
+
+	</mat-form-field>
+
+	@if(componentData.name == 'type' && componentData.label.includes('Channel')){
+
+	<button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#channelInfoModal">
+		<i class="fa-solid fa-question"></i>
+	</button>
+
+	<!-- Modal -->
+	<div class="modal fade" id="channelInfoModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h6 class="modal-title w-100 d-flex justify-content-between align-items-center" id="modal-basic-title">
+						<span>Channel Info</span>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</h6>
+				</div>
+				<div class="modal-body">
+					<div class="alert alert-info" role="alert">
+						<ul>
+							<li>
+								<strong>Text Editor:</strong>
+								<p>A simple, no-frills editor for plain text input without any formatting options.</p>
+							</li>
+							<li>
+								<strong>Basic Editor:</strong>
+								<p>Offers minimal formatting like bold, italic, and underline to style your text.</p>
+							</li>
+							<li>
+								<strong>Standard Editor:</strong>
+								<p>Includes basic formatting plus features like bullet points, alignment, including source code, and hyperlinks.</p>
+							</li>
+							<li>
+								<strong>Pro Editor:</strong>
+								<p>Advanced tools for rich text editing, heading tags, font familiy, color, background color options.</p>
+							</li>
+							<li>
+								<strong>Elite Editor:</strong>
+								<p>Comprehensive editing with all Pro features plus like font size, media embedding.</p>
+							</li>
+						</ul>
+
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-sm btn-primary" data-bs-dismiss="modal">Understood</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	}
+
+</div>

@@ -1,0 +1,136 @@
+<div class="d-flex justify-content-between align-items-center stickyHeader" style="overflow: hidden;">
+	<h5 class="m-0" style="display: flex;align-items: center;gap: 0.75rem;">
+		<a [routerLink]="['/geo-qa/geo-plot/list']" [queryParams]="backUrlParams" style="font-size: 80%;color: inherit;"><i class="fa-solid fa-arrow-left"></i> </a> Geo Plot Area
+	</h5>
+</div>
+
+
+<div class="row align-items-start" [@fade]>
+	<div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-9 col-xxl-9">
+		<div class="container-fluid p-0">
+			<div class="card border-0 formCard mb-2" style="max-width: initial;">
+				<div class="card-body p-0">
+					<app-kml-preview [data]="geoPoints" [plottedarea]="plottedArea"></app-kml-preview>
+					@if (mapStatus=='VALIDATION_DONE') {
+					<div class="overlay-approved"></div>
+					} @else if (mapStatus=='VALIDATION_FAILED') {
+					<div class="overlay-failed"></div>
+					} @else {
+
+					}
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="col-12 col-sm-12 col-md-12 col-lg-12 mt-4 mt-xl-0 col-xl-3 col-xxl-3">
+		<div class="card mb-4" style="max-width: initial;overflow: hidden;">
+			<div class="card-header bg-body-secondary bg-gradient">
+				<h6 class="m-0 d-flex gap-2 align-items-center">Details</h6>
+			</div>
+			<div class="card-body p-0" style="min-height: auto; padding-bottom: 3px !important;">
+				<table class="table m-0">
+					<tbody>
+						<tr>
+							<td>Documented Area</td>
+							<td>{{documentedArea}}</td>
+						</tr>
+						<tr>
+							<td>Plotted Area</td>
+							<td>{{plottedArea}}</td>
+						</tr>
+						<!-- <tr style="border-top: solid 3px rgb(123 123 123 / 50%);"> -->
+						<tr style="border-top: solid 2px rgb(123 123 123 / 70%);">
+							<td>Area Difference</td>
+							<td>{{documentedArea - plottedArea}}</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+
+		<div class="card mb-4" style="max-width: initial;">
+			<div class="card-header bg-body-secondary bg-gradient">
+				<h6 class="m-0 d-flex gap-2 align-items-center">Action</h6>
+			</div>
+			<div class="card-body">
+				<form [formGroup]="rejectionForm" (ngSubmit)="reject(pageId, rejectionForm.get('rejectReason')?.value)" novalidate>
+
+					<select class="form-select mb-2" id="rejectReason" formControlName="rejectReason">
+						<option selected value="" disabled>Select Reason</option>
+
+						@for (options of rejectionReasonList; track options) {
+
+						<option [value]="options.value">{{options.label}}</option>
+						}
+					</select>
+
+					@if (mapStatus=='VALIDATION_FAILED') {
+					<button type="button" [disabled]="true" class="btn btn-danger w-100">Rejected</button>
+					} @else {
+					<button type="button" (click)="reject(pageId, rejectionForm.get('rejectReason')?.value)" [disabled]="rejectionForm.get('rejectReason')?.value == '' || rejectionForm.get('rejectReason')?.value == null" class="btn btn-danger w-100">Reject</button>
+					}
+
+					<div class="orDivider">
+						<div class="col space"></div>
+						<span class="col-auto px-2">OR</span>
+						<div class="col space"></div>
+					</div>
+
+					<div class="mb-3">
+						@if (mapStatus!='VALIDATION_DONE') {
+
+						@if (mapStatus=='VALIDATION_FAILED') {
+						<div class="text-center">
+							<span class="badge bg-gradient text-bg-danger" style="min-width: fit-content;">Rejected</span>
+						</div>
+
+						} @else {
+						<div class="text-center">
+							<button type="button" (click)="approve(pageId)" class="btn btn-primary w-100" style="min-width: fit-content;">Mark As Approved</button>
+						</div>
+						}
+
+						} @else {
+						<div class="text-center">
+							<span class="badge bg-gradient text-bg-success" style="min-width: fit-content;">Approved</span>
+						</div>
+
+						}
+					</div>
+				</form>
+			</div>
+		</div>
+
+
+	</div>
+</div>
+
+<ng-template #rejectModal let-c="close" let-d="dismiss">
+	<div class="modal-header bg-danger text-white bg-gradient py-2">
+		<h6 class="modal-title" id="modal-basic-title">Confirmation</h6>
+		<button type="button" class="btn-close" aria-label="Close" (click)="d('Cross click')"></button>
+	</div>
+	<div class="modal-body">
+		<p>Are you sure you want to reject this Geo Plot? Please confirm your decision</p>
+	</div>
+	<div class="modal-footer d-flex justify-content-between">
+		<button type="button" class="btn btn-danger bg-gradient" (click)="c('Confirm click')">Confirm.!</button>
+		<button type="button" class="btn btn-secondary bg-gradient" (click)="d('Cancel click')">Cancel</button>
+	</div>
+</ng-template>
+
+<ng-template #approveModal let-c="close" let-d="dismiss">
+	<div class="modal-header bg-success text-white bg-gradient py-2">
+		<h6 class="modal-title" id="modal-basic-title">Confirmation</h6>
+		<button type="button" class="btn-close" aria-label="Close" (click)="d('Cross click')"></button>
+	</div>
+	<div class="modal-body">
+		<p>Are you sure you want to approved this Geo Plot? Please confirm your decision</p>
+	</div>
+	<div class="modal-footer d-flex justify-content-between">
+		<button type="button" class="btn btn-sm btn-success bg-gradient" (click)="c('Confirm click')">Confirm.!</button>
+		<button type="button" class="btn btn-sm btn-secondary bg-gradient" (click)="d('Cancel click')">Cancel</button>
+	</div>
+</ng-template>

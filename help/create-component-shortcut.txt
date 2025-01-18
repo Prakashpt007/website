@@ -1,0 +1,42 @@
+FINANCE_KYC
+//------------ Create Components -------------//
+ng g c views/geo-qa/farmer-warehouse-geo-tag/list/farmer-warehouse-geo-tag-list --flat --skip-tests
+ng g c views/geo-qa/farmer-warehouse-geo-tag/form/farmer-warehouse-geo-tag-form --flat --skip-tests
+
+
+
+//------------ create Module with routing -------------//
+ng g m views/geo-qa --routing
+
+
+company-warehouse-geo-tag
+
+
+//------------ create component without folder, import and test, and standalone -------------//
+
+ng g c views/containers/default-layout/main-container --flat --skip-tests --standalone
+
+//------------ //
+
+ng update @angular/cli
+ng update @angular/core
+ng update rxjs
+
+ng update
+
+
+ng update @angular/cli @angular/core --allow-dirty or
+ng update @angular/cli @angular/core --allow-dirty --force
+
+//--------------------Migrating----------------------------//
+
+Migrating to @switch using the Angular CLI
+The Angular CLI has a command that can be used to migrate from ngSwitch to @switch:
+-------
+ng generate @angular/core:control-flow
+This command will migrate all the *ngSwitch directives in your project to the new syntax, and it will do the same for @if and @for.
+
+
+//--------------------update angular----------------------------//
+
+ng update @angular-devkit/build-angular @angular/animations @angular/cdk @angular/cli @angular/common @angular/compiler @angular/compiler-cli @angular/core @angular/forms @angular/material @angular/material-moment-adapter @angular/platform-browser @angular/platform-browser-dynamic @angular/router @ngrx/store --allow-dirty

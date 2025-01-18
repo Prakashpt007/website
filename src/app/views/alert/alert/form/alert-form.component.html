@@ -1,0 +1,205 @@
+@if (showFormBuilder) {
+<!-- <app-formbuilder [backUrl]="backUrl" [componentData]="componentData" [formErrorData]="formErrorData" [formActivity]="formActivity" (formBuilderSubmit)="getFormValuesFromBuilder($event)">
+</app-formbuilder> -->
+
+
+<form class="col-12 col-sm-12 col-md-12 col-lg" [formGroup]="dynamicForm" (ngSubmit)="saveForm()" novalidate>
+	<div class="card">
+		<div class="card-header fw-bold bg-body-secondary bg-gradient d-flex justify-content-between">
+
+			@if (formActivity=='add') {
+
+			<span>Single Entry Form</span>
+
+			} @else {
+
+			<span>Edit Form</span>
+
+			}
+
+			<a [routerLink]="[backUrl]" [queryParams]="backUrlParams" class="custom-link-btn">
+				<i class="fa-solid fa-list"></i>
+				<span class="desktop-view-only">Back To List</span>
+			</a>
+		</div>
+		<div class="card-body" style="max-height: calc(100svh - 15.75rem);overflow: auto; padding-bottom: 0;">
+			<div class="row">
+				@for (field of componentData.fields; track field) {
+
+				@switch (field.type) {
+				<!-- Text Type -->
+				@case ('text') {
+
+				<div class="col-12 col-sm-12 col-md-12 mb-4 col-lg-6 col-xl-6 col-xxl-4">
+					<mat-form-field appearance="outline" class="example-full-width" [ngClass]="field.validators.readonly? 'mdc-text-field--readonly':''">
+						<mat-label>{{field.label}}</mat-label>
+						<input matInput type="text" maxlength="{{field.validators.maxLength}}" minlength="{{field.validators.minLength}}" [readonly]="field.validators.readonly" [formControlName]="field.name" autocomplete="disabled">
+					</mat-form-field>
+
+					@if (field.validators.maxLength) {
+					<mat-hint class="d-flex justify-content-between" style="font-size: 0.75rem;margin: 0.125rem 0;">
+						<span>Max {{field.validators.maxLength}} characters</span>
+						<span>{{dynamicForm.get(field.name)?.value.length}}/{{field.validators.maxLength}}</span>
+					</mat-hint>
+					}
+
+					@if(dynamicForm.get(field.name)?.hasError('backendError')){
+
+					<mat-error>
+						{{ dynamicForm.get(field.name)?.getError('backendError') }}
+					</mat-error>
+
+					}
+
+					@if(dynamicFormSubmitHandler && f[field.name].errors){
+
+					@if(f[field.name].errors?.['required']){
+
+					<mat-error>
+						{{field.label}} is <strong>required</strong>
+					</mat-error>
+
+					}
+
+					@if(f[field.name].errors?.['maxlength']){
+
+					<mat-error>
+						Please Enter Less Than <strong>{{field.validators.maxLength}}</strong> Characters.
+					</mat-error>
+
+					}
+
+					@if(f[field.name].errors?.['minlength']){
+
+					<mat-error>
+						Please Enter At Least <strong>{{field.validators.minLength}}</strong> Characters.
+					</mat-error>
+
+					}
+
+					}
+
+				</div>
+
+				}
+
+				<!-- Checkbox Type -->
+				@case ('checkbox') {
+
+				<div class="col-12 col-sm-12 col-md-12 mb-4">
+					<section class="example-section" [ngClass]="{'is-invalid': dynamicFormSubmitHandler && dynamicForm.get(field.name)?.invalid}">
+						<mat-label class="upsideLabel">{{field.label}} @if(field.validators.required) {<span>*</span>}</mat-label>
+						<app-checkbox [componentData]="field" [optionData]="field.options" (checkboxUpdate)="onCheckboxUpdate($event)"></app-checkbox>
+					</section>
+
+					@if(dynamicForm.get(field.name)?.hasError('backendError')){
+
+					<mat-error>
+						{{ dynamicForm.get(field.name)?.getError('backendError') }}
+					</mat-error>
+
+					}
+
+					@if(dynamicFormSubmitHandler && f[field.name].errors){
+
+					@if(f[field.name].errors?.['required']){
+
+					<mat-error>
+						{{field.label}} is <strong>required</strong>
+					</mat-error>
+
+					}
+
+					}
+				</div>
+
+				}
+				}
+				}
+			</div>
+
+			@if(editorDetails.length >0){
+			<div class="card mb-4">
+				<mat-tab-group dynamicHeight [backgroundColor]="background" mat-stretch-tabs="true" mat-align-tabs="start" #tabGroup>
+					@for (item of editorDetails; track $index) {
+					@let channelId = item.value;
+
+					@switch (item.type) {
+
+					@case("textEditor"){
+					<mat-tab [label]="item.label">
+						<!-- <app-text-editor [editorId]="item.value" [editorValue]="item.template_text" (editorContent)="getEditorData($event)" /> -->
+						<app-text-editor [editorId]="item.value" [componentFormData]="dynamicForm.value" [channelId]="channelId" [channelName]="item.label" [editorValue]="item.template_text" (editorContent)="getEditorData($event)" />
+					</mat-tab>
+					}
+
+					@case("basicEditor"){
+					<mat-tab [label]="item.label">
+						<app-ng-basic-editor [editorId]="item.value" [componentFormData]="dynamicForm.value" [channelId]="channelId" [channelName]="item.label" [editorValue]="item.template_text" (editorContent)="getEditorData($event)" />
+					</mat-tab>
+
+					}
+
+					@case("standardEditor"){
+					<mat-tab [label]="item.label">
+						<app-ng-standard-editor [editorId]="item.value" [componentFormData]="dynamicForm.value" [channelId]="channelId" [channelName]="item.label" [editorValue]="item.template_text" (editorContent)="getEditorData($event)" />
+					</mat-tab>
+					}
+
+					@case("proEditor"){
+					<mat-tab [label]="item.label">
+						<app-ng-pro-editor [editorId]="item.value" [componentFormData]="dynamicForm.value" [channelId]="channelId" [channelName]="item.label" [editorValue]="item.template_text" (editorContent)="getEditorData($event)" />
+					</mat-tab>
+					}
+
+					@case("eliteEditor"){
+					<mat-tab [label]="item.label">
+						<app-ng-elite-editor [editorId]="item.value" [componentFormData]="dynamicForm.value" [channelId]="channelId" [channelName]="item.label" [editorValue]="item.template_text" (editorContent)="getEditorData($event)" />
+					</mat-tab>
+					}
+
+					@default {
+					<mat-tab [label]="item.label">
+						Not Found
+						<!-- <app-ng-default-editor [editorId]="item.value" [componentFormData]="dynamicForm.value" [channelId]="channelId" [channelName]="item.label" [editorValue]="item.template_text" (editorContent)="getEditorData($event)" /> -->
+					</mat-tab>
+
+					}
+
+					}
+					}
+				</mat-tab-group>
+			</div>
+			}
+		</div>
+
+		<div class="card-footer" style="padding-block:0.875rem;">
+			<button type="submit" class="btn btn-primary btn-sm" [disabled]="valueSubmitting || !dynamicForm.dirty">
+				<!-- <button type="submit" [disabled]="valueSubmitting" class="btn btn-primary btn-sm"> -->
+
+				@if (formActivity=='edit') {
+
+				@if (valueSubmitting) {
+
+				<span class="spinner-border spinner-border-sm me-2" aria-hidden="true"></span>
+				<span role="status">Updating...</span>
+
+				} @else {Update}
+
+				} @else {
+
+				@if (valueSubmitting) {
+
+				<span class="spinner-border spinner-border-sm me-2" aria-hidden="true"></span>
+				<span role="status">Submitting...</span>
+
+				} @else {Submit}
+
+				}
+			</button>
+		</div>
+	</div>
+
+</form>
+
+}

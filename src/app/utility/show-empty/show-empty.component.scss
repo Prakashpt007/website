@@ -1,0 +1,45 @@
+.nullRecordFound {
+	position: relative;
+	color: red;
+	display: flex;
+	flex-wrap: wrap;
+	font-weight: bold;
+	align-items: center;
+
+	span.text {
+		flex: 0 0 auto;
+		width: auto;
+		padding-inline: 0.375rem;
+
+	}
+
+	span {
+		&.spacer {
+			flex: 1 0 0%;
+			position: relative;
+			text-align: right;
+			padding: 0;
+			font-size: 1.125rem;
+
+			&::before {
+				position: absolute;
+				content: "";
+				left: 0;
+				top: 50%;
+				width: calc(100% - 0.625rem);
+				height: 0.125rem;
+				background-color: red;
+				transform: translateY(-50%);
+			}
+
+			&.last {
+				text-align: left;
+
+				&::before {
+					right: 0;
+					left: unset;
+				}
+			}
+		}
+	}
+}

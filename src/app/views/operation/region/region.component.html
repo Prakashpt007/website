@@ -1,0 +1,111 @@
+<div class="container-fluid p-0 mb-2">
+	<div class="row">
+		<div class="col-auto">
+			<h2>Regional Data</h2>
+		</div>
+		<div class="col">
+			<div class="d-flex" style="margin: 0 0 0 auto !important;max-width: 21.25rem;align-items: center;">
+				<div class="d-flex" style="margin: 0 0 0 auto !important;max-width: 10.3125rem;align-items: center;">
+					<label for="filter" class="form-label col m-0">Filter : </label>
+					<div class="col-auto">
+						<select (change)="filterChange($event)" class="form-select form-select-sm">
+							<option value="">Select</option>
+
+							@for (item of filterDlList; track item) {
+
+							<option [selected]="filterObject.filter == item.value" [value]="item.value">{{ item.name }} </option>
+
+							}
+
+						</select>
+					</div>
+				</div>
+				<div class="d-flex" style="margin: 0 0 0 auto !important;max-width: 10.3125rem;align-items: center;">
+					<label for="region" class="form-label col m-0">Region : </label>
+					<div class="col-auto">
+						<select (change)="regionChange($event)" class="form-select form-select-sm">
+							<option value="">Select</option>
+
+							@for (item of regionDlList; track item) {
+
+							<option [selected]="filterObject.region == item.value" [value]="item.value">{{ item.name }} </option>
+
+							}
+
+						</select>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="container-fluid p-0">
+	<div class="row valueCardContainer">
+		<div class="col-xl-3 col-lg-4 col-md-12 col-sm-12 col-12 pe-md-3">
+			<div class="row">
+				<div style="overflow: auto;height: calc(100svh - 13.25rem);display: flex;flex-direction: column;justify-content: space-between;">
+
+					@for (item of operationalData; track item) {
+
+					<div class="col-xl-12 grid-margin stretch-card">
+						<div class="card">
+							<div class="card-body">
+								<div class="row align-items-center">
+									<div class="col">
+										<div class="d-flex align-items-center align-self-start fw-bold">
+											<h3 class="mb-0 value">{{convertedValue(item.value, item.type)}}</h3>
+										</div>
+										<div>
+											<h6 class="text-muted m-0">{{item.name}}</h6>
+										</div>
+									</div>
+
+									<div class="col-auto">
+										<div class="icon icon-box">
+											<i [class]="item.icon"></i>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					}
+
+				</div>
+			</div>
+		</div>
+
+		<div class="col-xl-9 col-lg-8 col-md-12 col-sm-12 col-12">
+			<div style="padding: 0 1.5rem;border: solid 0.0625rem var(--main-body-color);">
+				@if (showListBuilder) {
+
+				<app-listbuilder [componentListData]="componentListData" [filterComponentData]="filterComponentData" [editUrl]="editUrl" (fieldsOrder)="fieldsOrder($event)" (componentAction)="componentActionRequest($event)"></app-listbuilder>
+
+				}
+			</div>
+
+			@if (errorInListApi) {
+
+			<div class="alert alert-danger py-4 m-0" role="alert" style="--bs-alert-border-color: var(--main-card-bg-color);height: calc(100% - 2.5rem);margin: 0;">
+				<h4 class="d-flex align-items-center gap-2 justify-content-center">
+					<i class="fa-solid fa-circle-exclamation"></i>
+					<div>
+						<strong>Error Found!</strong>
+					</div>
+				</h4>
+				<div class="text-center mt-2">Please contact administrator for more information</div>
+			</div>
+
+			}
+
+			@if (listTableData.length > 0) {
+
+			<app-pagination [totalRecords]="count" [currentPage]="page" [recordsPerPage]="pageSize" [pageSizeList]="pageSizes" (onPageChange)="handlePageChange($event)" (onPageSizeChange)="handlePageSizeChange($event)"></app-pagination>
+
+			}
+
+		</div>
+	</div>
+</div>

@@ -1,0 +1,19 @@
+<!-- <mat-form-field appearance="outline" class="example-full-width">
+    <mat-label>{{field.label}}</mat-label>
+    <input matInput type="text" maxlength="{{field.validators.maxLength}}" minlength="{{field.validators.minLength}}" [formControlName]="field.name" autocomplete="disabled">
+</mat-form-field>
+
+<mat-error *ngIf="dynamicForm.get(field.name)?.hasError('backendError')">
+    {{ dynamicForm.get(field.name)?.getError('backendError') }}
+</mat-error>
+
+<mat-hint *ngIf="field.validators.maxLength" class="d-flex justify-content-between" style="font-size: 0.75rem;margin: 0.125rem 0;">
+    <span>Max {{field.validators.maxLength}} characters</span>
+    <span>{{dynamicForm.get(field.name)?.value.length}}/{{field.validators.maxLength}}</span>
+</mat-hint>
+
+<mat-error *ngIf="dynamicFormSubmitHandler && f[field.name].errors">
+    <mat-error *ngIf="f[field.name].errors?.['required']">
+        {{field.label}} is <strong>required</strong>
+    </mat-error>
+</mat-error> -->

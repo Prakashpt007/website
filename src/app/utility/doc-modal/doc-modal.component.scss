@@ -1,0 +1,70 @@
+::ng-deep {
+
+	.card-header {
+
+		::-webkit-scrollbar,
+		::-webkit-scrollbar-track,
+		::-webkit-scrollbar,
+		::-webkit-scrollbar-track {
+			height: 0 !important;
+		}
+	}
+
+
+	.nav-pills {
+		flex-wrap: nowrap;
+		overflow: auto;
+
+		li.nav-item {
+			min-width: fit-content;
+		}
+	}
+
+	@media only screen and (max-width: 992px) {
+		.card {
+			&.formCard {
+				max-height: none !important;
+
+				.card-body {
+					&.tabContent {
+						max-height: none !important;
+						height: auto !important;
+						min-height: max-content !important;
+					}
+				}
+			}
+		}
+	}
+}
+
+// //-----------------------------------------//
+// /* Basic navigation menu styling */
+// .nav-menu {
+// 	display: flex;
+// 	list-style: none;
+// 	padding: 0;
+// 	margin: 0;
+// 	position: relative;
+// }
+
+// .nav-link {
+// 	display: block;
+// 	padding: 10px 20px;
+// 	text-decoration: none;
+// 	color: #333;
+// 	position: relative;
+// }
+
+// .nav-menu::after {
+// 	content: '';
+// 	position: absolute;
+// 	bottom: 0;
+// 	height: 2px;
+// 	background-color: #007BFF;
+// 	transition: width 0.3s ease, left 0.3s ease;
+// }
+
+// .nav-link.active {
+// 	font-weight: bold;
+// 	/* To indicate active link */
+// }

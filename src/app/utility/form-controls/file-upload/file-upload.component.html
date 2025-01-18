@@ -1,0 +1,116 @@
+<form [formGroup]="dynamicForm" novalidate>
+	<section class="example-section" [ngClass]="{'is-invalid': dynamicFormSubmitHandler && dynamicForm.get(componentData.name)?.invalid || errorClass}">
+
+		<mat-label class="upsideLabel">{{componentData.label}} @if(componentData.validators.required){<span>*</span>}</mat-label>
+
+		@if(uploadFileName.length> 0){
+
+		<div class="mt-1 d-flex gap-2 align-items-center" style="font-size: 0.75rem;max-width: calc(100% - 37px);">
+
+			<span class="bg-primary bg-gradient text-white p-2 rounded w-100 justify-content-between align-items-center gap-2">
+
+				@if (uploadedFile) {
+				<div style="float: inline-start;padding-right: 10px;position: relative;border-radius: 5px;overflow: hidden;width: 36px;height: 36px;border: solid 2px rgb(255 255 255);margin-right: 10px;">
+					<img [title]="'Selected Image'" style="position: absolute;top: 0;left: 0;width: 100%;height: 100%;object-fit: cover;" [src]="uploadedFile" class="img-fluid rounded" role="button" (click)="thumbnailViewEvent(uploadedFile, componentData.label)" />
+				</div>
+				}
+				<div class="text-nowrap">
+					<div style="overflow: hidden;text-overflow: ellipsis;max-width: 100%;">{{uploadFileName}}</div>
+					<span class="badge text-bg-dark" [class]="dynamicClass(uploadOriginalFileSize)">{{uploadFileSize}}</span>
+				</div>
+			</span>
+			<span type="button" class="btn btn-danger btn-sm" (click)="cancelEvent()"><i class="fa-solid fa-xmark"></i></span>
+		</div>
+
+		}
+
+		<input hidden type="file" #fileUpload [formControlName]="componentData.name" [accept]="MIMEType" (change)="fileUploadEvent($event)">
+
+		@if(uploadBtnSts){
+
+		<button type="button" style=" min-width: 200px;" [disabled]="componentData.validators.readonly" class="btn btn-sm bg-gradient" [ngClass]="errorClass || dynamicFormSubmitHandler && dynamicForm.get(componentData.name)?.invalid ? 'btn-danger' : 'btn-primary'" (click)="fileUpload.click()"><i class="fa-solid fa-upload"></i> {{'Choose '+componentData.label}}</button>
+
+		}
+
+	</section>
+
+	@if(dynamicFormSubmitHandler && dynamicForm.get(componentData.name)?.invalid || errorClass){
+
+	<mat-error>Please Choose {{componentData.label}}</mat-error>
+
+	}
+
+
+	@if (selectedFile!= undefined || selectedFile!= '' || selectedFile!= null) {
+
+	@switch (selectedFile | extractFileExtension) {
+
+	@case ('jpg') {
+
+	<img [title]="'Stored Image'" style="border: solid 0.0625rem #717171 !important; width: 3.75rem;" [src]="selectedFile" class="img-fluid mt-2 rounded" role="button" (click)="thumbnailViewEvent(selectedFile, componentData.label)" />
+
+	}
+
+	@case ('jpeg') {
+
+	<img [title]="'Stored Image'" style="border: solid 0.0625rem #717171 !important; width: 3.75rem;" [src]="selectedFile" class="img-fluid mt-2 rounded" role="button" (click)="thumbnailViewEvent(selectedFile, componentData.label)" />
+
+	}
+
+	@case ('png') {
+
+	<img [title]="'Stored Image'" style="border: solid 0.0625rem #717171 !important; width: 3.75rem;" [src]="selectedFile" class="img-fluid mt-2 rounded" role="button" (click)="thumbnailViewEvent(selectedFile, componentData.label)" />
+
+	}
+
+	@case ('json') {
+
+	<a [href]="selectedFile" target="_blank" [title]="'View File'" type="button" class="bg-gradient btn btn-primary btn-sm mt-2" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .875rem; --bs-btn-disabled-opacity: 0.3;">
+		<i class="fa-solid fa-file-code me-2"></i>View File
+	</a>
+
+	}
+
+	@case ('pdf') {PDF}
+
+	@case ('doc'){doc}
+
+	@case ('docx'){docx}
+
+	@case ('xlx'){xlx}
+
+	@case ('xlxs'){xlxs}
+
+	@default { {{selectedFile}}
+
+
+
+	}
+
+	}
+
+	}
+
+	<!-- @if (uploadedFile) {
+	<img [title]="'Stored Image'" style="border: solid 0.0625rem #717171 !important; width: 3.75rem;" [src]="uploadedFile" class="img-fluid mt-2 rounded" role="button" (click)="thumbnailViewEvent(uploadedFile, componentData.label)" />
+	} -->
+
+</form>
+
+<ng-template #thumbnailModal let-c="close" let-d="dismiss">
+	<div class="modal-header bg-primary text-white bg-gradient py-2" style="--bs-modal-header-padding: 0.5rem 1rem; border-bottom: 0rem;">
+		<h6 class="modal-title" id="modal-basic-title">
+
+			@if (thumbnailModalName!= null || thumbnailModalName!= '') {
+
+			{{thumbnailModalName | titlecase}}
+
+			} @else {Thumbnail}
+
+		</h6>
+		<button type="button" class="btn-close" aria-label="Close" (click)="d('Cross click')"></button>
+	</div>
+	<div class="modal-body p-0">
+		<img [src]="thumbnailModalSrc" style="display: block; margin: 0 auto; max-width: 100%;" />
+	</div>
+</ng-template>

@@ -1,0 +1,44 @@
+<header class="py-3">
+	<div class="container-fluid d-flex align-items-center justify-content-between px-4">
+
+
+		<h1 class="page-title">{{pageTitle}}</h1>
+
+		<div class="d-flex align-items-stretch gap-2">
+			<div class="profileBrief desktop-view-only">
+				<a class="align-items-center" [routerLink]="['/profile']" routerLinkActive="active" class="align-items-center">
+					<div class="icon" [title]="userDetails.full_name">
+						<div class="imgBx">
+							<img [src]="userDetails.userThumbnail" />
+						</div>
+					</div>
+					<div class="text user-details d-block">
+						<span class="user-name d-block" [title]="userDetails.full_name">{{userDetails.full_name}}</span>
+						<span class="user-role d-block" [title]="userDetails.userActivities | getBetterName">
+							<i class="fa-solid fa-briefcase me-1"></i>{{userDetails.userActivities| getBetterName}}
+						</span>
+					</div>
+				</a>
+			</div>
+
+			<div class="btn btn-primary btn-sm bg-gradient d-flex gap-1 align-items-center" (click)="confirmLogout()"><i class="fa-solid fa-right-from-bracket"></i><span class="desktop-view-only">Logout</span></div>
+
+			<app-colormode />
+
+			<div class="menuToggle btn btn-primary btn-sm bg-gradient" [ngClass]="sidebarActive? 'active': ''" (click)="toggleMenu()"></div>
+		</div>
+	</div>
+</header>
+
+
+<ng-template #logoutConfirmation let-c="close" let-d="dismiss">
+	<div class="modal-header text-white bg-gradient bg-danger py-2" style="--bs-modal-header-padding: 0.5rem 1rem;">
+		<h6 class="modal-title">Confirm Action</h6>
+		<button type="button" class="btn-close" aria-label="Close" (click)="d('Cross click')"></button>
+	</div>
+	<div class="modal-body">You're about to log out. Are you sure?</div>
+	<div class="modal-footer d-flex justify-content-between">
+		<button type="button" class="btn btn-sm bg-gradient btn-danger" (click)="c('Confirm Logout')">Yes, Logout..!</button>
+		<button type="button" class="btn btn-sm btn-secondary bg-gradient" (click)="d('Cancel Action')">Cancel</button>
+	</div>
+</ng-template>

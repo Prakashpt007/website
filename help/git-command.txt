@@ -1,0 +1,74 @@
+I have edit 4 file but i want to commit only one file of theme... so how to commit only one file in vs code to git?
+
+Ans : => To commit only one file in VS Code to Git, you can follow these steps:
+
+			Open VS Code and Navigate to the Source Control View:
+
+				You can open the Source Control view by clicking on the Source Control icon on the left sidebar or by pressing Ctrl+Shift+G on your keyboard.
+
+			Stage the Specific File:
+
+				In the Source Control view, you will see a list of all the files that have been modified.
+				Find the file you want to commit and click the plus sign (+) next to it to stage it. This will move the file from the "Changes" section to the "Staged Changes" section.
+
+			Commit the Staged File:
+				Once the file is staged, you can enter a commit message in the text box at the top of the Source Control view.
+				After entering the commit message, click the checkmark icon (✔) above the message box to commit the staged file.
+
+
+--------------------------------------------------------------
+
+
+	Using Git Commands in the Terminal
+		Alternatively, you can use Git commands in the terminal:
+
+		Open the Terminal:
+
+			You can open the terminal in VS Code by pressing Ctrl+` or by selecting View > Terminal from the menu.
+
+		Stage the Specific File:
+
+			git add path/to/your/file
+
+		Commit the Staged File:
+
+			git commit -m "Your commit message"
+
+	This method allows you to precisely control which files are staged and committed.
+
+--------------------------------------------------------------
+
+Ok so now how to push only this file commit
+
+Ans : => When you push a commit to a Git repository, you are actually pushing all the commits that are currently in your local branch but not yet in the remote repository. This means that you can't push only a specific file; you push the commits that contain changes to those files.
+
+		Since you've committed only the changes to the one file, pushing your changes will push that commit.
+
+		Here are the steps to push the commit:
+
+		Using VS Code
+			Open the Source Control View:
+
+				Click on the Source Control icon on the left sidebar or press Ctrl+Shift+G.
+
+			Push the Changes:
+
+				Click on the ellipsis (three dots) menu at the top of the Source Control view.
+				Select Push from the dropdown menu.
+
+
+		Using Git Commands in the Terminal
+			Open the Terminal:
+
+				Press Ctrl+` or select View > Terminal.
+
+			Push the Changes:
+
+				git push origin branch_name
+				Replace branch_name with the name of your branch. If you are on the main branch, it would be main or master depending on your repository setup.
+
+				Example
+				If your branch is named main, you would use:
+
+				git push origin main
+				This will push the commit with the changes to the single file to the remote repository.

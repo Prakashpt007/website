@@ -1,0 +1,1383 @@
+<div class="stickyHeader" style="top: 0;padding: 0;margin: 0;min-height: 0;width: 100%;">
+	<!-- <div class="btn-group mb-3" role="group" aria-label="Basic example" style="flex-wrap: nowrap;
+    max-width: 100%;
+    overflow: auto;
+    display: flex;
+    align-items: stretch;">
+		@for(item of tabs; track item.name ){
+		<button type="button" (click)="toggleTabs(item.name)" class="bg-gradient btn" [class]="item.status ? 'btn-primary' : 'btn-secondary'" style="min-width: fit-content;">{{item.label}}</button>
+		}
+	</div> -->
+
+
+	<div class="d-flex gap-3 mb-2 pb-2" appDraggableScroll style="max-width: 100%;overflow: auto;">
+
+		<!-- <button *ngFor="let item of tabs;" type="button" [attr.data-name]="item.name" (click)="toggleTabs(item.name)" class="bg-gradient btn btn-sm" [class]="item.status ? 'btn-primary' : 'btn-secondary'" style="min-width: fit-content;">{{item.label}}</button> -->
+
+		@for(item of tabs; track item.name ){
+		<button #element type="button" (click)="toggleTabs(item.name)" class="bg-gradient btn btn-sm" [class]="item.status ? 'btn-primary' : 'btn-secondary'" style="min-width: fit-content;">{{item.label}}</button>
+		}
+
+
+	</div>
+	<mat-divider></mat-divider>
+</div>
+<!-- <div class="container-fluid p-0" style="max-height: calc(100svh - 188px);overflow: auto;"> -->
+<div class="container-fluid p-0" style="max-height: calc(100svh - 236px);overflow: auto;">
+
+	<!-- <p>
+		<mat-toolbar>
+			<span>My Application</span>
+		</mat-toolbar>
+	</p>
+
+	<p>
+		<mat-toolbar>
+			<button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
+				<mat-icon>menu</mat-icon>
+			</button>
+			<span>My App</span>
+			<span class="example-spacer"></span>
+			<button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
+				<mat-icon>favorite</mat-icon>
+			</button>
+			<button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
+				<mat-icon>share</mat-icon>
+			</button>
+		</mat-toolbar>
+	</p>
+
+	<p>
+		<mat-toolbar color="primary">
+			<button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
+				<mat-icon>menu</mat-icon>
+			</button>
+			<span>My App</span>
+			<span class="example-spacer"></span>
+			<button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
+				<mat-icon>favorite</mat-icon>
+			</button>
+			<button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
+				<mat-icon>share</mat-icon>
+			</button>
+		</mat-toolbar>
+	</p>
+
+	<section>
+		<div class="example-label">Basic</div>
+		<div class="example-button-row">
+			<button mat-button>Basic</button>
+			<button mat-button color="primary" class="my-custom-button">Primary</button>
+			<button mat-button color="accent">Accent</button>
+			<button mat-button color="warn">Warn</button>
+			<button mat-button disabled>Disabled</button>
+			<a mat-button href="https://www.google.com/" target="_blank">Link</a>
+		</div>
+	</section>
+
+	<mat-divider></mat-divider>
+
+	<section>
+		<div class="example-label">Raised</div>
+		<div class="example-button-row">
+			<button mat-raised-button>Basic</button>
+			<button mat-raised-button color="primary">Primary</button>
+			<button mat-raised-button color="accent">Accent</button>
+			<button mat-raised-button color="warn">Warn</button>
+			<button mat-raised-button disabled>Disabled</button>
+			<a mat-raised-button href="https://www.google.com/" target="_blank">Link</a>
+		</div>
+	</section>
+
+	<mat-divider></mat-divider>
+
+	<section>
+		<div class="example-label">Stroked</div>
+		<div class="example-button-row">
+			<button mat-stroked-button>Basic</button>
+			<button mat-stroked-button color="primary">Primary</button>
+			<button mat-stroked-button color="accent">Accent</button>
+			<button mat-stroked-button color="warn">Warn</button>
+			<button mat-stroked-button disabled>Disabled</button>
+			<a mat-stroked-button href="https://www.google.com/" target="_blank">Link</a>
+		</div>
+	</section>
+
+	<mat-divider></mat-divider>
+
+	<section>
+		<div class="example-label">Flat</div>
+		<div class="example-button-row">
+			<button mat-flat-button>Basic</button>
+			<button mat-flat-button color="primary">Primary</button>
+			<button mat-flat-button color="accent">Accent</button>
+			<button mat-flat-button color="warn">Warn</button>
+			<button mat-flat-button disabled>Disabled</button>
+			<a mat-flat-button href="https://www.google.com/" target="_blank">Link</a>
+		</div>
+	</section>
+
+	<mat-divider></mat-divider>
+
+	<section>
+		<div class="example-label">Icon</div>
+		<div class="example-button-row">
+			<div class="example-flex-container">
+				<button mat-icon-button aria-label="Example icon button with a vertical three dot icon">
+					<mat-icon>more_vert</mat-icon>
+				</button>
+				<button mat-icon-button color="primary" aria-label="Example icon button with a home icon">
+					<mat-icon>home</mat-icon>
+				</button>
+				<button mat-icon-button color="accent" aria-label="Example icon button with a menu icon">
+					<mat-icon>menu</mat-icon>
+				</button>
+				<button mat-icon-button color="warn" aria-label="Example icon button with a heart icon">
+					<mat-icon>favorite</mat-icon>
+				</button>
+				<button mat-icon-button disabled aria-label="Example icon button with a open in new tab icon">
+					<mat-icon>open_in_new</mat-icon>
+				</button>
+			</div>
+		</div>
+	</section>
+
+	<mat-divider></mat-divider>
+
+	<section>
+		<div class="example-label">FAB</div>
+		<div class="example-button-row">
+			<div class="example-flex-container">
+				<div class="example-button-container">
+					<button mat-fab color="primary" aria-label="Example icon button with a delete icon">
+						<mat-icon>delete</mat-icon>
+					</button>
+				</div>
+				<div class="example-button-container">
+					<button mat-fab color="accent" aria-label="Example icon button with a bookmark icon">
+						<mat-icon>bookmark</mat-icon>
+					</button>
+				</div>
+				<div class="example-button-container">
+					<button mat-fab color="warn" aria-label="Example icon button with a home icon">
+						<mat-icon>home</mat-icon>
+					</button>
+				</div>
+				<div class="example-button-container">
+					<button mat-fab disabled aria-label="Example icon button with a heart icon">
+						<mat-icon>favorite</mat-icon>
+					</button>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<mat-divider></mat-divider>
+
+	<section>
+		<div class="example-label">Mini FAB</div>
+		<div class="example-button-row">
+			<div class="example-flex-container">
+				<div class="example-button-container">
+					<button mat-mini-fab color="primary" aria-label="Example icon button with a menu icon">
+						<mat-icon>menu</mat-icon>
+					</button>
+				</div>
+				<div class="example-button-container">
+					<button mat-mini-fab color="accent" aria-label="Example icon button with a plus one icon">
+						<mat-icon>plus_one</mat-icon>
+					</button>
+				</div>
+				<div class="example-button-container">
+					<button mat-mini-fab color="warn" aria-label="Example icon button with a filter list icon">
+						<mat-icon>filter_list</mat-icon>
+					</button>
+				</div>
+				<div class="example-button-container">
+					<button mat-mini-fab disabled aria-label="Example icon button with a home icon">
+						<mat-icon>home</mat-icon>
+					</button>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<div class="example-flex-container">
+		<mat-form-field appearance="fill">
+			<mat-label>Input</mat-label>
+			<input matInput />
+		</mat-form-field>
+
+		<mat-form-field appearance="fill">
+			<mat-label>Select</mat-label>
+			<mat-select>
+				<mat-option value="one">First option</mat-option>
+				<mat-option value="two">Second option</mat-option>
+			</mat-select>
+		</mat-form-field>
+
+
+		<mat-autocomplete #auto="matAutocomplete">
+			@for (option of ['One', 'Two', 'Three']; track option) {
+			<mat-option [value]="option">{{option}}</mat-option>
+			}
+		</mat-autocomplete>
+	</div>
+
+	<section>
+		<mat-form-field appearance="outline">
+			<mat-label>Textarea</mat-label>
+			<textarea matInput></textarea>
+		</mat-form-field>
+	</section>
+
+	<mat-divider></mat-divider> -->
+
+
+	<!---->
+
+
+	@for(item of tabs; track item.name ){
+
+
+	@if(item.status){
+
+	@switch (item.name) {
+
+	@case ('autocomplete') {
+
+	<section #autocomplete class="section" style="display: flex;flex-direction: column;align-content: stretch;justify-content: center;align-items: stretch;gap: 2rem;">
+		<h3>Autocomplete</h3>
+
+		<ol>
+			<li>
+				<autocomplete-auto-active-first-option-example></autocomplete-auto-active-first-option-example>
+			</li>
+
+			<li>
+				<autocomplete-display-example></autocomplete-display-example>
+			</li>
+
+			<li>
+				<autocomplete-filter-example></autocomplete-filter-example>
+			</li>
+
+			<li>
+				<autocomplete-optgroup-example></autocomplete-optgroup-example>
+			</li>
+
+			<li>
+				<autocomplete-overview-example></autocomplete-overview-example>
+			</li>
+
+			<li>
+				<autocomplete-require-selection-example></autocomplete-require-selection-example>
+			</li>
+
+			<li>
+				<autocomplete-simple-example></autocomplete-simple-example>
+			</li>
+		</ol>
+	</section>
+	}
+
+	@case ('badge') {
+	<section #badge class="section" style="display: flex;flex-direction: column;align-content: stretch;justify-content: center;align-items: stretch;gap: 2rem;">
+		<h3>Badge</h3>
+
+		<badge-overview-example></badge-overview-example>
+
+	</section>
+
+	}
+
+	@case ('bottom-sheet') {
+
+	<section #bottomsheet class="section" style="display: flex;flex-direction: column;align-content: stretch;justify-content: center;align-items: stretch;gap: 2rem;">
+		<h3>Bottom Sheet</h3>
+		<bottom-sheet-overview-example></bottom-sheet-overview-example>
+	</section>
+
+	}
+
+	@case ('buttons') {
+
+	<section #buttons class="section" style="display: flex;flex-direction: column;align-content: stretch;justify-content: center;align-items: stretch;gap: 2rem;">
+		<h3>Buttons</h3>
+		<button-overview-example></button-overview-example>
+	</section>
+
+	}
+
+	@case ('buttons-toggle') {
+
+	<section #buttonstoggle class="section" style="display: flex;flex-direction: column;align-content: stretch;justify-content: center;align-items: stretch;gap: 2rem;">
+		<h3>Button toggle</h3>
+
+		<ol>
+
+			<li>
+				<button-toggle-appearance-example></button-toggle-appearance-example>
+			</li>
+
+			<li>
+				<button-toggle-exclusive-example></button-toggle-exclusive-example>
+			</li>
+
+			<li>
+				<button-toggle-forms-example></button-toggle-forms-example>
+			</li>
+
+			<li>
+				<button-toggle-mode-example></button-toggle-mode-example>
+			</li>
+
+			<li>
+				<button-toggle-overview-example></button-toggle-overview-example>
+			</li>
+		</ol>
+
+
+	</section>
+
+	}
+
+	@case ('card') {
+
+	<section #card class="section" style="display: flex;flex-direction: column;align-content: stretch;justify-content: center;align-items: stretch;gap: 2rem;">
+		<h3>Card</h3>
+
+		<ol>
+			<li>
+				<card-actions-example></card-actions-example>
+			</li>
+
+			<li>
+				<card-fancy-example></card-fancy-example>
+			</li>
+
+			<li>
+				<card-footer-example></card-footer-example>
+			</li>
+
+			<li>
+				<card-media-size-example></card-media-size-example>
+			</li>
+
+			<li>
+				<card-overview-example></card-overview-example>
+			</li>
+
+			<li>
+				<card-subtitle-example></card-subtitle-example>
+			</li>
+
+		</ol>
+	</section>
+
+	}
+
+	@case ('checkbox') {
+
+	<section #checkbox class="section" style="display: flex;flex-direction: column;align-content: stretch;justify-content: center;align-items: stretch;gap: 2rem;">
+		<h3>Checkbox</h3>
+
+		<ol>
+			<li>
+				<checkbox-configurable-example></checkbox-configurable-example>
+			</li>
+
+			<li>
+				<checkbox-overview-example></checkbox-overview-example>
+			</li>
+
+			<li>
+				<checkbox-reactive-forms-example></checkbox-reactive-forms-example>
+			</li>
+		</ol>
+	</section>
+
+	}
+
+	@case ('chips') {
+
+	<section #chips class="section" style="display: flex;flex-direction: column;align-content: stretch;justify-content: center;align-items: stretch;gap: 2rem;">
+
+		<h3>Chips</h3>
+
+		<ol>
+			<li>
+				<chips-autocomplete-example></chips-autocomplete-example>
+			</li>
+
+			<li>
+				<chips-avatar-example></chips-avatar-example>
+			</li>
+
+			<li>
+				<chips-drag-drop-example></chips-drag-drop-example>
+			</li>
+
+			<li>
+				<chips-form-control-example></chips-form-control-example>
+			</li>
+
+			<li>
+				<chips-input-example></chips-input-example>
+			</li>
+
+			<li>
+				<chips-overview-example></chips-overview-example>
+			</li>
+
+			<li>
+				<chips-stacked-example></chips-stacked-example>
+			</li>
+		</ol>
+	</section>
+
+	}
+
+	@case ('datepicker') {
+
+	<section #datepicker class="section" style="display: flex;flex-direction: column;align-content: stretch;justify-content: center;align-items: stretch;gap: 2rem;">
+
+		<h3>Datepicker</h3>
+
+		<ol>
+			<li>
+				<date-range-picker-comparison-example></date-range-picker-comparison-example>
+			</li>
+
+			<li>
+				<date-range-picker-forms-example></date-range-picker-forms-example>
+			</li>
+
+			<li>
+				<date-range-picker-overview-example></date-range-picker-overview-example>
+			</li>
+
+			<li>
+				<date-range-picker-selection-strategy-example></date-range-picker-selection-strategy-example>
+			</li>
+
+			<li>
+				<datepicker-actions-example></datepicker-actions-example>
+			</li>
+
+			<li>
+				<datepicker-api-example></datepicker-api-example>
+			</li>
+
+			<li>
+				<datepicker-color-example></datepicker-color-example>
+			</li>
+
+			<li>
+				<datepicker-custom-header-example></datepicker-custom-header-example>
+			</li>
+
+			<li>
+				<datepicker-custom-icon-example></datepicker-custom-icon-example>
+			</li>
+
+			<li>
+				<datepicker-date-class-example></datepicker-date-class-example>
+			</li>
+
+			<li>
+				<datepicker-disabled-example></datepicker-disabled-example>
+			</li>
+
+			<li>
+				<datepicker-events-example></datepicker-events-example>
+			</li>
+
+			<li>
+				<datepicker-filter-example></datepicker-filter-example>
+			</li>
+
+			<li>
+				<datepicker-formats-example></datepicker-formats-example>
+			</li>
+
+			<li>
+				<datepicker-inline-calendar-example></datepicker-inline-calendar-example>
+			</li>
+
+			<li>
+				<datepicker-locale-example></datepicker-locale-example>
+			</li>
+
+			<li>
+				<datepicker-min-max-example></datepicker-min-max-example>
+			</li>
+
+			<li>
+				<datepicker-moment-example></datepicker-moment-example>
+			</li>
+
+			<li>
+				<datepicker-overview-example></datepicker-overview-example>
+			</li>
+
+			<li>
+				<datepicker-start-view-example></datepicker-start-view-example>
+			</li>
+
+			<li>
+				<datepicker-touch-example></datepicker-touch-example>
+			</li>
+
+			<li>
+				<datepicker-value-example></datepicker-value-example>
+			</li>
+
+			<li>
+				<datepicker-views-selection-example></datepicker-views-selection-example>
+			</li>
+		</ol>
+	</section>
+
+	}
+
+	@case ('dialog') {
+
+	<section #dialog class="section" style="display: flex;flex-direction: column;align-content: stretch;justify-content: center;align-items: stretch;gap: 2rem;">
+
+		<h3>Dialog</h3>
+		<ol>
+			<li>
+				<dialog-animations-example></dialog-animations-example>
+			</li>
+
+			<li>
+				<dialog-content-example></dialog-content-example>
+			</li>
+
+			<li>
+				<dialog-data-example></dialog-data-example>
+			</li>
+
+			<li>
+				<dialog-elements-example></dialog-elements-example>
+			</li>
+
+			<li>
+				<dialog-from-menu-example></dialog-from-menu-example>
+			</li>
+
+			<li>
+				<dialog-overview-example></dialog-overview-example>
+			</li>
+		</ol>
+	</section>
+
+	}
+
+	@case ('divider') {
+
+	<section #divider class="section" style="display: flex;flex-direction: column;align-content: stretch;justify-content: center;align-items: stretch;gap: 2rem;">
+
+		<h3>Divider</h3>
+
+		<ol>
+			<li>
+				<divider-overview-example></divider-overview-example>
+			</li>
+		</ol>
+	</section>
+	}
+
+	@case ('expansion-panel') {
+
+	<section #expansionpanel class="section" style="display: flex;flex-direction: column;align-content: stretch;justify-content: center;align-items: stretch;gap: 2rem;">
+
+		<h3>Expansion Panel</h3>
+
+		<ol>
+			<li>
+				<expansion-expand-collapse-all-example></expansion-expand-collapse-all-example>
+			</li>
+
+			<li>
+				<expansion-overview-example></expansion-overview-example>
+			</li>
+
+			<li>
+				<expansion-steps-example></expansion-steps-example>
+			</li>
+		</ol>
+	</section>
+
+	}
+
+	@case('form-field'){
+	<section #formField class="section" style="display: flex;flex-direction: column;align-content: stretch;justify-content: center;align-items: stretch;gap: 2rem;">
+		<h3>Form Fields</h3>
+
+		<ol>
+			<li>
+				<form-field-appearance-example></form-field-appearance-example>
+			</li>
+
+			<li>
+				<form-field-custom-control-example></form-field-custom-control-example>
+			</li>
+
+			<li>
+				<form-field-error-example></form-field-error-example>
+			</li>
+
+			<li>
+				<form-field-hint-example></form-field-hint-example>
+			</li>
+
+			<li>
+				<form-field-label-example></form-field-label-example>
+			</li>
+
+			<li>
+				<form-field-overview-example></form-field-overview-example>
+			</li>
+
+			<li>
+				<form-field-prefix-suffix-example></form-field-prefix-suffix-example>
+			</li>
+
+			<li>
+				<form-field-theming-example></form-field-theming-example>
+			</li>
+		</ol>
+	</section>
+	}
+
+	@case('grid-list'){
+	<section #gridList class="section" style="display: flex;flex-direction: column;align-content: stretch;justify-content: center;align-items: stretch;gap: 2rem;">
+		<h3>Grid List</h3>
+
+		<ol>
+			<li>
+				<grid-list-dynamic-example></grid-list-dynamic-example>
+			</li>
+
+			<li>
+				<grid-list-overview-example></grid-list-overview-example>
+			</li>
+		</ol>
+	</section>
+	}
+
+
+	@case('icon'){
+	<section #icon class="section" style="display: flex;flex-direction: column;align-content: stretch;justify-content: center;align-items: stretch;gap: 2rem;">
+		<h3>Icon</h3>
+
+		<ol>
+			<li>
+				<icon-overview-example></icon-overview-example>
+			</li>
+
+			<li>
+				<icon-svg-example></icon-svg-example>
+			</li>
+		</ol>
+	</section>
+	}
+
+	@case('input'){
+	<section #input class="section" style="display: flex;flex-direction: column;align-content: stretch;justify-content: center;align-items: stretch;gap: 2rem;">
+		<h3>Input</h3>
+
+		<ol>
+			<li>
+				<input-clearable-example></input-clearable-example>
+			</li>
+
+			<li>
+				<input-error-state-matcher-example></input-error-state-matcher-example>
+			</li>
+
+			<li>
+				<input-errors-example></input-errors-example>
+			</li>
+
+			<li>
+				<input-form-example></input-form-example>
+			</li>
+
+			<li>
+				<input-hint-example></input-hint-example>
+			</li>
+
+			<li>
+				<input-overview-example></input-overview-example>
+			</li>
+
+			<li>
+				<input-prefix-suffix-example></input-prefix-suffix-example>
+			</li>
+		</ol>
+	</section>
+	}
+
+	@case('list'){
+	<section #list class="section" style="display: flex;flex-direction: column;align-content: stretch;justify-content: center;align-items: stretch;gap: 2rem;">
+		<h3>List</h3>
+
+		<ol>
+			<li>
+				<list-overview-example></list-overview-example>
+			</li>
+
+			<li>
+				<list-sections-example></list-sections-example>
+			</li>
+
+			<li>
+				<list-selection-example></list-selection-example>
+			</li>
+
+			<li>
+				<list-single-selection-example></list-single-selection-example>
+			</li>
+
+			<li>
+				<list-variants-example></list-variants-example>
+			</li>
+		</ol>
+	</section>
+	}
+
+	@case('menu'){
+	<section #menu class="section" style="display: flex;flex-direction: column;align-content: stretch;justify-content: center;align-items: stretch;gap: 2rem;">
+		<h3>Menu</h3>
+
+		<ol>
+			<li>
+				<menu-icons-example></menu-icons-example>
+			</li>
+
+			<li>
+				<menu-nested-example></menu-nested-example>
+			</li>
+
+			<li>
+				<menu-overview-example></menu-overview-example>
+			</li>
+
+			<li>
+				<menu-position-example></menu-position-example>
+			</li>
+		</ol>
+	</section>
+	}
+
+	@case('paginator'){
+	<section #paginator class="section" style="display: flex;flex-direction: column;align-content: stretch;justify-content: center;align-items: stretch;gap: 2rem;">
+		<h3>Paginator</h3>
+
+		<ol>
+			<!-- <li>
+				<paginator-configurable-example></paginator-configurable-example>
+			</li>
+
+			<li>
+				<paginator-intl-example></paginator-intl-example>
+			</li> -->
+
+			<!-- <li>
+				<paginator-overview-example></paginator-overview-example>
+			</li> -->
+		</ol>
+	</section>
+	}
+
+	@case('progress-bar'){
+	<section #progressBar class="section" style="display: flex;flex-direction: column;align-content: stretch;justify-content: center;align-items: stretch;gap: 2rem;">
+		<h3>Progress Bar</h3>
+
+		<ol>
+			<li>
+				<progress-bar-buffer-example></progress-bar-buffer-example>
+			</li>
+
+			<li>
+				<progress-bar-configurable-example></progress-bar-configurable-example>
+			</li>
+
+			<li>
+				<progress-bar-determinate-example></progress-bar-determinate-example>
+			</li>
+
+			<li>
+				<progress-bar-indeterminate-example></progress-bar-indeterminate-example>
+			</li>
+
+			<li>
+				<progress-bar-query-example></progress-bar-query-example>
+			</li>
+		</ol>
+	</section>
+	}
+
+	@case('progress-spinner'){
+	<section #progressSpinner class="section" style="display: flex;flex-direction: column;align-content: stretch;justify-content: center;align-items: stretch;gap: 2rem;">
+		<h3>Progress Spinner</h3>
+
+		<ol>
+			<li>
+				<progress-spinner-configurable-example></progress-spinner-configurable-example>
+			</li>
+
+			<li>
+				<progress-spinner-overview-example></progress-spinner-overview-example>
+			</li>
+		</ol>
+	</section>
+	}
+
+	@case('radio'){
+	<section #radio class="section" style="display: flex;flex-direction: column;align-content: stretch;justify-content: center;align-items: stretch;gap: 2rem;">
+		<h3>Radio</h3>
+
+		<ol>
+			<li>
+				<radio-ng-model-example></radio-ng-model-example>
+			</li>
+
+			<li>
+				<radio-overview-example></radio-overview-example>
+			</li>
+		</ol>
+	</section>
+	}
+
+	@case('ripple'){
+	<section #ripple class="section" style="display: flex;flex-direction: column;align-content: stretch;justify-content: center;align-items: stretch;gap: 2rem;">
+		<h3>Ripple</h3>
+
+		<ol>
+			<li>
+				<ripple-overview-example></ripple-overview-example>
+			</li>
+		</ol>
+	</section>
+	}
+
+	@case('select'){
+	<section #select class="section" style="display: flex;flex-direction: column;align-content: stretch;justify-content: center;align-items: stretch;gap: 2rem;">
+		<h3>Select</h3>
+
+		<ol>
+			<li>
+				<select-custom-trigger-example></select-custom-trigger-example>
+			</li>
+
+			<li>
+				<select-disabled-example></select-disabled-example>
+			</li>
+
+			<li>
+				<select-error-state-matcher-example></select-error-state-matcher-example>
+			</li>
+
+			<li>
+				<select-form-example></select-form-example>
+			</li>
+
+			<li>
+				<select-hint-error-example></select-hint-error-example>
+			</li>
+
+			<li>
+				<select-initial-value-example></select-initial-value-example>
+			</li>
+
+			<li>
+				<select-multiple-example></select-multiple-example>
+			</li>
+
+			<li>
+				<select-no-ripple-example></select-no-ripple-example>
+			</li>
+
+			<li>
+				<select-optgroup-example></select-optgroup-example>
+			</li>
+
+			<li>
+				<select-overview-example></select-overview-example>
+			</li>
+
+			<li>
+				<select-panel-class-example></select-panel-class-example>
+			</li>
+
+			<li>
+				<select-reactive-form-example></select-reactive-form-example>
+			</li>
+
+			<li>
+				<select-reset-example></select-reset-example>
+			</li>
+
+			<li>
+				<select-value-binding-example></select-value-binding-example>
+			</li>
+		</ol>
+	</section>
+	}
+
+
+	@case('sidenav'){
+	<section #sidenav class="section" style="display: flex;flex-direction: column;align-content: stretch;justify-content: center;align-items: stretch;gap: 2rem;">
+		<h3>Sidenav</h3>
+		<ol>
+			<li>
+				<sidenav-autosize-example></sidenav-autosize-example>
+			</li>
+
+			<li>
+				<sidenav-backdrop-example></sidenav-backdrop-example>
+			</li>
+
+			<li>
+				<sidenav-drawer-overview-example></sidenav-drawer-overview-example>
+			</li>
+		</ol>
+	</section>
+	}
+
+	@case('slide-toggle'){
+	<section #slideToggle class="section" style="display: flex;flex-direction: column;align-content: stretch;justify-content: center;align-items: stretch;gap: 2rem;">
+		<h3>Slide Toggle</h3>
+		<ol>
+			<li>
+				<slide-toggle-configurable-example></slide-toggle-configurable-example>
+			</li>
+
+			<li>
+				<slide-toggle-forms-example></slide-toggle-forms-example>
+			</li>
+
+			<li>
+				<slide-toggle-overview-example></slide-toggle-overview-example>
+			</li>
+		</ol>
+	</section>
+	}
+
+	@case('slider'){
+	<section #slider class="section" style="display: flex;flex-direction: column;align-content: stretch;justify-content: center;align-items: stretch;gap: 2rem;">
+		<h3>Slider</h3>
+		<ol>
+			<li>
+				<slider-configurable-example></slider-configurable-example>
+			</li>
+
+			<li>
+				<slider-formatting-example></slider-formatting-example>
+			</li>
+
+			<li>
+				<slider-overview-example></slider-overview-example>
+			</li>
+
+			<li>
+				<slider-range-example></slider-range-example>
+			</li>
+		</ol>
+	</section>
+	}
+
+	@case('snack-bar'){
+	<section #snackBar class="section" style="display: flex;flex-direction: column;align-content: stretch;justify-content: center;align-items: stretch;gap: 2rem;">
+		<h3>Snack Bar</h3>
+		<ol>
+			<li>
+				<snack-bar-annotated-component-example></snack-bar-annotated-component-example>
+			</li>
+
+			<li>
+				<snack-bar-component-example></snack-bar-component-example>
+			</li>
+
+			<li>
+				<snack-bar-overview-example></snack-bar-overview-example>
+			</li>
+
+			<li>
+				<snack-bar-position-example></snack-bar-position-example>
+			</li>
+		</ol>
+	</section>
+	}
+
+	@case('sort-header'){
+	<section #sortHeader class="section" style="display: flex;flex-direction: column;align-content: stretch;justify-content: center;align-items: stretch;gap: 2rem;">
+		<h3>Sort Header</h3>
+		<ol>
+			<li>
+				<sort-overview-example></sort-overview-example>
+			</li>
+		</ol>
+	</section>
+	}
+
+	@case('stepper'){
+	<section #stepper class="section" style="display: flex;flex-direction: column;align-content: stretch;justify-content: center;align-items: stretch;gap: 2rem;">
+		<h3>Stepper</h3>
+		<ol>
+			<li>
+				<stepper-animations-example></stepper-animations-example>
+			</li>
+
+			<li>
+				<stepper-editable-example></stepper-editable-example>
+			</li>
+
+			<li>
+				<stepper-errors-example></stepper-errors-example>
+			</li>
+
+			<li>
+				<stepper-header-position-example></stepper-header-position-example>
+			</li>
+
+			<li>
+				<stepper-intl-example></stepper-intl-example>
+			</li>
+
+			<li>
+				<stepper-label-position-bottom-example></stepper-label-position-bottom-example>
+			</li>
+
+			<li>
+				<stepper-lazy-content-example></stepper-lazy-content-example>
+			</li>
+
+			<li>
+				<stepper-overview-example></stepper-overview-example>
+			</li>
+
+			<li>
+				<stepper-responsive-example></stepper-responsive-example>
+			</li>
+
+			<li>
+				<stepper-states-example></stepper-states-example>
+			</li>
+
+			<li>
+				<stepper-vertical-example></stepper-vertical-example>
+			</li>
+		</ol>
+	</section>
+	}
+
+	@case('table'){
+	<section #table class="section" style="display: flex;flex-direction: column;align-content: stretch;justify-content: center;align-items: stretch;gap: 2rem;">
+		<h3>Table</h3>
+		<ol>
+			<li>
+				<table-basic-example></table-basic-example>
+			</li>
+
+			<li>
+				<table-column-styling-example></table-column-styling-example>
+			</li>
+
+			<li>
+				<table-dynamic-array-data-example></table-dynamic-array-data-example>
+			</li>
+
+			<li>
+				<table-dynamic-columns-example></table-dynamic-columns-example>
+			</li>
+
+			<li>
+				<table-dynamic-observable-data-example></table-dynamic-observable-data-example>
+			</li>
+
+			<li>
+				<table-expandable-rows-example></table-expandable-rows-example>
+			</li>
+
+			<li>
+				<table-filtering-example></table-filtering-example>
+			</li>
+
+			<li>
+				<table-flex-basic-example></table-flex-basic-example>
+			</li>
+
+			<li>
+				<table-flex-large-row-example></table-flex-large-row-example>
+			</li>
+
+			<li>
+				<table-footer-row-example></table-footer-row-example>
+			</li>
+
+			<li>
+				<table-generated-columns-example></table-generated-columns-example>
+			</li>
+
+			<li>
+				<table-http-example></table-http-example>
+			</li>
+
+			<li>
+				<table-multiple-header-footer-example></table-multiple-header-footer-example>
+			</li>
+
+			<li>
+				<table-overview-example></table-overview-example>
+			</li>
+
+			<li>
+				<table-pagination-example></table-pagination-example>
+			</li>
+
+			<li>
+				<table-recycle-rows-example></table-recycle-rows-example>
+			</li>
+
+			<li>
+				<table-reorderable-example></table-reorderable-example>
+			</li>
+
+			<li>
+				<table-row-binding-example></table-row-binding-example>
+			</li>
+
+			<li>
+				<table-row-context-example></table-row-context-example>
+			</li>
+
+			<li>
+				<table-selection-example></table-selection-example>
+			</li>
+
+			<li>
+				<table-sorting-example></table-sorting-example>
+			</li>
+
+			<li>
+				<table-sticky-columns-example></table-sticky-columns-example>
+			</li>
+
+			<li>
+				<table-sticky-complex-flex-example></table-sticky-complex-flex-example>
+			</li>
+
+			<li>
+				<table-sticky-complex-example></table-sticky-complex-example>
+			</li>
+
+			<li>
+				<table-sticky-footer-example></table-sticky-footer-example>
+			</li>
+
+			<li>
+				<table-sticky-header-example></table-sticky-header-example>
+			</li>
+
+			<li>
+				<table-text-column-advanced-example></table-text-column-advanced-example>
+			</li>
+
+			<li>
+				<table-text-column-example></table-text-column-example>
+			</li>
+
+			<li>
+				<table-with-ripples-example></table-with-ripples-example>
+			</li>
+
+			<li>
+				<table-wrapped-example></table-wrapped-example>
+			</li>
+		</ol>
+	</section>
+	}
+
+	@case('tabs'){
+	<section #tabs class="section" style="display: flex;flex-direction: column;align-content: stretch;justify-content: center;align-items: stretch;gap: 2rem;">
+		<h3>Tabs</h3>
+		<ol>
+			<li>
+				<tab-group-align-example></tab-group-align-example>
+			</li>
+
+			<li>
+				<tab-group-animations-example></tab-group-animations-example>
+			</li>
+
+			<li>
+				<tab-group-async-example></tab-group-async-example>
+			</li>
+
+			<li>
+				<tab-group-basic-example></tab-group-basic-example>
+			</li>
+
+			<li>
+				<tab-group-custom-label-example></tab-group-custom-label-example>
+			</li>
+
+			<li>
+				<tab-group-dynamic-height-example></tab-group-dynamic-height-example>
+			</li>
+
+			<li>
+				<tab-group-dynamic-example></tab-group-dynamic-example>
+			</li>
+
+			<li>
+				<tab-group-header-below-example></tab-group-header-below-example>
+			</li>
+
+			<li>
+				<tab-group-ink-bar-example></tab-group-ink-bar-example>
+			</li>
+
+			<li>
+				<tab-group-inverted-example></tab-group-inverted-example>
+			</li>
+
+			<li>
+				<tab-group-lazy-loaded-example></tab-group-lazy-loaded-example>
+			</li>
+
+			<li>
+				<tab-group-paginated-example></tab-group-paginated-example>
+			</li>
+
+			<li>
+				<tab-group-preserve-content-example></tab-group-preserve-content-example>
+			</li>
+
+			<li>
+				<tab-group-stretched-example></tab-group-stretched-example>
+			</li>
+
+			<li>
+				<tab-group-theme-example></tab-group-theme-example>
+			</li>
+
+			<li>
+				<tab-nav-bar-basic-example></tab-nav-bar-basic-example>
+			</li>
+
+		</ol>
+	</section>
+	}
+
+	@case('toolbar'){
+	<section #toolbar class="section" style="display: flex;flex-direction: column;align-content: stretch;justify-content: center;align-items: stretch;gap: 2rem;">
+		<h3>Toolbar</h3>
+		<ol>
+			<li>
+				<toolbar-basic-example></toolbar-basic-example>
+			</li>
+
+			<li>
+				<toolbar-overview-example></toolbar-overview-example>
+			</li>
+
+			<li>
+				<toolbar-multirow-example></toolbar-multirow-example>
+			</li>
+
+		</ol>
+	</section>
+	}
+
+	@case('tooltip'){
+	<section #tooltip class="section" style="display: flex;flex-direction: column;align-content: stretch;justify-content: center;align-items: stretch;gap: 2rem;">
+		<h3>Tooltip</h3>
+		<ol>
+			<li>
+				<tooltip-auto-hide-example></tooltip-auto-hide-example>
+			</li>
+
+			<li>
+				<tooltip-custom-class-example></tooltip-custom-class-example>
+			</li>
+
+			<li>
+				<tooltip-delay-example></tooltip-delay-example>
+			</li>
+
+			<li>
+				<tooltip-disabled-example></tooltip-disabled-example>
+			</li>
+
+			<li>
+				<tooltip-manual-example></tooltip-manual-example>
+			</li>
+
+			<li>
+				<tooltip-message-example></tooltip-message-example>
+			</li>
+
+			<li>
+				<tooltip-modified-defaults-example></tooltip-modified-defaults-example>
+			</li>
+
+			<li>
+				<tooltip-overview-example></tooltip-overview-example>
+			</li>
+
+			<li>
+				<tooltip-position-at-origin-example></tooltip-position-at-origin-example>
+			</li>
+
+			<li>
+				<tooltip-position-example></tooltip-position-example>
+			</li>
+		</ol>
+	</section>
+	}
+
+
+	@case('tree'){
+	<section #tree class="section" style="display: flex;flex-direction: column;align-content: stretch;justify-content: center;align-items: stretch;gap: 2rem;">
+		<h3>Tree</h3>
+		<ol>
+			<li>
+				<tree-dynamic-example></tree-dynamic-example>
+			</li>
+
+			<li>
+				<tree-flat-overview-example></tree-flat-overview-example>
+			</li>
+
+			<li>
+				<tree-harness-example></tree-harness-example>
+			</li>
+
+			<li>
+				<tree-loadmore-example></tree-loadmore-example>
+			</li>
+
+			<li>
+				<tree-nested-overview-example></tree-nested-overview-example>
+			</li>
+		</ol>
+	</section>
+	}
+
+	@default{
+	Nothing...
+	}
+
+	}
+
+	}
+
+	}
+
+</div>

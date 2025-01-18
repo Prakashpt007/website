@@ -1,0 +1,158 @@
+<div class="d-flex justify-content-between align-items-center stickyHeader" style="overflow: hidden;">
+	<h5 class="m-0" style="display: flex;align-items: center;gap: 0.75rem;">
+		<a [routerLink]="['/scheduling-qa/warehouse-farmer/list']" [queryParams]="backUrlParams" style="font-size: 80%;color: inherit;"><i class="fa-solid fa-arrow-left"></i> </a> Slot Details
+	</h5>
+</div>
+<div class="container-fluid">
+	<div class="row align-items-start" [@fade]>
+		<div class="col-12">
+			<div class="container-fluid p-0">
+				@if(slotDetails!= undefined){
+
+				<div class="table-responsive-lg">
+					<table class="table rounded-corners w-auto m-0" style="--bs-table-bg:var(--main-card-color)">
+						<thead>
+							<tr>
+								<th style="background-color: var(--bs-secondary) !important;">Scout Name</th>
+								<th style="background-color: var(--bs-secondary) !important;">Date</th>
+								<th style="background-color: var(--bs-secondary) !important;">Slot</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>{{slotDetails.flsName}}</td>
+								<td><i class="fa-solid fa-calendar-day" style="color: var(--bs-link-color);"></i> {{slotDetails.date | date:'MMM d, y, h:mm:ss a'}}</td>
+								<td>{{slotDetails.startTime | timePipe}} - {{slotDetails.endTime | timePipe}}</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				}
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="container-fluid mt-3 pt-1" style="max-height: calc(100vh - 257px); overflow: auto;">
+	@if(formattedData!= undefined){
+	<div class="table-responsive-lg contentTable">
+		<table class="table rounded-corners contentTable w-100 m-0" style="--bs-table-bg:var(--main-card-color)">
+			<thead>
+				<tr>
+					<th style="background-color: var(--bs-secondary) !important;">Date</th>
+					@for(slotTime of formattedData[0].timeslots; track $index){
+					<th style="background-color: var(--bs-secondary) !important;">
+						{{ slotTime.timeslotStart | timePipe }} - {{ slotTime.timeslotEnd | timePipe }}
+					</th>
+					}
+				</tr>
+			</thead>
+			<tbody>
+				@for(dateObj of formattedData; track $index){
+				<tr>
+					<td style="padding-inline:1.5rem; padding-block:2.5rem;">
+
+						<div class="calendarDate">
+							<div class="dateMonth">
+								{{dateObj.date | date:'d'}}
+								<span class="month">{{dateObj.date | date:'MMM' | uppercase}}</span>
+							</div>
+							<span class="year">{{dateObj.date | date:'y'}}</span>
+						</div>
+
+
+						<div class="m-0 mb-4 orDivider">
+							<div class="col space"></div>
+							<span class="col-auto px-2 d-flex" title="Avaibility">
+								<span class="badge text-bg-primary" style="line-height: normal;">{{dateObj.avaibility}}</span>
+							</span>
+							<div class="col space"></div>
+						</div>
+
+
+					</td>
+
+					@for(timeslotObj of dateObj.timeslots; track $index){
+					<td style="padding-inline:1.5rem; padding-block:2.5rem">
+
+						<!-- Availability  -->
+
+						<div class="m-0 mb-4 orDivider">
+							<div class="col space"></div>
+							<span class="col-auto px-2 d-flex" title="Avaibility">
+								<span class="badge text-bg-primary" style="line-height: normal;">{{timeslotObj.avaibility}}</span>
+							</span>
+							<div class="col space"></div>
+						</div>
+
+
+						@for(slot of timeslotObj.slots; track $index){
+						@if(slot.slotId != slotDetails.slotId){
+
+						@if(slot.status !== 'BOOKED'){
+						<div role="button" (click)="slotConfirmation(slot.flsName, dateObj.date, slot.slotId, slot.startTime, slot.endTime)" class="card mb-4" [ngClass]="{'assigned': slot.slotId == slotDetails.slotId}">
+							<div class="card-header bg-gradient">
+								<strong>{{slot.flsName != undefined? slot.flsName : slot.slotId}}</strong>
+							</div>
+
+							<div class="card-body" style="min-height:auto;min-width: max-content;">
+								<div class="d-flex align-items-center justify-content-between gap-2">
+									{{slot.startTime | timePipe}} - {{slot.endTime | timePipe}}
+
+									<span class="slotBtn"><i class="fa-regular fa-clock" style="color: var(--bs-link-color)"></i> Available</span>
+								</div>
+							</div>
+						</div>
+						} @else {
+
+						<div class="card mb-4 text-bg-secondary" style="cursor: not-allowed;">
+							<div class="card-header">
+								<strong>{{slot.flsName != undefined? slot.flsName : slot.slotId}}</strong>
+							</div>
+
+							<div class="card-body" style="min-height:auto;min-width: max-content;">
+								<div class="d-flex align-items-center justify-content-between gap-2">
+									{{slot.startTime | timePipe}} - {{slot.endTime | timePipe}}
+
+									<span><i class="fa-solid fa-user-clock"></i> Booked</span>
+								</div>
+							</div>
+						</div>
+						}
+						}
+						}
+					</td>
+					}
+				</tr>
+				}
+			</tbody>
+		</table>
+	</div>
+	}
+
+</div>
+
+
+<ng-template #confirmationModal let-c="close" let-d="dismiss">
+	<div class="modal-header bg-primary text-white bg-gradient py-2" style="--bs-modal-header-padding: 0.5rem 1rem; border-bottom: 0rem;">
+		<h6 class="modal-title" id="modal-basic-title">Confirmation</h6>
+		<button type="button" class="btn-close" aria-label="Close" (click)="d('Cross click')"></button>
+	</div>
+	<div class="modal-body">
+		<p>Are you sure you want to <strong>Update Slot Details</strong>? Please confirm your decision.</p>
+		<hr />
+
+		<h5><strong>{{updateSlotDetails.flsName}}</strong></h5>
+		<div class="d-flex gap-2 justify-content-between align-items-center mb-3">
+			<div>
+				<i class="fa-solid fa-calendar-days me-2" style="color: var(--bs-link-color);"></i>
+				<strong>{{updateSlotDetails.date | date:'d MMM, y'}}</strong>
+			</div>
+			<div>{{updateSlotDetails.startTime | timePipe}} - {{updateSlotDetails.endTime | timePipe}}</div>
+		</div>
+	</div>
+	<div class="modal-footer d-flex justify-content-between">
+		<button type="button" class="btn btn-sm btn-primary bg-gradient" (click)="c('Confirm click')">Confirm.!</button>
+		<button type="button" class="btn btn-sm btn-secondary bg-gradient" (click)="d('Cancel click')">Cancel</button>
+	</div>
+</ng-template>

@@ -1,0 +1,95 @@
+<mat-form-field class="example-full-width" appearance="outline">
+	<mat-label>{{ componentData.label }}</mat-label>
+	@if(componentData.prefix!= undefined && componentData.prefix.type == 'text'){
+	<span matTextPrefix>{{componentData.prefix.value}}&nbsp;&nbsp;</span>
+	}
+
+	@if(componentData.prefix!= undefined && componentData.prefix.type == 'icon') {
+	<span matTextPrefix>
+		<i [class]="componentData.prefix.value"></i>&nbsp;&nbsp;
+	</span>
+	}
+
+	@if(componentData.prefix!= undefined && componentData.prefix.type == 'matIcon') {
+	<mat-icon matPrefix>{{componentData.prefix.value}}</mat-icon>
+	}
+
+	<mat-select (openedChange)="openedChange($event)" [formControl]="selectFormControl" multiple [disableOptionCentering]="true" [required]="this.componentData.validators?.required">
+		<mat-select-trigger>
+			{{ getSelectedOptionNames()[0] }}
+
+			@if (selectFormControl.value?.length > 1) {
+			<span class="additional-selection">
+				(+{{selectFormControl.value.length - 1}} {{selectFormControl.value?.length === 2 ? 'other' : 'others'}})
+			</span>
+			}
+
+		</mat-select-trigger>
+
+		<div class="select-container" style="width: 100%;">
+			<mat-optgroup>
+				<mat-form-field style="width: 100%">
+					<input #search autocomplete="off" placeholder="Search..." aria-label="Search" matInput [formControl]="searchTextboxControl" />
+
+					@if (search.value) {
+
+					<button [disableRipple]="true" matSuffix mat-icon-button aria-label="Clear" (click)="clearSearch($event)">
+						<i class="material-icons">close</i>
+					</button>
+
+					}
+
+				</mat-form-field>
+			</mat-optgroup>
+
+			@if ((filteredOptions | async)?.length == 0) {
+
+			<div class="p-3">Result Not found..!</div>
+
+			}
+
+			@for (option of filteredOptions | async; track option.value) {
+
+			<mat-option (onSelectionChange)="selectionChange($event)" [value]="option.value">
+				{{option.label}}
+			</mat-option>
+
+			}
+
+		</div>
+	</mat-select>
+
+
+	@if(componentData.suffix!= undefined && componentData.suffix.type == 'text'){
+	<span matTextSuffix>
+		&nbsp;&nbsp;{{componentData.suffix.value}}</span>
+	}
+
+	@if(componentData.suffix!= undefined && componentData.suffix.type == 'icon') {
+	<span matTextSuffix>
+		&nbsp;&nbsp;<i [class]="componentData.suffix.value"></i>
+	</span>
+	}
+
+	@if(componentData.suffix!= undefined && componentData.suffix.type == 'matIcon') {
+	<mat-icon matSuffix>{{componentData.suffix.value}}</mat-icon>
+	}
+
+</mat-form-field>
+
+@if (selectFormControl.value?.length > 0) {
+
+<div class="multiselectedOptions">
+	<div style="flex: 0 0 100%; margin-bottom: 0.5rem;font-weight: 600;">Selected {{componentData.label}}</div>
+
+	<div class="list">
+		@for (option of getSelectedOptionNames(); track option) {
+
+		<span class="badge text-bg-primary" style="border-radius: var(--bs-border-radius);line-height: 1;" [innerHtml]="option"></span>
+
+		}
+	</div>
+
+</div>
+
+}

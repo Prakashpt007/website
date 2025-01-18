@@ -1,0 +1,278 @@
+<div style="max-height: calc(100vh - 8.375rem); overflow: auto;">
+	<div class="container">
+		<div class="row align-items-start justify-content-between profilePicContainerParent">
+			<div class="col-12 col-xl-auto profilePicContainer mb-3">
+				<div class="container-fluid p-0">
+
+					<div class="row card formCard m-0 mt-0" style="max-width: initial;">
+						<div class="card-header bg-body-secondary bg-gradient">
+							<h6 class="m-0 d-flex gap-2 align-items-center"><i class="fa-solid fa-camera fa-lg"></i> Profile & Activities</h6>
+						</div>
+						<div class="card-body col-12 updateSection">
+							<form [formGroup]="profilePhotoForm" (ngSubmit)="profilePhotoFormSubmit()" novalidate>
+								<input type="file" #profilePhoto formControlName="profilePhoto" id="profilePhotoChoose" style="display: none;" (change)="onPhotoChoose($event)" [ngClass]="{'is-invalid': profilePhotoFormSubmitHandler && i['profilePhoto'].errors}" />
+							</form>
+							<div class="profile-thumb">
+								<label type="button" class="editBtn" (click)="profilePhoto.click()">
+									<i class="fa-solid fa-camera"></i>
+								</label>
+								<div class="profileThumbnail" [ngClass]="{'is-invalid': profilePhotoFormSubmitHandler && i['profilePhoto'].errors}">
+									<img [src]="(userProfilePhotograph!= null || userProfilePhotograph!= undefined)? userProfilePhotograph : 'assets/images/user.jpg'" class="img-fluid">
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<!--Activities-->
+					<section class="example-section mt-5">
+						<label for="Activities" class="form-label">Activities :</label>
+						<div class="d-flex gap-2 align-items-center flex-wrap py-2">
+							@for (item of userActivityList; track item; let i = $index) {
+							<span class="badge bg-gradient text-bg-primary">{{i+1}}) {{item | formatText}}</span>
+							}
+						</div>
+					</section>
+				</div>
+			</div>
+
+			<div class="col-12 col-xl">
+				<div class="row">
+					<div class="col-12 mb-4">
+						<form [formGroup]="form" (ngSubmit)="formSubmit()" novalidate>
+							<div class="card formCard" style="max-width: initial;">
+								<div class="card-header bg-body-secondary bg-gradient">
+									<h6 class="m-0 d-flex gap-2 align-items-center"><i class="fa-solid fa-user"></i> Basic Info</h6>
+								</div>
+								<div class="card-body" style="min-height:auto">
+									<div class="row">
+										<!--Full Name-->
+										<div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-4 col-xxl-4 mb-3">
+											<label for="fullName" class="col-form-label-sm">Full Name</label>
+											<input type="tel" class="form-control form-control-sm" id="fullName" placeholder="Please Enter Full Name" maxlength="145" minlength="6" formControlName="fullName" [ngClass]="{'is-invalid': formSubmitHandler && f['fullName'].errors}" [autocomplete]="0" />
+											@if (formSubmitHandler && f['fullName'].errors) {
+											<div class="invalid-feedback">
+												@if (f['fullName'].errors['required']) {
+												<div>Please Enter Full Name</div>
+												}
+												@if (f['fullName'].errors['minlength']) {
+												<div>Please Enter Minimum 6 Characters</div>
+												}
+												@if (f['fullName'].errors['maxlength']) {
+												<div>Please Enter Maximum 145 Characters</div>
+												}
+											</div>
+											}
+										</div>
+
+										<!--Mobile No.-->
+										<div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-4 col-xxl-4 mb-3">
+											<label for="mobileNo" class="col-form-label-sm">Mobile No. <span class="required">*</span></label>
+											<input type="tel" class="form-control form-control-sm" id="mobileNo" placeholder="Please Enter Mobile No." maxlength="10" minlength="6" formControlName="mobileNo" [ngClass]="{'is-invalid': formSubmitHandler && f['mobileNo'].errors}" [autocomplete]="0" />
+											@if (formSubmitHandler && f['mobileNo'].errors) {
+											<div class="invalid-feedback">
+												@if (f['mobileNo'].errors['required']) {
+												<div>Please Enter Mobile No.</div>
+												}
+												@if (f['mobileNo'].errors['pattern']) {
+												<div>Please Enter Valid Mobile No.</div>
+												}
+												@if (f['mobileNo'].errors['minlength']) {
+												<div>Please Enter Valid 10 Digit Phone No.</div>
+												}
+												@if (f['mobileNo'].errors['maxlength']) {
+												<div>Please Enter Valid 10 Digit Mobile No.</div>
+												}
+											</div>
+											}
+										</div>
+
+										<!--Email-->
+										<div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-4 col-xxl-4 mb-3">
+											<label for="email" class="col-form-label-sm">Email <span class="required">*</span></label>
+											<input type="email" class="form-control form-control-sm" id="email" placeholder="Please Enter Email Address" maxlength="145" minlength="6" formControlName="email" [ngClass]="{'is-invalid': formSubmitHandler && f['email'].errors}" [autocomplete]="0" />
+											@if (formSubmitHandler && f['email'].errors) {
+											<div class="invalid-feedback">
+												@if (f['email'].errors['required']) {
+												<div>Please Enter Email Address</div>
+												}
+												@if (f['email'].errors['email']) {
+												<div>Please Enter Valid Email Address</div>
+												}
+												@if ( f['email'].errors['minlength']) {
+												<div>Please Enter Minimum 6 Characters Email Address</div>
+												}
+												@if (f['email'].errors['maxlength']) {
+												<div>Please Enter Maximum 145 Characters Email Address</div>
+												}
+											</div>
+											}
+										</div>
+
+										<!--DOB-->
+										<div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-4 col-xxl-4 mb-3">
+											<label for="dob" class="col-form-label-sm">Date of Birth</label>
+											<input type="date" class="form-control form-control-sm" id="dob" [max]="maxDate" [min]="minDate" placeholder="Please Enter Date Of Birth" formControlName="dob" [ngClass]="{'is-invalid': formSubmitHandler && f['dob'].errors}" [autocomplete]="0" />
+											@if (formSubmitHandler && f['dob'].errors) {
+											<div class="invalid-feedback">
+												@if (f['dob'].errors['required']) {
+												<div>Please Enter Date Of Birth</div>
+												}
+											</div>
+											}
+										</div>
+
+										<!--Gender-->
+										<div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-4 col-xxl-4 mb-3">
+											<label for="gender" class="col-form-label-sm">Gender</label>
+											<select class="form-select form-select-sm" formControlName="gender" [ngClass]="{'is-invalid': formSubmitHandler && f['gender'].errors}">
+												<option selected value="" disabled>Select Gender</option>
+												<option value="Male">Male</option>
+												<option value="Female">Female</option>
+												<option value="Other">Other</option>
+											</select>
+											@if (formSubmitHandler && f['gender'].errors) {
+											<div class="invalid-feedback">
+												@if (f['gender'].errors['required']) {
+												<div>Please Select Gender</div>
+												}
+											</div>
+											}
+										</div>
+
+										<!-- <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-4 col-xxl-4 mb-3">
+											<label for="gender" class="col-form-label-sm">Select</label>
+											<app-multi-select-2 [options]="sampleOptions" (valueSelected)="getValues($event)" />
+										</div> -->
+									</div>
+								</div>
+								<div class="card-footer" style="padding: 0.5rem 1.5rem 0.75rem 1.5rem;">
+									<button type="submit" class="btn btn-success btn-sm" [disabled]="!form.dirty">Update</button>
+								</div>
+							</div>
+						</form>
+					</div>
+
+					<div class="col-12 mb-3">
+
+						<div class="my-4"></div>
+						<form [formGroup]="changePasswordForm" (ngSubmit)="changePasswordFormSubmit()" novalidate>
+							<div class="card formCard" style="max-width: initial;">
+								<div class="card-header bg-body-secondary bg-gradient">
+									<h6 class=" m-0 d-flex gap-2 align-items-center"><i class="fa-solid fa-unlock-keyhole"></i> Change Password</h6>
+								</div>
+								<div class="card-body" style="min-height:auto">
+									<div class="row">
+										<!-- Current Password -->
+										<div class="col-12 col-sm-12 col-md-12 col-lg-4 col-xl-4 col-xxl-4 mb-3">
+											<label class="col-form-label-sm" for="currentPassword">Current Password <span class="required">*</span></label>
+											<div class="input-group" [ngClass]="{'is-invalid': changePasswordFormSubmitHandler && p['currentPassword'].errors}">
+												<input class="form-control form-control-sm" id="currentPassword" [type]="currentPasswordShow" formControlName="currentPassword" placeholder="Enter Old Password" [ngClass]="{'is-invalid': changePasswordFormSubmitHandler && p['currentPassword'].errors}">
+												<span class="input-group-text" style="cursor: pointer;" (click)="this.currentPasswordShow == 'password'? this.currentPasswordShow = 'text': this.currentPasswordShow = 'password'">
+													<i class="fa {{currentPasswordShow=='password'? 'fa-eye': 'fa-eye-slash'}}"></i>
+												</span>
+											</div>
+
+											@if (changePasswordFormSubmitHandler && p['currentPassword'].errors) {
+											<div class="invalid-feedback">
+												@if (p['currentPassword'].errors['required']) {
+												<div>Please Enter Current Password</div>
+												}
+
+												@if (changePasswordForm.get('currentPassword')?.hasError('backendError')) {
+
+												<div>{{ changePasswordForm.get('currentPassword')?.getError('backendError') }}</div>
+
+												}
+											</div>
+											}
+										</div>
+
+										<!-- New Password -->
+										<div class="col-12 col-sm-12 col-md-12 col-lg-4 col-xl-4 col-xxl-4 mb-3">
+											<label class="col-form-label-sm" for="newPassword">Password <span class="required">*</span></label>
+											<div class="input-group" [ngClass]="{'is-invalid': changePasswordFormSubmitHandler && p['newPassword'].errors}">
+												<input class="form-control form-control-sm" id="newPassword" [type]="passwordShow" formControlName="newPassword" placeholder="Enter New Password" [ngClass]="{'is-invalid': changePasswordFormSubmitHandler && p['newPassword'].errors}">
+												<span class="input-group-text" style="cursor: pointer;" (click)="this.passwordShow == 'password'? this.passwordShow = 'text': this.passwordShow = 'password'">
+													<i class="fa {{passwordShow=='password'? 'fa-eye': 'fa-eye-slash'}}"></i>
+												</span>
+											</div>
+											@if (changePasswordFormSubmitHandler && p['newPassword'].errors) {
+											<div class="invalid-feedback">
+												@if (p['newPassword'].errors['required']) {
+												<div>Please Enter New Password</div>
+												}
+
+												@if (changePasswordForm.get('newPassword')?.hasError('backendError')) {
+
+												<div>{{ changePasswordForm.get('newPassword')?.getError('backendError') }}</div>
+
+												}
+											</div>
+											}
+										</div>
+
+										<!-- Confirm Password -->
+										<div class="col-12 col-sm-12 col-md-12 col-lg-4 col-xl-4 col-xxl-4 mb-3">
+											<label class="col-form-label-sm" for="cPassword">Confirm Password <span class="required">*</span></label>
+											<div class="input-group" [ngClass]="{'is-invalid': changePasswordFormSubmitHandler && p['cPassword'].errors}">
+												<input class="form-control form-control-sm" id="cPassword" [type]="confirmPasswordShow" formControlName="cPassword" placeholder="Confirm New Password" [ngClass]="{'is-invalid': changePasswordFormSubmitHandler && p['cPassword'].errors}">
+												<span class="input-group-text" style="cursor: pointer;" (click)="this.confirmPasswordShow == 'password'? this.confirmPasswordShow = 'text': this.confirmPasswordShow = 'password'">
+													<i class="fa {{confirmPasswordShow=='password'? 'fa-eye': 'fa-eye-slash'}}"></i>
+												</span>
+											</div>
+											@if (changePasswordFormSubmitHandler && p['cPassword'].errors) {
+											<div class="invalid-feedback">
+												@if (p['cPassword'].errors['required']) {
+												<div>Confirm Password Is Required</div>
+												}
+												@if (p['cPassword'].errors['matching']) {
+												<div>Password Does Not Match</div>
+												}
+
+												@if (changePasswordForm.get('cPassword')?.hasError('backendError')) {
+
+												<div>{{ changePasswordForm.get('cPassword')?.getError('backendError') }}</div>
+
+												}
+											</div>
+											}
+										</div>
+									</div>
+								</div>
+
+								<div class="card-footer" style="padding: 0.5rem 1.5rem 0.75rem 1.5rem;">
+									<button type="submit" class="btn btn-success btn-sm" [disabled]="!changePasswordForm.dirty">Submit</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<ng-template #cropperModal let-c="close" let-d="dismiss">
+		<div class="modal-header bg-primary text-white bg-gradient py-2" style="--bs-modal-header-padding: 0.5rem 1rem; border-bottom: 0rem;">
+			<h6 class="modal-title" id="modal-basic-title">
+				Crop Image
+			</h6>
+			<button type="button" class="btn-close" aria-label="Close" (click)="d('Cross click')"></button>
+		</div>
+
+		<div class="modal-body">
+
+			<div class="row">
+				<div class="col-xl cropper" style="max-height: 31.25rem; max-width: 90%;">
+					<image-cropper [imageChangedEvent]="imgChangeEvt" [maintainAspectRatio]="true" [aspectRatio]="4 / 4" [resizeToWidth]="256" format="jpeg" (imageCropped)="cropImg($event)" (cropperReady)="initCropper($event)" (loadImageFailed)="imgFailed($event)">
+					</image-cropper>
+				</div>
+
+				<div class="col-xl-auto d-flex flex-column text-center">
+					<img [src]="cropImgPreview" style="border-radius: 100%;box-shadow: 0 0 0.125rem 0.125rem rgba(0, 0, 0, 0.18);max-width: 100%; width: 13.875rem; height: auto;" />
+					<button type="button" class="btn btn-primary mt-2" (click)="profilePhotoFormSubmit()">Set Image</button>
+				</div>
+			</div>
+
+		</div>
+	</ng-template>

@@ -1,0 +1,22 @@
+.card {
+	&:last-of-type {
+		margin-bottom: 0.5rem !important;
+	}
+}
+
+
+
+// .mdc-checkbox--disabled {}
+
+// .mat-mdc-checkbox.mat-mdc-checkbox-disabled label {}
+
+// ::ng-deep :root,
+// ::ng-deep [data-bs-theme=light] {
+// 	--mdc-checkbox-disabled-selected-icon-color: rgba(var(--bs-primary-rgb), 0.38) !important;
+// 	--mat-checkbox-disabled-label-color: var(--bs-link-color) !important;
+// }
+
+// ::ng-deep [data-bs-theme=dark] {
+// 	--mdc-checkbox-disabled-selected-icon-color: var(--bs-link-color) !important;
+// 	--mat-checkbox-disabled-label-color: var(--bs-gray-600) !important;
+// }

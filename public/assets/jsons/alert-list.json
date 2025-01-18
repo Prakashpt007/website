@@ -1,0 +1,159 @@
+{
+	"status": 200,
+	"success": true,
+	"message": "Success response",
+	"data": {
+		"columns": [
+			{
+				"name": "id",
+				"tableField": "id",
+				"type": "text"
+			},
+			{
+				"name": "name",
+				"tableField": "name",
+				"type": "text"
+			},
+			{
+				"name": "code",
+				"tableField": "code",
+				"type": "text"
+			},
+			{
+				"name": "formalDescription",
+				"tableField": "Formal Description",
+				"type": "text"
+			},
+			{
+				"name": "channels",
+				"tableField": "Channels",
+				"type": "badge"
+			},
+			{
+				"name": "status",
+				"tableField": "status",
+				"type": "badge"
+			}
+		],
+		"rows": [
+			{
+				"id": 10,
+				"name": "Test",
+				"code": "login-page",
+				"formalDescription": null,
+				"channels": [
+					"Sms.",
+					"Email",
+					"Whatsapp"
+				],
+				"status": "PENDING"
+			},
+			{
+				"id": 8,
+				"name": "Test",
+				"code": "login-page",
+				"formalDescription": null,
+				"channels": [
+					"Sms.",
+					"Email",
+					"Whatsapp"
+				],
+				"status": "PENDING"
+			},
+			{
+				"id": 7,
+				"name": "Test",
+				"code": "login-page",
+				"formalDescription": null,
+				"channels": [],
+				"status": "PENDING"
+			},
+			{
+				"id": 6,
+				"name": "Test",
+				"code": "login-page",
+				"formalDescription": null,
+				"channels": [],
+				"status": "PENDING"
+			},
+			{
+				"id": 5,
+				"name": "Test",
+				"code": "login-page",
+				"formalDescription": "test",
+				"channels": [],
+				"status": "PENDING"
+			},
+			{
+				"id": 4,
+				"name": "Test",
+				"code": null,
+				"formalDescription": null,
+				"channels": [],
+				"status": "PENDING"
+			},
+			{
+				"id": 2,
+				"name": "Test",
+				"code": null,
+				"formalDescription": null,
+				"channels": [],
+				"status": "PENDING"
+			}
+		],
+		"filters": [
+			{
+				"name": "name",
+				"label": "Name",
+				"type": "text",
+				"options": [],
+				"validators": {
+					"required": false
+				},
+				"value": ""
+			},
+			{
+				"name": "status",
+				"label": "Status",
+				"type": "select",
+				"options": [
+					{
+						"value": "PENDING",
+						"label": "PENDING"
+					},
+					{
+						"value": "APPROVED",
+						"label": "APPROVED"
+					},
+					{
+						"value": "REJECTED",
+						"label": "REJECTED"
+					}
+				],
+				"validators": {
+					"required": false
+				},
+				"value": ""
+			}
+		],
+		"pagination": {
+			"totalElements": 7,
+			"pageSize": 15,
+			"totalPages": 1
+		},
+		"actions": [
+			{
+				"name": "edit",
+				"actionUrl": ""
+			},
+			{
+				"name": "approve",
+				"actionUrl": "alert/alert/approve"
+			},
+			{
+				"name": "reject",
+				"actionUrl": "alert/alert/reject"
+			}
+		]
+	}
+}

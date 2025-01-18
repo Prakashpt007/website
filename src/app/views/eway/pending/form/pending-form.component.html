@@ -1,0 +1,99 @@
+@if(showPageData()) {
+<div class="container-fluid p-0">
+	<div class="row">
+		<div class="col-12 col-lg-auto">
+			<div class="row">
+				<div class="col-auto">
+					<div class="card mb-3">
+						<div class="card-header bg-body-secondary bg-gradient">
+							<div class="card-title m-0 p-0" style="color: var(--bs-link-color);"><strong>Details</strong></div>
+						</div>
+						<div class="card-body">
+							<ul>
+								@for (key of getNonArrayKeys(pageData); track $index) {
+								<li>
+									<span class="key">{{ key | formatLabel }}</span>
+									<!-- <span class="me-3">:</span> -->
+									<span class="value">{{ pageData[key]!= null ? pageData[key] : '-' }}</span>
+								</li>
+								}
+							</ul>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-auto">
+					@for (key of getArrayKeys(pageData); track $index) {
+					@if(pageData[key].length> 0){
+					<div class="card mb-3">
+						<div class="card-header bg-body-secondary bg-gradient">
+							<div class="card-title m-0 p-0" style="color: var(--bs-link-color);"><strong>{{ key | formatLabel }}</strong></div>
+						</div>
+						<div class="card-body">
+							<ol>
+								@for(item of pageData[key]; track $index) {
+								<li>
+									<ul>
+										@for(subKey of objectKeys(item); track $index) {
+										<li>
+											<span class="key">{{ subKey | formatLabel }}</span>
+											<!-- <span class="me-3">:</span> -->
+											<!-- <span class="value">{{ item[subKey] }}</span> -->
+											<span class="value">{{ item[subKey]!= null ? item[subKey] : '-' }}</span>
+										</li>
+										}
+									</ul>
+								</li>
+								}
+							</ol>
+						</div>
+					</div>
+					}
+					}
+				</div>
+			</div>
+		</div>
+
+		@if(showFormBuilder()) {
+		<div class="col-12 col-lg" style="max-width: 600px;width: 100%;margin:0 auto;min-width: 300px;">
+			<div style="position: sticky; top: 0; z-index: 10;">
+				<!-- <div class="d-flex align-items-center justify-content-between mb-4">
+							<h5 class="m-0">Upload Files</h5>
+							<a [routerLink]="[backUrl]" [queryParams]="backUrlParams" class="custom-link-btn">
+								<i class="fa-solid fa-list"></i>
+								<span class="desktop-view-only">Back To List</span>
+							</a>
+						</div> -->
+
+				<div class="card">
+					<div class="card-header fw-bold bg-body-secondary bg-gradient d-flex justify-content-between">
+
+						<!-- <h5 class="m-0">Upload Files</h5> -->
+						<div class="card-title m-0 p-0" style="color: var(--bs-link-color);">Upload Files</div>
+						@if(backUrl){
+						<a [routerLink]="[backUrl]" [queryParams]="backUrlParams" class="custom-link-btn">
+							<i class="fa-solid fa-list"></i>
+							<span class="desktop-view-only">Back To List</span>
+						</a>
+						}
+					</div>
+
+					<div class="card-body">
+						<app-raw-formbuilder [removeCols]="''" [componentData]="componentData" [formErrorData]="formErrorData" (formBuilderSubmit)="getFormValuesFromBuilder($event)"></app-raw-formbuilder>
+					</div>
+				</div>
+			</div>
+		</div>
+		} @else {
+		<div class="col-12 col-lg">
+			<a [routerLink]="[backUrl]" [queryParams]="backUrlParams" class="custom-link-btn" style="justify-self: end;">
+				<i class="fa-solid fa-list"></i>
+				<span class="desktop-view-only">Back To List</span>
+			</a>
+		</div>
+		}
+
+	</div>
+</div>
+
+}

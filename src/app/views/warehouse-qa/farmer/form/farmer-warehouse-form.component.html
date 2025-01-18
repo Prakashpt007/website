@@ -1,0 +1,387 @@
+<div class="d-flex justify-content-between align-items-center stickyHeader" style="overflow: hidden;">
+	<h5 class="m-0" style="display: flex;align-items: center;gap: 0.75rem;">
+		<a [routerLink]="['/warehouse-qa/farmer-warehouse/list']" [queryParams]="backUrlParams" style="font-size: 80%;color: inherit;"><i class="fa-solid fa-arrow-left"></i> </a>Warehouse Details
+	</h5>
+</div>
+
+<div class="row align-items-start" [@fade]>
+	<div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-5 col-xxl-4">
+		<form [formGroup]="form" (ngSubmit)="formSubmit()" novalidate>
+
+			<div class="row" style="max-width:initial;">
+				<div class="col-12">
+					<div class="container-fluid p-0">
+						<div class="card formCard mb-2" style="max-width: initial;">
+							<div class="card-header bg-body-secondary bg-gradient">
+								<h6 class=" m-0 d-flex gap-2 align-items-center"><i class="fa-regular fa-building"></i> Details</h6>
+							</div>
+
+							@if (formData!= undefined) {
+							<div class="card-body">
+
+								<!--Warehouse Code-->
+								<div class="mb-3 row">
+									<label for="code" [ngClass]="form.get('code')?.disabled ? 'disabled': ''" class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-3 col-xxl-3 col-form-label-sm pe-xl-0 pe-xxl-0">
+										<span>WH Code</span>
+										@if (formData['code'].required) {<span class="required ms-1" [title]="'Required'">*</span>}
+									</label>
+									<div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-9 col-xxl-9">
+										<input type="text" class="form-control form-control-sm" id="code" placeholder="Please Enter Warehouse Code" formControlName="code" [ngClass]="{'is-invalid': formSubmitHandler && f['code'].errors}" [autocomplete]="0" />
+
+										@if (formSubmitHandler && f['code'].errors) {
+										<div class="invalid-feedback">
+
+											@if (f['code'].errors['required']) {
+
+											<div>Please Enter Warehouse Code</div>
+
+											}
+
+											@if (form.get('code')?.hasError('backendError')) {
+
+											<div>{{ form.get('code')?.getError('backendError') }}</div>
+
+											}
+
+										</div>
+
+										}
+									</div>
+								</div>
+
+								<!--Warehouse Name-->
+								<div class="mb-3 row">
+									<label for="name" [ngClass]="form.get('name')?.disabled ? 'disabled': ''" class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-3 col-xxl-3 col-form-label-sm pe-xl-0 pe-xxl-0">
+										<span>WH Name</span>
+										@if (formData['name'].required) {<span class="required ms-1" [title]="'Required'">*</span>}
+									</label>
+									<div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-9 col-xxl-9">
+										<input type="text" class="form-control form-control-sm" id="name" placeholder="Please Enter Warehouse Name" formControlName="name" [ngClass]="{'is-invalid': formSubmitHandler && f['name'].errors}" [autocomplete]="0" />
+
+										@if (formSubmitHandler && f['name'].errors) {
+										<div class="invalid-feedback">
+
+											@if (f['name'].errors['required']) {
+
+											<div>Please Enter Warehouse Name</div>
+
+											}
+
+											@if (form.get('name')?.hasError('backendError')) {
+
+											<div>{{ form.get('name')?.getError('backendError') }}</div>
+
+											}
+
+										</div>
+
+										}
+									</div>
+								</div>
+
+								<!--Phone/Mobile No.-->
+								<div class="mb-3 row">
+									<label for="phone" [ngClass]="form.get('phone')?.disabled ? 'disabled': ''" class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-3 col-xxl-3 col-form-label-sm pe-xl-0 pe-xxl-0">
+										<span>Phone/Mobile No.</span>
+										@if (formData['phone'].required) {<span class="required ms-1" [title]="'Required'">*</span>}
+									</label>
+									<div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-9 col-xxl-9">
+										<input type="tel" class="form-control form-control-sm" id="phone" placeholder="Please Enter Phone/Mobile No." formControlName="phone" [ngClass]="{'is-invalid': formSubmitHandler && f['phone'].errors}" [autocomplete]="0" />
+
+										@if (formSubmitHandler && f['phone'].errors) {
+										<div class="invalid-feedback">
+
+											@if (f['phone'].errors['required']) {
+
+											<div>Please Enter Phone/Mobile No.</div>
+
+											}
+
+											@if (f['phone'].errors['pattern']) {
+
+											<div>Please Enter Valid Phone/Mobile No.</div>
+
+											}
+
+											@if (f['phone'].errors['minlength']) {
+
+											<div>Please Enter Valid 6 Digit Phone No.</div>
+
+											}
+
+											@if (f['phone'].errors['maxlength']) {
+
+											<div>Please Enter Valid 10 Digit Mobile No.</div>
+
+											}
+
+											@if (form.get('phone')?.hasError('backendError')) {
+
+											<div>{{ form.get('phone')?.getError('backendError') }}</div>
+
+											}
+
+										</div>
+
+										}
+									</div>
+								</div>
+
+								<!--Lot No.-->
+								<div class="mb-3 row">
+									<label for="warehouseLotNo" [ngClass]="form.get('warehouseLotNo')?.disabled ? 'disabled': ''" class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-3 col-xxl-3 col-form-label-sm pe-xl-0 pe-xxl-0">
+										<span>Lot No.</span>
+										@if (formData['warehouseLotNo'].required) {<span class="required ms-1" [title]="'Required'">*</span>}
+									</label>
+									<div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-9 col-xxl-9">
+										<input type="text" class="form-control form-control-sm" id="warehouseLotNo" placeholder="Please Enter Lot No." formControlName="warehouseLotNo" [ngClass]="{'is-invalid': formSubmitHandler && f['warehouseLotNo'].errors}" [autocomplete]="0" />
+
+										@if (formSubmitHandler && f['warehouseLotNo'].errors) {
+										<div class="invalid-feedback">
+
+											@if (f['warehouseLotNo'].errors['required']) {
+
+											<div>Please Enter Lot No.</div>
+
+											}
+
+											@if (form.get('warehouseLotNo')?.hasError('backendError')) {
+
+											<div>{{ form.get('warehouseLotNo')?.getError('backendError') }}</div>
+
+											}
+
+										</div>
+
+										}
+									</div>
+								</div>
+
+								<!--Total Bags-->
+								<div class="mb-3 row">
+									<label for="totalBagCount" [ngClass]="form.get('totalBagCount')?.disabled ? 'disabled': ''" class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-3 col-xxl-3 col-form-label-sm pe-xl-0 pe-xxl-0">
+										<span>Total Bag(s)</span>
+										@if (formData['totalBagCount'].required) {<span class="required ms-1" [title]="'Required'">*</span>}
+									</label>
+									<div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-9 col-xxl-9">
+										<input type="number" class="form-control form-control-sm" id="totalBagCount" min="1" placeholder="Please Enter Total Bags" formControlName="totalBagCount" [ngClass]="{'is-invalid': formSubmitHandler && f['totalBagCount'].errors}" [autocomplete]="0" />
+
+										@if (formSubmitHandler && f['totalBagCount'].errors) {
+										<div class="invalid-feedback">
+
+											@if (f['totalBagCount'].errors['required']) {
+
+											<div>Please Enter Total Bags</div>
+
+											}
+
+											@if (f['totalBagCount'].errors['min']) {
+
+											<div>Please Enter At Least 1 Bag</div>
+
+											}
+
+											@if (form.get('totalBagCount')?.hasError('backendError')) {
+
+											<div>{{ form.get('totalBagCount')?.getError('backendError') }}</div>
+
+											}
+
+										</div>
+
+										}
+									</div>
+								</div>
+
+								<!--Stack Details-->
+								<div class="mb-3 row">
+									<!-- <label class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-3 col-xxl-3 col-form-label-sm pe-xl-0 pe-xxl-0">Stack Details</label> -->
+									<div class="col-12">
+										<div class="table-responsive-lg">
+											<table class="table rounded-corners w-100 m-0">
+												<thead>
+													<tr>
+														<th colspan="3" style="text-align: center;">Stack Details</th>
+													</tr>
+													<tr style="vertical-align: top;">
+														<th style="width: 3.125rem;">Stack No.</th>
+														<th style="width: 9.375rem;">No. of Packages</th>
+														<!-- <th style="width: 9.375rem;">Package Size</th> -->
+													</tr>
+												</thead>
+												<tbody>
+
+													<!-- caseWarehouseId: number,
+														packageTypeUom: string,
+														packageTypeUomId: number,
+														noOfPackagesAsPerInvoice: number,
+														stackNo: string; -->
+
+
+													<!-- {
+														"caseWarehouseId": 507,
+														"stackNo": 11,
+														"noOfPackagesAsPerInvoice": 23,
+														"packageTypeUomId": 3
+														} -->
+
+
+													<!-- {
+														"warehouseLotNo": 43,
+														"totalBagCount": 4334
+														} -->
+													@for (item of stackDetails; track item; let i=$index) {
+													<tr>
+														<td style="width: 3.125rem;">{{item.stackNo}}</td>
+														<td>{{item.noOfPackagesAsPerInvoice}} ({{item.packageTypeUom}})</td>
+													</tr>
+													}
+
+													<tr>
+														<td colspan="3" style="text-align: center;">
+															<button type="button" (click)="addStackEvent(pageId)" class="btn btn-sm bg-gradient btn-primary" style="--bs-btn-padding-y: .1rem;--bs-btn-padding-x: .5rem;--bs-btn-font-size: .75rem;"><i class="fa-solid fa-plus"></i> Add Stack</button>
+														</td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div class="card-footer">
+								<div class="text-center">
+									<button type="submit" class="btn btn-primary btn-sm" [disabled]="!form.dirty">Update</button>
+								</div>
+							</div>
+
+							}
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+
+	<div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-7 col-xxl-8">
+		@defer (on viewport) {
+
+		<app-doc-approve-reject-modal [docsData]="docs" [requestUrl]="pageId+ '/warehouse-doc-validation'" (docRejected)="getRejectedSts($event)" (docApproved)="getApprovedSts($event)"></app-doc-approve-reject-modal>
+
+		} @error {
+
+		<div class="alert alert-warning" role="alert">
+			Loading Failed... Please contact administrator for more information
+		</div>
+
+		} @placeholder (minimum 1s){
+
+		<div class="d-flex justify-content-center align-items-center display-3">
+			<i class="fa-solid fa-spinner fa-spin-pulse"></i>
+		</div>
+
+		}
+	</div>
+</div>
+
+<ng-template #addNewStack let-c="close" let-d="dismiss">
+	<form [formGroup]="stackDetailsForm" (ngSubmit)="stackDetailsFormSubmit()" novalidate>
+		<div class="modal-header text-white bg-gradient bg-primary py-2" style="--bs-modal-header-padding: 0.5rem 1rem;">
+			<h6 class="modal-title" id="modal-basic-title">Add Stack Details</h6>
+			<button type="button" class="btn-close" aria-label="Close" (click)="d('Cross click')"></button>
+		</div>
+		<div class="modal-body">
+			<div class="row">
+				<!-- <label for="stackNo" class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-4 col-xxl-4 col-form-label-sm pe-xl-0 pe-xxl-0">Stack No.</label> -->
+				<div class="col-12 mb-3">
+					<label for="stackNo" class="col-form-label-sm">Stack No. <span class="required ms-1" [title]="'Required'">*</span></label>
+					<input type="text" class="form-control form-control-sm" id="stackNo" placeholder="Stack No." formControlName="stackNo" [ngClass]="{'is-invalid': stackDetailsFormSubmitHandler && stackF['stackNo'].errors}" [autocomplete]="0" />
+
+					@if (stackDetailsFormSubmitHandler && stackF['stackNo'].errors) {
+					<div class="invalid-feedback">
+
+						@if (stackF['stackNo'].errors['required']) {
+
+						<div>Please Enter No of Stacks</div>
+
+						}
+
+						@if (form.get('stackNo')?.hasError('backendError')) {
+
+						<div>{{ form.get('stackNo')?.getError('backendError') }}</div>
+
+						}
+
+					</div>
+
+					}
+				</div>
+
+				<div class="col-12 mb-3">
+					<label for="noOfPackagesAsPerInvoice" class="col-form-label-sm">No. of Package <span class="required ms-1" [title]="'Required'">*</span></label>
+					<div class="input-group input-group-sm">
+						<input type="number" class="form-control form-control-sm w-auto" min="1" id="noOfPackagesAsPerInvoice" placeholder="No. of Package As Per Invoice" formControlName="noOfPackagesAsPerInvoice" [ngClass]="{'is-invalid': stackDetailsFormSubmitHandler && stackF['noOfPackagesAsPerInvoice'].errors}" [autocomplete]="0" />
+						<select class="form-select form-select-sm" formControlName="packageTypeUomId" [ngClass]="{'is-invalid': stackDetailsFormSubmitHandler && stackF['packageTypeUomId'].errors}">
+							<option selected value="" disabled>Select Type</option>
+
+							@for (item of uomList; track item) {
+							<option [value]="item.value">{{item.label}}</option>
+							}
+						</select>
+					</div>
+
+					@if (stackDetailsFormSubmitHandler && stackF['noOfPackagesAsPerInvoice'].errors) {
+					<div class="invalid-feedback">
+
+						@if (stackF['noOfPackagesAsPerInvoice'].errors['required']) {
+
+						<div>Please Enter No. of Package</div>
+
+						}
+
+						@if (stackF['noOfPackagesAsPerInvoice'].errors['min']) {
+
+						<div>Please Enter At Least 1 No of Bag/Package</div>
+
+						}
+
+						@if (form.get('noOfPackagesAsPerInvoice')?.hasError('backendError')) {
+
+						<div>{{ form.get('noOfPackagesAsPerInvoice')?.getError('backendError') }}</div>
+
+						}
+
+					</div>
+
+					}
+
+					@if (stackDetailsFormSubmitHandler && stackF['packageTypeUomId'].errors) {
+					<div class="invalid-feedback">
+
+						@if (stackF['packageTypeUomId'].errors['required']) {
+
+						<div>Please Select Package Type UOM</div>
+
+						}
+
+						@if (form.get('packageTypeUomId')?.hasError('backendError')) {
+
+						<div>{{ form.get('packageTypeUomId')?.getError('backendError') }}</div>
+
+						}
+
+					</div>
+
+					}
+
+				</div>
+			</div>
+		</div>
+		<div class="modal-footer d-flex justify-content-between">
+			<button type="submit" class="btn btn-sm bg-gradient btn-primary">Submit</button>
+			<!-- <button type="button" class="btn btn-sm bg-gradient btn-primary" (click)="c('Submit Stack Details')">Submit</button> -->
+			<button type="button" class="btn btn-sm btn-danger bg-gradient" (click)="d('Cancel Stack Details Form')">Cancel</button>
+		</div>
+	</form>
+</ng-template>

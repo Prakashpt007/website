@@ -1,0 +1,20 @@
+<div class="container-fluid p-0 d-flex">
+	<app-sidebar [sidebarStatus]="sidebarStatus"></app-sidebar>
+
+	<aside class="main-container col" style="overflow-y: auto;">
+		<app-header (sidebarStatus)="getSidebarStatus($event)"></app-header>
+		<div class="spacers">
+			<!-- <main @fade> -->
+			<!-- <main [@slideUpAnimation]="o.isActivated ? o.activatedRoute : ''">
+                <router-outlet #o="outlet"></router-outlet>
+            </main> -->
+
+			<main [@fadeSlideUp]="o.isActivated ? o.activatedRoute : ''" class="mainContainer" id="yourDivElementId">
+				<router-outlet #o="outlet"></router-outlet>
+			</main>
+			<!-- <main><router-outlet></router-outlet></main> -->
+		</div>
+	</aside>
+</div>
+
+<!-- <app-footer></app-footer> -->

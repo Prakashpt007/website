@@ -1,0 +1,176 @@
+<!-- <nav>
+	<ul class="nav-menu">
+		<li><a href="#" class="nav-link" [ngClass]="{'active': activeLink === 'home'}" (click)="setActiveLink('home', $event)">Home</a></li>
+		<li><a href="#" class="nav-link" [ngClass]="{'active': activeLink === 'about'}" (click)="setActiveLink('about', $event)">About</a></li>
+		<li><a href="#" class="nav-link" [ngClass]="{'active': activeLink === 'services'}" (click)="setActiveLink('services', $event)">Services</a></li>
+		<li><a href="#" class="nav-link" [ngClass]="{'active': activeLink === 'contact'}" (click)="setActiveLink('contact', $event)">Contact</a></li>
+		<div class="underline"></div>
+	</ul>
+</nav> -->
+
+
+
+<div class="row stickyContainer" style="max-width:initial; margin: 0;">
+	<form class="col-12 p-0" [formGroup]="rejectionForm" novalidate>
+		<div class="card formCard">
+			<div class="card-header bg-body-secondary bg-gradient" style="padding: 0.625rem 1rem 0;">
+				<ul class="nav nav-pills d-flex justify-content-evenly w-100" role="tablist">
+
+					@for (item of docs; track item; let i = $index) {
+
+					<li class="nav-item">
+						<a class="nav-link" [ngClass]="item.status ? 'active' : ''" (click)="toggleTabs('tab_'+(i+1))" [title]="item.tabName" role="tab" aria-controls="pills-home">{{item.tabName}}</a>
+					</li>
+
+					}
+
+				</ul>
+			</div>
+
+			<div class="card-body tabContent">
+
+				@for (item of docs; track item; let i=$index) {
+
+				@if (item.status) {
+
+				@for (file of item.placeholders; track file) {
+
+				<div class="tabItems" @fade>
+					<div class="card border-0" style="overflow: hidden;">
+						<div class="card-header bg-body-secondary" style="padding: 0.5rem 1rem;">
+							<span style="color: var(--bs-link-color); font-weight: bold;min-width: 6.25rem;">{{file.placeholderName}}
+								@if(file.required){
+								<span class="required" [title]="'Required'">*</span>
+								}
+							</span>
+
+
+							@if (file.status=='VALIDATION_DONE' || file.status == 'FLS_VERIFICATION_DONE') {
+							<div>
+								<span class="badge bg-gradient text-bg-success">{{file.status | formatText}}</span>
+							</div>
+							}
+
+						</div>
+						<div class="card-body p-0">
+
+							@if (file.rejectionReasonId != null) { <div class="rejected" role="button" (click)="thumbnailViewEvent(file.docUrl, item.tabName + ', ' + file.placeholderName)"></div> }
+
+							@if (file.status=='VALIDATION_DONE' || file.status == 'FLS_VERIFICATION_DONE') { <div class="approved" role="button" (click)="thumbnailViewEvent(file.docUrl, item.tabName + ', ' + file.placeholderName)"></div> }
+
+
+							@if (file.docUrl != null) {
+
+							<img [src]="file.docUrl" role="button" (click)="thumbnailViewEvent(file.docUrl, item.tabName + ', ' + file.placeholderName)" class="img-fluid" />
+
+							} @else {
+							<img src="assets/images/doc-not-found.svg" class="img-fluid docNotFoundThumb" />
+							}
+
+						</div>
+
+
+						@if (file.status=='VALIDATION_DONE' || file.status == 'FLS_VERIFICATION_DONE') { } @else {
+
+						@if (file.docId != null) {
+
+						<div class="card-footer">
+							<div class="tabAction" style="display: flex;justify-content: space-between;width: 100%;gap: 1rem;">
+								<div class="input-group" style="width: auto;">
+									<select class="form-select form-select-sm" id="rejectReason" [formControlName]="file.docId">
+										<option selected value="" disabled>Select Reason</option>
+
+										@for (options of rejectionReasonList; track options) {
+
+										<option [ngStyle]="{'border': file.docId.disabled? 'none' : null }" [value]="options.value">{{options.label}}</option>
+
+										}
+
+									</select>
+
+
+									@if (file.rejectionReasonId != null) {
+
+									<button type="button" [disabled]="true" class="btn btn-sm btn-danger">Rejected</button>
+
+									} @else {
+
+									<button type="button" [disabled]="rejectionForm.controls[file.docId].value == ''" (click)="rejectDoc(file.docId)" class="btn btn-sm btn-danger">Reject</button>
+
+									}
+
+								</div>
+								<button type="button" [disabled]="file.rejectionReasonId != null" (click)="approveDoc(file.docId)" class="btn btn-sm btn-success">Mark as Approved</button>
+
+							</div>
+						</div>
+
+						}
+
+						}
+
+					</div>
+				</div>
+
+				}
+
+				}
+
+				}
+			</div>
+		</div>
+	</form>
+</div>
+
+<!-- Approved Reject Modal-->
+
+<ng-template #rejectDocModal let-c="close" let-d="dismiss">
+	<div class="modal-header bg-danger text-white bg-gradient py-2">
+		<h6 class="modal-title" id="modal-basic-title">Confirmation</h6>
+		<button type="button" class="btn-close" aria-label="Close" (click)="d('Cross click')"></button>
+	</div>
+	<div class="modal-body">
+		<p>Are you sure you want to reject this document? Please confirm your decision</p>
+	</div>
+	<div class="modal-footer d-flex justify-content-between">
+		<button type="button" class="btn btn-danger bg-gradient" (click)="c('Confirm click')">Confirm.!</button>
+		<button type="button" class="btn btn-secondary bg-gradient" (click)="d('Cancel click')">Cancel</button>
+	</div>
+</ng-template>
+
+<ng-template #approveDocModal let-c="close" let-d="dismiss">
+	<div class="modal-header bg-success text-white bg-gradient py-2">
+		<h6 class="modal-title" id="modal-basic-title">Confirmation</h6>
+		<button type="button" class="btn-close" aria-label="Close" (click)="d('Cross click')"></button>
+	</div>
+	<div class="modal-body">
+		<p>Are you sure you want to approved this document? Please confirm your decision</p>
+	</div>
+	<div class="modal-footer d-flex justify-content-between">
+		<button type="button" class="btn btn-sm btn-success bg-gradient" (click)="c('Confirm click')">Confirm.!</button>
+		<button type="button" class="btn btn-sm btn-secondary bg-gradient" (click)="d('Cancel click')">Cancel</button>
+	</div>
+</ng-template>
+
+<!-- End -->
+
+
+<!-- Thumbnail Previw Modal-->
+<ng-template #thumbnailModal let-c="close" let-d="dismiss">
+	<div class="modal-header bg-primary text-white bg-gradient py-2" style="--bs-modal-header-padding: 0.5rem 1rem; border-bottom: 0rem;">
+		<h6 class="modal-title" id="modal-basic-title">
+			@if (thumbnailModalName != null || thumbnailModalName != '') {
+
+			{{thumbnailModalName | titlecase}}
+
+			} @else {Thumbnail}
+
+		</h6>
+		<button type="button" class="btn-close" aria-label="Close" (click)="d('Cross click')"></button>
+	</div>
+	<div class="modal-body p-0">
+		<img [src]="thumbnailModalSrc" style="display: block; margin: 0 auto; max-width: 100%;" />
+	</div>
+</ng-template>
+
+<!-- End -->

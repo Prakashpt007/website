@@ -1,0 +1,97 @@
+<div class="d-flex justify-content-between align-items-center stickyHeader" style=" overflow: hidden">
+	<h5 class="m-0" style="display: flex;align-items: center;gap: 0.75rem;">List <span class="badge bg-gradient text-bg-primary" style="font-size: 0.875rem;">{{count}} Record(s)</span></h5>
+
+	<div class="d-flex gap-2">
+		<button class="btn btn-primary btn-sm bg-gradient listHeaderBtnWithIcon" (click)="viewAnalysis()">
+			<i class="fa-solid fa-gauge-high"></i>
+			<span>Analysis</span>
+		</button>
+
+		@if (filterComponentData.length > 0) {
+		<div class="btn-group filterBtn " role="group" aria-label="Basic example" style="position: relative;">
+			<a type="button" (click)="toggleFilter()" class="btn btn-primary btn-sm bg-gradient listHeaderBtnWithIcon" style="position: relative;">
+				<i class="fa-solid fa-filter"></i>
+				<span>Filter</span>
+			</a>
+
+			@if (checkObjectHasValueOrNot(filterObject)) {
+			<span class="filterIndicator"></span>
+			<button type="button" title="Reset" (click)="resetFilter(); filterPanel= false" class="btn btn-danger btn-sm bg-gradient"><i class="fa-solid fa-rotate-right"></i></button>
+			}
+		</div>
+		}
+	</div>
+</div>
+
+@if (errorInListApi) {
+
+<div class="alert alert-danger py-4 m-0" role="alert" style="--bs-alert-border-color: var(--main-card-bg-color);height: calc(100% - 2.5rem);margin: 0;">
+	<h4 class="d-flex align-items-center gap-2 justify-content-center">
+		<i class="fa-solid fa-circle-exclamation"></i>
+		<div>
+			<strong>Error Found!</strong>
+		</div>
+	</h4>
+	<div class="text-center mt-2">Please contact administrator for more information</div>
+</div>
+
+}
+
+
+@if (listTableData.length > 0) {
+
+<div class="stickyFooter" style="padding: 1rem 1.5rem 1rem 1.5rem;box-shadow: 0 0rem 0rem 0.125rem var(--main-body-color);">
+	<app-pagination [totalRecords]="count" [currentPage]="page" [recordsPerPage]="pageSize" [pageSizeList]="pageSizes" (onPageChange)="handlePageChange($event)" (onPageSizeChange)="handlePageSizeChange($event)"></app-pagination>
+</div>
+
+}
+
+@if (filterComponentData.length > 0) {
+@if(filterSts){
+<app-filterbuilder [componentData]="filterComponentData" [filterPanel]="filterPanel" (filterApplySubmit)="getFormValuesFromBuilder($event)" (toggleFilterValue)="toggleFilterValue($event)"></app-filterbuilder>
+}
+}
+
+<ng-template #analysisModel let-c="close" let-d="dismiss">
+	<div class="modal-header text-white bg-gradient bg-primary py-2" style="--bs-modal-header-padding: 0.5rem 1rem;">
+		<h6 class="modal-title">Operation Analytics</h6>
+		<button type="button" class="btn-close" aria-label="Close" (click)="d('Cross click')"></button>
+	</div>
+	<div class="modal-body">
+		<div class="container-fluid">
+			<div class=" row valueCardContainer">
+				@for (item of operationalData; track item) {
+
+				<div class="col-xxl-4 col-xl-4 col-lg-6 col-md-12 col-sm-12 col-12 grid-margin stretch-card mb-4">
+					<div class="card">
+						<div class="card-body">
+							<div class="row align-items-center">
+								<div class="col">
+									<div class="d-flex align-items-center align-self-start fw-bold">
+										<h3 class="mb-0 value">{{convertedValue(item.value, item.type)}}</h3>
+									</div>
+									<div>
+										<h6 class="text-muted m-0">{{item.name}}</h6>
+									</div>
+								</div>
+
+								<div class="col-auto">
+									<div class="icon icon-box">
+										<i [class]="item.icon"></i>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				}
+
+
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer d-flex justify-content-end">
+		<button type="button" class="btn btn-sm btn-primary bg-gradient" (click)="d('Close')">Close</button>
+	</div>
+</ng-template>

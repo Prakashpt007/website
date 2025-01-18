@@ -1,0 +1,38 @@
+<form [formGroup]="dynamicForm">
+	<mat-form-field class="example-full-width" appearance="outline">
+		<mat-label>{{componentData.label}}</mat-label>
+		<mat-date-range-input [rangePicker]="picker" [disabled]="componentData.validators?.readonly" [ngClass]="{'mdc-text-field--invalid': errorClass}">
+			<input matStartDate formControlName="fromDate" [readOnly]="true" placeholder="Start date">
+			<input matEndDate formControlName="toDate" [readOnly]="true" placeholder="End date" (dateChange)="dateRangeChange()">
+		</mat-date-range-input>
+		@if (componentData.validators?.dateFormat) {
+		<mat-hint style="font-size: 0.75rem;margin: 0.125rem 0;">{{componentData.validators?.dateFormat}} &nbsp; - &nbsp; {{componentData.validators?.dateFormat}}</mat-hint>
+		}
+		<mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+		<mat-date-range-picker #picker></mat-date-range-picker>
+	</mat-form-field>
+
+	@if (dynamicForm.controls['fromDate'].hasError('matStartDateInvalid')) {
+
+	<mat-error>Invalid Start date</mat-error>
+
+	}
+
+	@if (dynamicForm.controls['toDate'].hasError('matEndDateInvalid')) {
+
+	<mat-error>Invalid End date</mat-error>
+
+	}
+
+	@if (dateSubmit && dynamicForm.controls['fromDate'].errors?.['required']) {
+
+	<mat-error>Start Date Required</mat-error>
+
+	}
+
+	@if (dateSubmit && dynamicForm.controls['toDate'].errors?.['required']) {
+
+	<mat-error>End Date Required</mat-error>
+
+	}
+</form>
